@@ -8,4 +8,3 @@ The goal of the first assignment is twofold:
 
 1. Perform reverse engineering on the provided server code and generate the corresponding Requirements document and Graphical User Interface prototype. Templates for both documents are provided (V1 versions of the documents).
 2. Starting from the existing code, propose a new version with additional features and improvements by producing the corresponding Requirements document and GUI prototype (V2 versions of the documents).
-.
