@@ -148,6 +148,13 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 \<use UML class diagram to define important terms, or concepts in the domain of the application, and their relationships>
 
 \<concepts must be used consistently all over the document, ex in use cases, requirements etc>
+## Table
+  1. **User**: un utente del sito che può avere due ruoli: 
+    1. **Menager**: una o più persone che gestiscono i prodotti all'interno del magazzino (inserendo i nuovi prodotti arrivati)
+    1. **Customer**: colui che effettua un qualunque acquisto sul sito, tramite diversi metodi di pagamento
+  1. **Sale**: transazione effettuata da un'utente di tipo customer per poter acquistare un prodotto disponibile sul sito.
+  1. **Product**: prodotto disponibile attraverso il sito, che può essere acquistato nel caso in cui sia ancora presente in stock o non sia stato ancora acquistato da un'altro utente.
+
 
 # System Design
 
