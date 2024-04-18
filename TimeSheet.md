@@ -1,6 +1,6 @@
 # Timesheet
 
-Report in this table the effort (in person hours) spent per week, per activity, per team.
+Report in this table the effort (in person hours) spent per week, per activity, per team..
 [One person hour is the effort of one person working one hour.
 Two person hours is the effort of one person working 2 hours, or 2 persons working one hour. And so on.]
 You have to sum the working hours of each component of the team.
