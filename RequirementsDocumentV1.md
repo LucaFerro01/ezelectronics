@@ -147,16 +147,16 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ## UML Class Diagram
 
-![[./ClassDiagram.png]]
+![Class Diagram](./ClassDiagram.png)
 
 ## Table
 
   1. **User**: un utente caratterizzato dal assegnazione di uno tra due ruoli:
-    - **Menager**: utente che gestisce i prodotti all'interno del magazzino (inserendo i nuovi prodotti arrivati, eliminando quelli non più disponibili)
-    - **Customer**: colui che effettua un qualunque acquisto sul sito, tramite diversi metodi di pagamento, inserendo i prodotti scelti nel carrello.
+     - **Menager**: utente che gestisce i prodotti all'interno del magazzino (inserendo i nuovi prodotti arrivati, eliminando quelli non più disponibili)
+     - **Customer**: colui che effettua un qualunque acquisto sul sito, tramite diversi metodi di pagamento, inserendo i prodotti scelti nel carrello.
   1. **Product**: prodotto disponibile attraverso il sito, che può essere acquistato nel caso in cui sia ancora presente in stock o non sia stato ancora acquistato da un'altro utente.
   1. **Carrello**: lista di prodotti scelti dal utente per essere acquistati. Un prodotto può essere inserito nel carrello e poi acquistato in due momenti diversi.
-    - **Acquisto**: momento in cui si comprano i prodotti inseriti nel carrello.
+     - **Acquisto**: momento in cui si comprano i prodotti inseriti nel carrello.
 
 
 # System Design
