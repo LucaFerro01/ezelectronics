@@ -50,27 +50,27 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ## Context Diagram
 
-\<Define here Context diagram using UML use case diagram>
-
-\<actors are a subset of stakeholders>
+![image](context-diagram.png "context diagram")
 
 ## Interfaces
 
-\<describe here each interface in the context diagram>
-
-\<GUIs will be described graphically in a separate document>
-
 |   Actor   | Logical Interface | Physical Interface |
 | :-------: | :---------------: | :----------------: |
-| Actor x.. |                   |                    |
+| Cliente | Smartphone / PC | GUI (tbd – mostrare i prodotti, riempire il carrello, visionare vecchi carrelli, modificare carrello, effettuare l’ordine) |
+| Manager | Smartphone / PC | GUI (tbd – inserire prodotti, modificare prodotti) |
+| Admin | PC | GUI (tbd – tutte le funzionalità precedenti e gestione account) |
+| Servizio di Pagamento | Internet | Link al sito del servizio di pagamento |
 
 # Stories and personas
 
-\<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
-
-\<Persona is-an-instance-of actor>
-
-\<stories will be formalized later as scenarios in use cases>
+* Persona 1: donna, 25 anni, nubile, studentessa
+  * Storia: ha bisogno di un nuovo tablet con cui studiare, il suo tablet attuale non funziona più. Deve trovare un nuovo tablet che possa arrivare il prima possibile, non importa il costo.
+* Persona 2: uomo, 50 anni, sposato, con figli, poliziotto
+  * Storia: sta cercando un gps per rilevare la posizione del proprio cane. Ha un budget massimo.
+* Persona 3: donna, 70 anni, vedova, pensionata
+  * Storia: è alla ricerca di una tv da usare durante il suo tempo libero. Le serve una piattaforma facile da usare  per completare il suo acquisto. 
+* Persona 4: uomo, 35 anni, sposato, con figli, insegnante
+  * Storia: ogni anno fa degli acquisti per la propria classe. Vorrebbe fare gli ordini periodicamente, riacquistando da un carello memorizzato
 
 # Functional and non functional requirements
 
