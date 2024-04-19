@@ -63,39 +63,51 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 # Stories and personas
 
-* Persona 1: donna, 25 anni, nubile, studentessa
-  * Storia: ha bisogno di un nuovo tablet con cui studiare, il suo tablet attuale non funziona più. Deve trovare un nuovo tablet che possa arrivare il prima possibile, non importa il costo.
-* Persona 2: uomo, 50 anni, sposato, con figli, poliziotto
-  * Storia: sta cercando un gps per rilevare la posizione del proprio cane. Ha un budget massimo.
-* Persona 3: donna, 70 anni, vedova, pensionata
-  * Storia: è alla ricerca di una tv da usare durante il suo tempo libero. Le serve una piattaforma facile da usare  per completare il suo acquisto. 
-* Persona 4: uomo, 35 anni, sposato, con figli, insegnante
-  * Storia: ogni anno fa degli acquisti per la propria classe. Vorrebbe fare gli ordini periodicamente, riacquistando da un carello memorizzato
+* **Persona 1:** donna, 25 anni, nubile, studentessa
+  * **Storia:** ha bisogno di un nuovo tablet con cui studiare, il suo tablet attuale non funziona più. Deve trovare un nuovo tablet che abbia un *tempo di spedizione più breve possibile*, non importa il costo.
+* **Persona 2:** uomo, 50 anni, sposato, con figli, poliziotto
+  * **Storia:** sta cercando un dispositivo gps per rilevare la posizione del proprio cane. Ha un *budget limitato*.
+* **Persona 3:** donna, 70 anni, vedova, pensionata
+  * **Storia:** è alla ricerca di una tv da usare durante il suo tempo libero. Le serve cercare su una *piattaforma facile da usare* per completare il suo acquisto. 
+* **Persona 4:** uomo, 35 anni, sposato, con figli, insegnante
+  * **Storia:** ogni anno fa degli acquisti per la propria classe. Vorrebbe fare gli ordini periodicamente, riacquistando da un carello memorizzato
 
 # Functional and non functional requirements
 
 ## Functional Requirements
 
-\<In the form DO SOMETHING, or VERB NOUN, describe high level capabilities of the system>
-
-\<they match to high level use cases>
-
 |  ID   | Description |
 | :---: | :---------: |
-|  FR1  |             |
-|  FR2  |             |
-| FRx.. |             |
+|  **FR1**  | **Gestione prodotti** |
+|  FR1.1  | Creazione prodotti |
+|  FR1.2  | Inserimento set di prodotti |
+|  FR1.3  | Modifica prodotto (contrassegna venduti, cancellazione di tutti i prodotti, cancellazione prodotto) |
+|  FR1.4  | Visualizzazione prodotti (elenco prodotti, info su un prodotto, elenco prodotti di una categoria, elenco prodotti di un modello) |
+|  **FR2**  | **Autenticazione e autorizzazione**            |
+| FR2.1 | Creazione nuovo cliente |
+| FR2.2 | Visualizzazione clienti (elenco clienti, elenco clienti con un ruolo, visualizzazione singolo cliente, info cliente loggato) |
+| FR2.3 | Modifica utenti (cancellazione utenti, cancellazione utente) |
+| FR2.4 | Login / logout utenti |
+|  **FR3**  | **Gestione carrello** |
+| FR3.1 | Visualizzazione carrello (carrello attuale dell’utente, fornire la cronologia dei carrelli pagati) |
+| FR3.2 | Modifica carrello (aggiunta di un prodotto, rimozione di un prodotto, cancellazione del carrello, cancellazione di tutti i carrelli) |
+| FR3.3 | Esecuzione del pagamento del carrello |
+|  **FR4**  | **Controllo prezzi** |
+| FR4.1 | Gestione aggiornamento prezzi |
+|  **FR5**  | **Gestione dei pagamenti** |
+| FR5.1 | Richiesta pagamento |
+| FR5.2 | Gestione dati di pagamento |
 
 ## Non Functional Requirements
 
-\<Describe constraints on functional requirements>
-
 |   ID    | Type (efficiency, reliability, ..) | Description | Refers to |
 | :-----: | :--------------------------------: | :---------: | :-------: |
-|  NFR1   |                                    |             |           |
-|  NFR2   |                                    |             |           |
-|  NFR3   |                                    |             |           |
-| NFRx .. |                                    |             |           |
+|  NFR1   | Usabilità | Gli utenti non devono avere bisogno di training per l'utilizzo del sito web | FR2, FR3, FR5 |
+|  NFR2   | Usabilità | Il sito deve essere facilmente accessibile e comprensibile | FR1, FR2, FR3, FR5 |
+|  NFR3   | Efficienza | Tutte le funzionalità del sito web devono completarsi in un tempo < 0.1 sec (escludendo la rete) | FR1, FR2, FR3, FR4, FR5 |
+|  NFR4   | Affidabilità | Ogni utente non deve segnalare più di un bug all’anno | FR2, FR3, FR5 |
+|  NFR5   | Affidabilità | Backup regolare dei dati per evitare malfunzionamenti e perdita / dispersione di dati | FR3, FR4 |
+|  NFR6   | Portabilità | Disponibilità del website su: Google Chrome, Safari, Mozilla Firefox per Windows 10 e 11 e macOS 14 | FR1, FR2, FR3, FR4, FR5 |
 
 # Use case diagram and use cases
 
