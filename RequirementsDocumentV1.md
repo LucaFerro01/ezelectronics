@@ -39,9 +39,12 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 # Stakeholders
 
-| Stakeholder name | Description |
-| :--------------: | :---------: |
-| Stakeholder x..  |             |
+|   Stakeholder name    | Description |
+|   :--------------:    | :---------: |
+|        Cliente         | Cliente del sito web che visualizza i prodotti e può inserirli nel carrello           |
+|        Manager        | Figura che gestisce l'inserimento, la modifica e la rimozione dei prodotti sul sito            |
+|      Admin     | Figura che progetta e programma il software            |
+| Servizio di Pagamento | Servizio che consente la transazione per l'acquisto dei prodotti del carrello            |
 
 # Context Diagram and interfaces
 
