@@ -64,13 +64,13 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 # Stories and personas
 
 * **Persona 1:** donna, 25 anni, nubile, studentessa
-  * **Storia:** ha bisogno di un nuovo tablet con cui studiare, il suo tablet attuale non funziona più. Deve trovare un nuovo tablet che abbia un *tempo di spedizione più breve possibile*, non importa il costo.
-* **Persona 2:** uomo, 50 anni, sposato, con figli, poliziotto
-  * **Storia:** sta cercando un dispositivo gps per rilevare la posizione del proprio cane. Ha un *budget limitato*.
+  * **Storia:** ha bisogno di un nuovo tablet con cui studiare, il suo tablet attuale non funziona più. Deve trovare un nuovo tablet che abbia un *il costo più contenuto possibile*, anche con funzionalità limitate.
+* **Persona 2:** uomo, 50 anni, sposato con figli, poliziotto
+  * **Storia:** sta cercando un dispositivo gps per rilevare la posizione del proprio cane. Non ha problemi di budget, ma ha bisogno del *dispositivo con le migliori prestazioni*.
 * **Persona 3:** donna, 70 anni, vedova, pensionata
   * **Storia:** è alla ricerca di una tv da usare durante il suo tempo libero. Le serve cercare su una *piattaforma facile da usare* per completare il suo acquisto. 
-* **Persona 4:** uomo, 35 anni, sposato, con figli, insegnante
-  * **Storia:** ogni anno fa degli acquisti per la propria classe. Vorrebbe fare gli ordini periodicamente, riacquistando da un carello memorizzato
+* **Persona 4:** uomo, 35 anni, sposato, con figli, informatico
+  * **Storia:** ogni anno fa degli acquisti per la propria classe. Ha necessità di fare ordini molto spesso, quindi cerca una *piattaforma con un'interfaccia intuitiva* che gli faccia perdere meno tempo possibile.
 
 # Functional and non functional requirements
 
