@@ -59,7 +59,6 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | Cliente | Smartphone / PC | GUI (tbd – mostrare i prodotti, riempire il carrello, visionare vecchi carrelli, modificare carrello, effettuare l’ordine) |
 | Manager | Smartphone / PC | GUI (tbd – inserire prodotti, modificare prodotti) |
 | Admin | PC | GUI (tbd – tutte le funzionalità precedenti e gestione account) |
-| Servizio di Pagamento | Internet | Link al sito del servizio di pagamento |
 
 # Stories and personas
 
@@ -94,9 +93,6 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | FR3.3 | Esecuzione del pagamento del carrello |
 |  **FR4**  | **Controllo prezzi** |
 | FR4.1 | Gestione aggiornamento prezzi |
-|  **FR5**  | **Gestione dei pagamenti** |
-| FR5.1 | Richiesta pagamento |
-| FR5.2 | Gestione dati di pagamento |
 
 ## Non Functional Requirements
 
