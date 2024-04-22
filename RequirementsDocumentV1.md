@@ -44,7 +44,6 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |        Cliente         | Cliente del sito web che visualizza i prodotti e può inserirli nel carrello           |
 |        Manager        | Figura che gestisce l'inserimento, la modifica e la rimozione dei prodotti sul sito            |
 |      Admin     | Figura che progetta e programma il software            |
-| Servizio di Pagamento | Servizio che consente la transazione per l'acquisto dei prodotti del carrello            |
 
 # Context Diagram and interfaces
 
@@ -85,10 +84,10 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |  **FR2**  | **Autenticazione e autorizzazione**            |
 | FR2.1 | Creazione nuovo cliente |
 | FR2.2 | Visualizzazione clienti (elenco clienti, elenco clienti con un ruolo, visualizzazione singolo cliente, info cliente loggato) |
-| FR2.3 | Modifica utenti (cancellazione utenti, cancellazione utente) |
+| FR2.3 | Modifica utenti (cancellazione cliente) |
 | FR2.4 | Login / logout utenti |
 |  **FR3**  | **Gestione carrello** |
-| FR3.1 | Visualizzazione carrello (carrello attuale dell’utente, fornire la cronologia dei carrelli pagati) |
+| FR3.1 | Visualizzazione carrello (carrello attuale del cliente, fornire la cronologia dei carrelli pagati) |
 | FR3.2 | Modifica carrello (aggiunta di un prodotto, rimozione di un prodotto, cancellazione del carrello, cancellazione di tutti i carrelli) |
 | FR3.3 | Esecuzione del pagamento del carrello |
 |  **FR4**  | **Controllo prezzi** |
