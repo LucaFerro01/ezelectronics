@@ -43,7 +43,6 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |   :--------------:    | :---------: |
 |        Cliente         | Cliente del sito web che visualizza i prodotti e può inserirli nel carrello           |
 |        Manager        | Figura che gestisce l'inserimento, la modifica e la rimozione dei prodotti sul sito            |
-|      Admin     | Figura che progetta e programma il software            |
 
 # Context Diagram and interfaces
 
@@ -57,7 +56,6 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | :-------: | :---------------: | :----------------: |
 | Cliente | Smartphone / PC | GUI (tbd – mostrare i prodotti, riempire il carrello, visionare vecchi carrelli, modificare carrello, effettuare l’ordine) |
 | Manager | Smartphone / PC | GUI (tbd – inserire prodotti, modificare prodotti) |
-| Admin | PC | GUI (tbd – tutte le funzionalità precedenti e gestione account) |
 
 # Stories and personas
 
@@ -77,15 +75,15 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |  ID   | Description |
 | :---: | :---------: |
 |  **FR1**  | **Gestione prodotti** |
-|  FR1.1  | Creazione prodotti |
-|  FR1.2  | Inserimento set di prodotti |
+|  FR1.1  | Creazione prodotto |
+|  FR1.2  | Inserimento set di prodotto |
 |  FR1.3  | Modifica prodotto (contrassegna venduti, cancellazione di tutti i prodotti, cancellazione prodotto) |
-|  FR1.4  | Visualizzazione prodotti (elenco prodotti, info su un prodotto, elenco prodotti di una categoria, elenco prodotti di un modello) |
+|  FR1.4  | Visualizzazione prodotto (elenco prodotti, info su un prodotto, elenco prodotti di una categoria, elenco prodotti di un modello) |
 |  **FR2**  | **Autenticazione e autorizzazione**            |
-| FR2.1 | Creazione nuovo cliente |
-| FR2.2 | Visualizzazione clienti (elenco clienti, elenco clienti con un ruolo, visualizzazione singolo cliente, info cliente loggato) |
-| FR2.3 | Modifica utenti (cancellazione cliente) |
-| FR2.4 | Login / logout utenti |
+| FR2.1 | Creazione nuovo utente |
+| FR2.2 | Visualizzazione utente (elenco utenti, elenco utenti con un ruolo, visualizzazione singolo utente, info utente loggato) |
+| FR2.3 | Modifica utente (cancellazione utente) |
+| FR2.4 | Login / logout utente |
 |  **FR3**  | **Gestione carrello** |
 | FR3.1 | Visualizzazione carrello (carrello attuale del cliente, fornire la cronologia dei carrelli pagati) |
 | FR3.2 | Modifica carrello (aggiunta di un prodotto, rimozione di un prodotto, cancellazione del carrello, cancellazione di tutti i carrelli) |
@@ -108,9 +106,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ## Use case diagram
 
-\<define here UML Use case diagram UCD summarizing all use cases, and their relationships>
-
-\<next describe here each use case in the UCD>
+![image](use-case-diagram.png "use case diagram")
 
 ### Use case 1, UC1
 
