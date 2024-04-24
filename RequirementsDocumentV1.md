@@ -24,12 +24,38 @@ Version: V1 - description of EZElectronics in CURRENT form (as received by teach
 - [Use case diagram and use cases](#use-case-diagram-and-use-cases)
   - [Use case diagram](#use-case-diagram)
     - [Use case 1, UC1](#use-case-1-uc1)
-      - [Scenario 1.1](#scenario-11)
-      - [Scenario 1.2](#scenario-12)
-      - [Scenario 1.x](#scenario-1x)
-    - [Use case 2, UC2](#use-case-2-uc2)
-    - [Use case x, UCx](#use-case-x-ucx)
+        - [Scenario 1.1](#scenario-11)
+    - [Use case 1, UC1: Login](#use-case-1-uc1-login)
+        - [Scenario 1.1](#scenario-11-1)
+    - [Use case 2, UC: Logout](#use-case-2-uc-logout)
+        - [Scenario 2.1](#scenario-21)
+    - [Use case 3, UC3: Creazione nuovo utente](#use-case-3-uc3-creazione-nuovo-utente)
+        - [Scenario 3.1](#scenario-31)
+        - [Scenario 3.2](#scenario-32)
+    - [Use case 4, UC4: Visualizzazione utente](#use-case-4-uc4-visualizzazione-utente)
+        - [Scenario 4.1](#scenario-41)
+        - [Scenario 4.2](#scenario-42)
+        - [Scenario 4.3](#scenario-43)
+        - [Scenario 4.4](#scenario-44)
+    - [Use case 5, UC4: Modifica utente](#use-case-5-uc4-modifica-utente)
+        - [Scenario 5.1](#scenario-51)
+        - [Scenario 5.2](#scenario-52)
+    - [Use case 6, UC6: Aggiunta prodotti](#use-case-6-uc6-aggiunta-prodotti)
+        - [Scenario 6.1](#scenario-61)
+        - [Scenario 6.2](#scenario-62)
+        - [Scenario 6.3](#scenario-63)
+        - [Scenario 6.4](#scenario-64)
+    - [Use case 7, UC7: Modifica prodotto](#use-case-7-uc7-modifica-prodotto)
+        - [Scenario 7.1](#scenario-71)
+        - [Scenario 7.2](#scenario-72)
+        - [Scenario 7.3](#scenario-73)
+        - [Scenario 7.4](#scenario-74)
+    - [Use case 8, UC8: Visualizzazione prodotti](#use-case-8-uc8-visualizzazione-prodotti)
+        - [Scenario 8.1](#scenario-81)
+        - [Scenario 8.2](#scenario-82)
 - [Glossary](#glossary)
+  - [UML Class Diagram](#uml-class-diagram)
+  - [Table](#table)
 - [System Design](#system-design)
 - [Deployment Diagram](#deployment-diagram)
 
@@ -39,68 +65,74 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 # Stakeholders
 
-| Stakeholder name | Description |
-| :--------------: | :---------: |
-| Stakeholder x..  |             |
+|   Stakeholder name    | Description |
+|   :--------------:    | :---------: |
+|        Cliente         | Cliente del sito web che visualizza i prodotti e può inserirli nel carrello           |
+|        Manager        | Figura che gestisce l'inserimento, la modifica e la rimozione dei prodotti sul sito            |
 
 # Context Diagram and interfaces
 
 ## Context Diagram
 
-\<Define here Context diagram using UML use case diagram>
-
-\<actors are a subset of stakeholders>
+![image](context-diagram.png "context diagram")
 
 ## Interfaces
 
-\<describe here each interface in the context diagram>
-
-\<GUIs will be described graphically in a separate document>
-
 |   Actor   | Logical Interface | Physical Interface |
 | :-------: | :---------------: | :----------------: |
-| Actor x.. |                   |                    |
+| Cliente | Smartphone / PC | GUI (tbd – mostrare i prodotti, riempire il carrello, visionare vecchi carrelli, modificare carrello, effettuare l’ordine) |
+| Manager | Smartphone / PC | GUI (tbd – inserire prodotti, modificare prodotti) |
 
 # Stories and personas
 
-\<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
-
-\<Persona is-an-instance-of actor>
-
-\<stories will be formalized later as scenarios in use cases>
+* **Persona 1:** donna, 25 anni, nubile, studentessa
+  * **Storia:** ha bisogno di un nuovo tablet con cui studiare, il suo tablet attuale non funziona più. Deve trovare un nuovo tablet che abbia un *il costo più contenuto possibile*, anche con funzionalità limitate.
+* **Persona 2:** uomo, 50 anni, sposato con figli, poliziotto
+  * **Storia:** sta cercando un dispositivo gps per rilevare la posizione del proprio cane. Non ha problemi di budget, ma ha bisogno del *dispositivo con le migliori prestazioni*.
+* **Persona 3:** donna, 70 anni, vedova, pensionata
+  * **Storia:** è alla ricerca di una tv da usare durante il suo tempo libero. Le serve cercare su una *piattaforma facile da usare* per completare il suo acquisto. 
+* **Persona 4:** uomo, 35 anni, sposato, con figli, informatico
+  * **Storia:** ogni anno fa degli acquisti per la propria classe. Ha necessità di fare ordini molto spesso, quindi cerca una *piattaforma con un'interfaccia intuitiva* che gli faccia perdere meno tempo possibile.
 
 # Functional and non functional requirements
 
 ## Functional Requirements
 
-\<In the form DO SOMETHING, or VERB NOUN, describe high level capabilities of the system>
-
-\<they match to high level use cases>
-
 |  ID   | Description |
 | :---: | :---------: |
-|  FR1  |             |
-|  FR2  |             |
-| FRx.. |             |
+|  **FR1**  | **Gestione prodotti** |
+|  FR1.1  | Creazione prodotto |
+|  FR1.2  | Inserimento set di prodotto |
+|  FR1.3  | Modifica prodotto (contrassegna venduti, cancellazione di tutti i prodotti, cancellazione prodotto) |
+|  FR1.4  | Visualizzazione prodotto (elenco prodotti, info su un prodotto, elenco prodotti di una categoria, elenco prodotti di un modello) |
+|  **FR2**  | **Autenticazione e autorizzazione**            |
+| FR2.1 | Creazione nuovo utente |
+| FR2.2 | Visualizzazione utente (elenco utenti, elenco utenti con un ruolo, visualizzazione singolo utente, info utente loggato) |
+| FR2.3 | Modifica utente (cancellazione utente) |
+| FR2.4 | Login / logout utente |
+|  **FR3**  | **Gestione carrello** |
+| FR3.1 | Visualizzazione carrello (carrello attuale del cliente, fornire la cronologia dei carrelli pagati) |
+| FR3.2 | Modifica carrello (aggiunta di un prodotto, rimozione di un prodotto, cancellazione del carrello, cancellazione di tutti i carrelli) |
+| FR3.3 | Esecuzione del pagamento del carrello |
+|  **FR4**  | **Controllo prezzi** |
+| FR4.1 | Gestione aggiornamento prezzi |
 
 ## Non Functional Requirements
 
-\<Describe constraints on functional requirements>
-
 |   ID    | Type (efficiency, reliability, ..) | Description | Refers to |
 | :-----: | :--------------------------------: | :---------: | :-------: |
-|  NFR1   |                                    |             |           |
-|  NFR2   |                                    |             |           |
-|  NFR3   |                                    |             |           |
-| NFRx .. |                                    |             |           |
+|  NFR1   | Usabilità | Gli utenti non devono avere bisogno di training per l'utilizzo del sito web | FR2, FR3, FR5 |
+|  NFR2   | Usabilità | Il sito deve essere facilmente accessibile e comprensibile | FR1, FR2, FR3, FR5 |
+|  NFR3   | Efficienza | Tutte le funzionalità del sito web devono completarsi in un tempo < 0.1 sec (escludendo la rete) | FR1, FR2, FR3, FR4, FR5 |
+|  NFR4   | Affidabilità | Ogni utente non deve segnalare più di un bug all’anno | FR2, FR3, FR5 |
+|  NFR5   | Affidabilità | Backup regolare dei dati per evitare malfunzionamenti e perdita / dispersione di dati | FR3, FR4 |
+|  NFR6   | Portabilità | Disponibilità del website su: Google Chrome, Safari, Mozilla Firefox per Windows 10 e 11 e macOS 14 | FR1, FR2, FR3, FR4, FR5 |
 
 # Use case diagram and use cases
 
 ## Use case diagram
 
-\<define here UML Use case diagram UCD summarizing all use cases, and their relationships>
-
-\<next describe here each use case in the UCD>
+![image](use-case-diagram.png "use case diagram")
 
 ### Use case 1, UC1
 
@@ -114,40 +146,326 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ##### Scenario 1.1
 
-\<describe here scenarios instances of UC1>
+### Use case 1, UC1: Login
 
-\<a scenario is a sequence of steps that corresponds to a particular execution of one use case>
+| Actors Involved  |  Utente  |
+| :--------------: | :------------------------------------------------------------------: |
+|   Precondition   | Utente registrato e non loggato |
+|  Post condition  |  Utente loggato  |
+| Nominal Scenario |   Scenario 1.1  |
+|     Variants     |   No    |
+|    Exceptions    |   No   |
 
-\<a scenario is a more formal description of a story>
+##### Scenario 1.1
 
-\<only relevant scenarios should be described>
-
-|  Scenario 1.1  |                                                                            |
+|  Scenario 1.1  |  Login  |
 | :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | \<Boolean expression, must evaluate to true before the scenario can start> |
-| Post condition |  \<Boolean expression, must evaluate to true after scenario is finished>   |
-|     Step#      |                                Description                                 |
-|       1        |                                                                            |
-|       2        |                                                                            |
-|      ...       |                                                                            |
+|  Precondition  | Utente registrato e non loggato |
+| Post condition |  Utente loggato  |
+|     Step#      |               Descrizione    |
+|       1        |   Sistema: richiede email e password   |
+|       2        |   Utente: fornisce email e password  |
+|      3      |   Sistema: elabora le informazioni e autorizza l’utente a fare login |
 
-##### Scenario 1.2
+### Use case 2, UC: Logout
 
-##### Scenario 1.x
+| Actors Involved  |  Utente     |
+| :--------------: | :------------------------------------------------------------------: |
+|   Precondition   | Utente loggato |
+|  Post condition  |  Utente non loggato  |
+| Nominal Scenario | Scenario 2.1   |
+|    Varianti     |                      No             |
+|    Eccezioni    |    No   |
 
-### Use case 2, UC2
+##### Scenario 2.1
 
-..
+|  Scenario 2.1  |  Login  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente loggato |
+| Post condition |  Utente non loggato  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede logout   |
+|       2        |   Sistema: elabora la richiesta e permette il logout  |
 
-### Use case x, UCx
+### Use case 3, UC3: Creazione nuovo utente
 
-..
+| Actors Involved  |  Utente     |
+| :--------------: | :------------------------------------------------------------------: |
+|   Precondition   | Utente non registrato |
+|  Post condition  |  Utente registrato  |
+| Nominal Scenario | Scenario 3.1   |
+|    Varianti     |                      No             |
+|    Eccezioni    |  Scenario 3.2 |
+
+##### Scenario 3.1
+
+|  Scenario 3.1  |  Creazione account  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente non registrato |
+| Post condition |  Utente registrato  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: fornisce dati per la registrazione (username, name, surname, password, ruolo)  |
+|       2        |   Sistema: elabora le informazioni e permette la registrazione dell'account  |
+
+##### Scenario 3.2
+
+|  Scenario 3.2  |  Utente già registrato  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente registrato |
+| Post condition |  Utente registrato  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: fornisce dati per la registrazione (username, name, surname, password, ruolo)   |
+|       2        |   Sistema: elabora le richiesta e npon permette la registrazione, l'utente è già registrato  |
+
+### Use case 4, UC4: Visualizzazione utente
+
+| Actors Involved  |  Utente     |
+| :--------------: | :------------------------------------------------------------------: |
+|   Precondition   | Utente loggato, ricerca informazioni su altri utenti |
+|  Post condition  |  Visualizzazione informazioni  |
+| Nominal Scenario | Scenario 4.1, 4.2, 4.3   |
+|    Varianti     |                      No             |
+|    Eccezioni    |  Scenario 4.4 |
+
+##### Scenario 4.1
+
+|  Scenario 4.1  |  Visualizzazione lista di tutti gli utenti  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
+| Post condition |  Visualizzazione informazioni di tutti gli utenti  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede informazioni di tutti gli utenti  |
+|       2        |   Sistema: elabora la richiesta e fornisce una lista con tutte le informazioni di tutti gli utenti (username, name, surname, password, ruolo)  |
+
+##### Scenario 4.2
+
+|  Scenario 4.2  |  Visualizzazione informazioni degli utenti per ruolo  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
+| Post condition |  Visualizzazione informazioni degli utenti per ruolo  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede informazioni di tutti i clienti oppure di tutti i managers  |
+|       2        |   Sistema: elabora la richiesta e fornisce una lista con tutte le informazioni di tutti i clienti oppure di tutti i managers (username, name, surname, password, ruolo) |
+
+##### Scenario 4.3
+
+|  Scenario 4.3  |  Visualizzazione utente con specifico username  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
+| Post condition | Visualizzazione informazioni dell'utente richiesto  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede informazioni di un utente inserendo il suo username  |
+|       2        |   Sistema: elabora le informazioni e fornisce le informazioni dell'utente richiesto (username, name, surname, password, ruolo)  |
+
+##### Scenario 4.4
+
+|  Scenario 4.4  |  Utente non presente nel database  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
+| Post condition |  Nessuna visualizzazione  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede informazioni di un utente inserendo il suo username   |
+|       2        |   Sistema: elabora le informazioni e non permette nessuna visualizzazione, l'utente non esiste con quel username  |
+
+### Use case 5, UC4: Modifica utente
+
+| Actors Involved  |  Admin  |
+| :--------------: | :------------------------------------------------------------------: |
+|   Precondition   | Admin gestisce gli account |
+|  Post condition  | Account richiesto eliminato  |
+| Nominal Scenario | Scenario 5.1 |
+|    Varianti     |                      No             |
+|    Eccezioni    | Scenario 5.2 |
+
+##### Scenario 5.1
+
+|  Scenario 5.1  | Eliminazione di uno specifico utente a partire dal username  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Admin gestisce gli account |
+| Post condition |  Account richiesto eliminato |
+|     Step#      |               Descrizione    |
+|       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
+|       2        |   Sistema: elabora la richiesta ed elimina l'account  |
+
+##### Scenario 5.2
+
+|  Scenario 5.2  |  Username non esiste  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  |  Admin gestisce gli account |
+| Post condition |   Account richiesto non eliminato |
+|     Step#      |               Descrizione    |
+|       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
+|       2        |   Sistema: elabora la richiesta e non elimina l'account, lo username richiesto non esiste |
+
+Ecco la rappresentazione dei casi d'uso forniti secondo il formato delle tabelle:
+
+### Use case 6, UC6: Aggiunta prodotti 
+
+| Actors involved | Manager |
+| :-------------- | :------ |
+| Precondition    | Manager loggato |
+| Post condition  | Database dei prodotti aggiornato |
+| Nominal scenario | 6.1, 6.2 |
+| Variants | - |
+| Exceptions | 6.3, 6.4 |
+
+##### Scenario 6.1
+
+| Scenario 6.1 | Aggiunta prodotto |
+| :----------- | :----------------- |
+| Precondition | Manager loggato |
+| Post condition | Database dei prodotti aggiornato |
+| Step# | Descrizione |
+| 1 | Manager: chiede di inserire un prodotto |
+| 2 | Sistema: chiede di inserire codice, prezzo di vendita, modello, categoria, eventuali dettagli e la data di arrivo |
+| 3 | Manager: inserisce codice, prezzo di vendita, modello, categoria, eventuali dettagli e la data di arrivo |
+| 4 | Sistema: crea un nuovo prodotto e lo memorizza nel database |
+
+##### Scenario 6.2
+
+| Scenario 6.2 | Aggiunta set di prodotti |
+| :----------- | :------------------------ |
+| Precondition | Manager loggato |
+| Post condition | Database dei prodotti aggiornato |
+| Step# | Descrizione |
+| 1 | Manager: chiede di inserire un insieme di prodotti |
+| 2 | Sistema: chiede di inserire modello, categoria, dettagli eventuali, quantità, data di arrivo e prezzo di vendita |
+| 3 | Manager: inserisce modello, categoria, dettagli eventuali, quantità, data di arrivo e prezzo di vendita |
+| 4 | Sistema: aggiorna il database |
+
+##### Scenario 6.3
+
+| Scenario 6.3 | Prodotto già presente nel database |
+| :----------- | :--------------------------------- |
+| Precondition | Manager loggato |
+| Post condition | Inserimento del prodotto fallito |
+| Step# | Descrizione |
+| 1 | Manager: chiede di inserire un prodotto |
+| 2 | Sistema: chiede di inserire modello, categoria, dettagli eventuali, quantità, data di arrivo e prezzo di vendita |
+| 3 | Manager: inserisce un codice di un prodotto già presente nel database |
+| 4 | Sistema: ritorna errore 409 |
+
+##### Scenario 6.4
+
+| Scenario 6.4 | Data di arrivo dopo il giorno attuale |
+| :----------- | :------------------------------------ |
+| Precondition | Manager loggato |
+| Post condition | Inserimento del prodotto fallito |
+| Step# | Descrizione |
+| 1 | Manager: chiede di inserire un prodotto o un set di prodotti |
+| 2 | Sistema: chiede di inserire i campi |
+| 3 | Manager: inserisce una data di arrivo per quel prodotto successiva a quella attuale |
+| 4 | Sistema: ritorna errore |
+
+### Use case 7, UC7: Modifica prodotto 
+
+| Actors involved | Manager |
+| :-------------- | :------ |
+| Precondition    | Manager loggato |
+| Post condition  | Database dei prodotti aggiornato |
+| Nominal scenario | 7.1 |
+| Variants | - |
+| Exceptions | 7.2, 7.3, 7.4 |
+
+##### Scenario 7.1
+
+| Scenario 7.1 | Segnare un prodotto come venduto |
+| :----------- | :------------------------------- |
+| Precondition | Manager loggato |
+| Post condition | Prodotto venduto |
+| Step# | Descrizione |
+| 1 | Manager: chiede di marcare un prodotto come venduto |
+| 2 | Sistema: chiede di inserire il codice del prodotto e la data di vendita opzionalmente |
+| 3 | Manager: inserisce il codice del prodotto da segnare come venduto e una eventuale data di vendita |
+| 4 | Sistema: marca il prodotto come venduto |
+
+##### Scenario 7.2
+
+| Scenario 7.2 | Si cerca un prodotto che non è però presente |
+| :----------- | :------------------------------------------ |
+| Precondition | Manager loggato |
+| Post condition | Operazione fallita |
+| Step# | Descrizione |
+| 1 | Manager: chiede di marcare un prodotto come venduto |
+| 2 | Sistema: chiede di inserire il codice del prodotto e la data di vendita opzionalmente |
+| 3 | Manager: inserisce il codice di un prodotto non presente nel database |
+| 4 | Sistema: ritorna un 404 error |
+
+##### Scenario 7.3
+
+| Scenario 7.3 | Data di vendita inserita non valida |
+| :----------- | :---------------------------------- |
+| Precondition | Manager loggato |
+| Post condition | Operazione fallita |
+| Step# | Descrizione |
+| 1 | Manager: chiede di marcare un prodotto come venduto |
+| 2 | Sistema: chiede di inserire il codice del prodotto e la data di vendita opzionalmente |
+| 3 | Manager: inserisce una data di vendita successiva a quella attuale o precedente a quella di arrivo |
+| 4 | Sistema: ritorna un error |
+
+##### Scenario 7.4
+
+| Scenario 7.4 | Prodotto già segnato come venduto |
+| :----------- | :--------------------------------- |
+| Precondition | Manager loggato |
+| Post condition | Operazione fallita |
+| Step# | Descrizione |
+| 1 | Manager: chiede di marcare un prodotto come venduto |
+| 2 | Sistema: chiede di inserire il codice del prodotto e la data di vendita opzionalmente |
+| 3 | Manager: inserisce un codice di prodotto già segnato come venduto |
+| 4 | Sistema: ritorna un error |
+
+### Use case 8, UC8: Visualizzazione prodotti
+
+| Actors involved | Utente |
+| :-------------- | :------ |
+| Precondition    | Utente loggato |
+| Post condition  | visualizzazione dei prodotti nel database |
+| Nominal scenario | 8.1, 8.2 |
+| Variants | - |
+| Exceptions ||
+
+##### Scenario 8.1
+
+| Scenario 8.1 | Visualizzazione di tutti i prodotti |
+| :----------- | :---------------------------------- |
+| Precondition | Utente loggato |
+| Post condition | Visualizzazione di tutti i prodotti nel database |
+| Step# | Descrizione |
+| 1 | Utente: accede al catalogo |
+| 2 | Sistema: chiede di inserire il codice del prodotto e la data di vendita opzionalmente |
+| 3 | Manager: inserisce un codice di prodotto già segnato come venduto |
+| 4 | Sistema: ritorna un error |
+
+##### Scenario 8.2
+
+| Scenario 8.2 | Visualizzazione dei prodotti di una categoria o modello |
+| :----------- | :---------------------------------- |
+| Precondition | Utente loggato |
+| Post condition | Visualizzazione di tutti i prodotti nel database di una certa gategoria o modello |
+| Step# | Descrizione |
+| 1 | Utente: accede al catalogo |
+| 2 | Sistema: chiede di inserire il modello o la categoria dei prodotti |
+| 3 | Manager: inserisce il modello o la categoria dei prodotti da vedere|
+| 4 | Sistema: ritorna l'elenco dei prodotti di quella categoria o modello |
+
+
 
 # Glossary
 
-\<use UML class diagram to define important terms, or concepts in the domain of the application, and their relationships>
+## UML Class Diagram
 
-\<concepts must be used consistently all over the document, ex in use cases, requirements etc>
+![Class Diagram](./ClassDiagram.png)
+
+## Table
+
+  1. **User**: un utente caratterizzato dal assegnazione di uno tra due ruoli:
+     - **Menager**: utente che gestisce i prodotti all'interno del magazzino (inserendo i nuovi prodotti arrivati, eliminando quelli non più disponibili)
+     - **Customer**: colui che effettua un qualunque acquisto sul sito, tramite diversi metodi di pagamento, inserendo i prodotti scelti nel carrello.
+  1. **Product**: prodotto disponibile attraverso il sito, che può essere acquistato nel caso in cui sia ancora presente in stock o non sia stato ancora acquistato da un'altro utente.
+  1. **Carrello**: lista di prodotti scelti dal utente per essere acquistati. Un prodotto può essere inserito nel carrello e poi acquistato in due momenti diversi.
+     - **Acquisto**: momento in cui si comprano i prodotti inseriti nel carrello.
+
 
 # System Design
 
@@ -158,3 +476,4 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 # Deployment Diagram
 
 \<describe here deployment diagram >
+
