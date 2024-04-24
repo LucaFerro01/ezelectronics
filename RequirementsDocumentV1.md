@@ -271,7 +271,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
 |       2        |   Sistema: elabora la richiesta e non elimina l'account, lo username richiesto non esiste |
 
-# Glossary
+# Glossary 
 
 ## UML Class Diagram
 
