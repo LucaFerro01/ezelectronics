@@ -55,7 +55,7 @@ Version: V1 - description of EZElectronics in CURRENT form (as received by teach
     - [Use case 8, UC8: Visualizzazione prodotti](#use-case-8-uc8-visualizzazione-prodotti)
         - [Scenario 8.1](#scenario-81)
         - [Scenario 8.2](#scenario-82)
-    - [Use case 9, UC9: Visualizzazioe carrello](#use-case-9-uc9-visualizzazioe-carrello)
+    - [Use case 9, UC9: Visualizzazione carrello](#use-case-9-uc9-visualizzazione-carrello)
         - [Scenario 9.1](#scenario-91)
         - [Scenario 9.2](#scenario-92)
     - [Use case 10, UC10: Modifica carrello](#use-case-10-uc10-modifica-carrello)
@@ -485,7 +485,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce il modello o la categoria dei prodotti da vedere|
 | 4 | Sistema: ritorna l'elenco dei prodotti di quella categoria o modello |
 
-### Use case 9, UC9: Visualizzazioe carrello
+### Use case 9, UC9: Visualizzazione carrello
 
 | Actors involved | Cliente |
 | :-------------- | :------ |
