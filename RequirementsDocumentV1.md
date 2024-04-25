@@ -50,9 +50,22 @@ Version: V1 - description of EZElectronics in CURRENT form (as received by teach
         - [Scenario 7.2](#scenario-72)
         - [Scenario 7.3](#scenario-73)
         - [Scenario 7.4](#scenario-74)
+        - [Scenario 7.5](#scenario-75)
+        - [Scenario 7.6](#scenario-76)
     - [Use case 8, UC8: Visualizzazione prodotti](#use-case-8-uc8-visualizzazione-prodotti)
         - [Scenario 8.1](#scenario-81)
         - [Scenario 8.2](#scenario-82)
+    - [Use case 9, UC9: Visualizzazioe carrello](#use-case-9-uc9-visualizzazioe-carrello)
+        - [Scenario 9.1](#scenario-91)
+        - [Scenario 9.2](#scenario-92)
+    - [Use case 10, UC10: Modifica carrello](#use-case-10-uc10-modifica-carrello)
+        - [Scenario 10.1](#scenario-101)
+        - [Scenario 10.2](#scenario-102)
+        - [Scenario 10.3](#scenario-103)
+        - [Scenario 10.4](#scenario-104)
+        - [Scenario 10.5](#scenario-105)
+        - [Scenario 10.6](#scenario-106)
+        - [Scenario 10.7](#scenario-107)
 - [Glossary](#glossary)
   - [UML Class Diagram](#uml-class-diagram)
   - [Table](#table)
@@ -297,7 +310,6 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
 |       2        |   Sistema: elabora la richiesta e non elimina l'account, lo username richiesto non esiste |
 
-Ecco la rappresentazione dei casi d'uso forniti secondo il formato delle tabelle:
 
 ### Use case 6, UC6: Aggiunta prodotti 
 
@@ -363,9 +375,9 @@ Ecco la rappresentazione dei casi d'uso forniti secondo il formato delle tabelle
 | :-------------- | :------ |
 | Precondition    | Manager loggato |
 | Post condition  | Database dei prodotti aggiornato |
-| Nominal scenario | 7.1 |
+| Nominal scenario | 7.1, 7.5|
 | Variants | - |
-| Exceptions | 7.2, 7.3, 7.4 |
+| Exceptions | 7.2, 7.3, 7.4, 7.6|
 
 ##### Scenario 7.1
 
@@ -415,6 +427,30 @@ Ecco la rappresentazione dei casi d'uso forniti secondo il formato delle tabelle
 | 3 | Manager: inserisce un codice di prodotto già segnato come venduto |
 | 4 | Sistema: ritorna un error |
 
+##### Scenario 7.5
+
+| Scenario 7.5 | Eliminazione di un prodotto |
+| :----------- | :--------------------------------- |
+| Precondition | Manager loggato |
+| Post condition | Eliminazione del prodotto dal database |
+| Step# | Descrizione |
+| 1 | Manager: chiede di eliminare un prodotto |
+| 2 | Sistema: chiede di inserire il codice del prodotto |
+| 3 | Manager: inserisce il codice del prodotto  |
+| 4 | Sistema: toglie il prodotto dal database |
+
+##### Scenario 7.6
+
+| Scenario 7.6 | Eliminazione di un prodotto già assente dal database |
+| :----------- | :--------------------------------- |
+| Precondition | Manager loggato |
+| Post condition | Eliminazione del prodotto dal database |
+| Step# | Descrizione |
+| 1 | Manager: chiede di eliminare un prodotto |
+| 2 | Sistema: chiede di inserire il codice del prodotto |
+| 3 | Manager: inserisce il codice di un prodotto assente nel database  |
+| 4 | Sistema: ritorna 404 error |
+
 ### Use case 8, UC8: Visualizzazione prodotti
 
 | Actors involved | Utente |
@@ -449,7 +485,127 @@ Ecco la rappresentazione dei casi d'uso forniti secondo il formato delle tabelle
 | 3 | Manager: inserisce il modello o la categoria dei prodotti da vedere|
 | 4 | Sistema: ritorna l'elenco dei prodotti di quella categoria o modello |
 
+### Use case 9, UC9: Visualizzazioe carrello
 
+| Actors involved | Cliente |
+| :-------------- | :------ |
+| Precondition    | Cliente loggato |
+| Post condition  | Visualizzazione dei prodotti di un carrello |
+| Nominal scenario | 9.1, 9.2 |
+| Variants | - |
+| Exceptions |  |
+
+##### Scenario 9.1
+
+| Scenario 9.1 | Visualizzazione del carrello attuale |
+| :----------- | :----------------- |
+| Precondition | Cliente loggato |
+| Post condition | Visualizzazione del carrello attuale dell'utente loggato |
+| Step# | Descrizione |
+| 1 | Cliente: chiede di visualizzare il carrello |
+| 2 | Sistema: torna l'elenco dei prodotti presenti nel carrello |
+
+##### Scenario 9.2
+
+| Scenario 9.2 | Visualizzazione della storia dei carrelli già pagati |
+| :----------- | :----------------- |
+| Precondition | Cliente loggato |
+| Post condition | Visualizzazione dei carrelli già pagati dal cliente |
+| Step# | Descrizione |
+| 1 | Cliente: chiede di visualizzare i carrelli |
+| 2 | Sistema: torna l'elenco dei vecchi carrelli già pagati |
+
+
+### Use case 10, UC10: Modifica carrello
+
+| Actors involved | Cliente |
+| :-------------- | :------ |
+| Precondition    | Cliente loggato |
+| Post condition  | Modifica del carrello |
+| Nominal scenario | 10.1, 10.5, 10.7 |
+| Variants | - |
+| Exceptions | 10.2, 10.3, 10.4, 10.6 |
+
+##### Scenario 10.1
+
+| Scenario 10.1 | Aggiunta di un prodotto |
+| :----------- | :----------------- |
+| Precondition | Cliente loggato |
+| Post condition | Aggiunta di un prodotto al carrello |
+| Step# | Descrizione |
+| 1 | Cliente: chiede di inserire il prodotto al carrello |
+| 2 | Sistema: chiede id del prodotto  |
+| 3 | cliente: inserisce id del prodotto  |
+| 4 | sistema: aggiunge il prodotto all'elenco dei prodotti del carrello attuale |
+
+##### Scenario 10.2
+
+| Scenario 10.2 | Il prodotto non può essere aggiunto o rimosso  |
+| :----------- | :----------------- |
+| Precondition | Cliente loggato |
+| Post condition | Sistema ritorna errore |
+| Step# | Descrizione |
+| 1 | Cliente: chiede di inserire o rimuovere il prodotto al carrello |
+| 2 | Sistema: chiede id del prodotto  |
+| 3 | cliente: inserisce un id relativo ad un prodotto già venduto |
+| 4 | sistema: ritorna 409 error |
+
+
+##### Scenario 10.3
+
+| Scenario 10.3 | Il prodotto non può essere rimosso  |
+| :----------- | :----------------- |
+| Precondition | Cliente loggato |
+| Post condition | Sistema ritorna errore |
+| Step# | Descrizione |
+| 1 | Cliente: chiede di inserire il prodotto al carrello |
+| 2 | Sistema: chiede id del prodotto  |
+| 3 | cliente: inserisce un id relativo ad un prodotto non nel carrello o presente in un altro carrello |
+| 4 | sistema: ritorna 404 error |
+
+##### Scenario 10.4
+
+| Scenario 10.4 | Id del prodotto non valido |
+| :----------- | :----------------- |
+| Precondition | Cliente loggato |
+| Post condition | Sistema ritorna errore |
+| Step# | Descrizione |
+| 1 | Cliente: chiede di inserire o rimuovere il prodotto nel carrello |
+| 2 | Sistema: chiede id del prodotto  |
+| 3 | cliente: inserisce un id non valido    |
+| 4 | sistema: ritorna 404 error |
+
+##### Scenario 10.5
+
+| Scenario 10.5 | rimozione prodotto |
+| :----------- | :----------------- |
+| Precondition | Cliente loggato |
+| Post condition | Sistema toglie il prodotto dal carrello |
+| Step# | Descrizione |
+| 1 | Cliente: chiede di rimuovere il prodotto al carrello |
+| 2 | Sistema: chiede id del prodotto  |
+| 3 | cliente: inserisce un id valido  |
+| 4 | sistema: toglie il prodotto dal carrello |
+
+##### Scenario 10.6
+
+| Scenario 10.6 | non si ha un carrello |
+| :----------- | :----------------- |
+| Precondition | Cliente loggato |
+| Post condition | Sistema ritorna errore |
+| Step# | Descrizione |
+| 1 | Cliente: chiede di rimuovere il prodotto dal carrello o di eliminare il carello |
+| 2 | Sistema: ritorna error 404 perchè non esiste un carrello |
+
+##### Scenario 10.7
+
+| Scenario 10.7 | eliminazione carrello attuale |
+| :----------- | :----------------- |
+| Precondition | Cliente loggato |
+| Post condition | Sistema elimina il carrello |
+| Step# | Descrizione |
+| 1 | Cliente: chiede di rimuovere il carrello|
+| 2 | Sistema: elimina il carrello |
 
 # Glossary
 
