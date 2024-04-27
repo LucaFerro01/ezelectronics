@@ -147,183 +147,19 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ![image](use-case-diagram.png "use case diagram")
 
-### Use case 1, UC1
-
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
-
-##### Scenario 1.1
-
-### Use case 1, UC1: Login
-
-| Actors Involved  |  Utente  |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Utente registrato e non loggato |
-|  Post condition  |  Utente loggato  |
-| Nominal Scenario |   Scenario 1.1  |
-|     Variants     |   No    |
-|    Exceptions    |   No   |
-
-##### Scenario 1.1
-
-|  Scenario 1.1  |  Login  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente registrato e non loggato |
-| Post condition |  Utente loggato  |
-|     Step#      |               Descrizione    |
-|       1        |   Sistema: richiede email e password   |
-|       2        |   Utente: fornisce email e password  |
-|      3      |   Sistema: elabora le informazioni e autorizza l’utente a fare login |
-
-### Use case 2, UC: Logout
-
-| Actors Involved  |  Utente     |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Utente loggato |
-|  Post condition  |  Utente non loggato  |
-| Nominal Scenario | Scenario 2.1   |
-|    Varianti     |                      No             |
-|    Eccezioni    |    No   |
-
-##### Scenario 2.1
-
-|  Scenario 2.1  |  Login  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato |
-| Post condition |  Utente non loggato  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: richiede logout   |
-|       2        |   Sistema: elabora la richiesta e permette il logout  |
-
-### Use case 3, UC3: Creazione nuovo utente
-
-| Actors Involved  |  Utente     |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Utente non registrato |
-|  Post condition  |  Utente registrato  |
-| Nominal Scenario | Scenario 3.1   |
-|    Varianti     |                      No             |
-|    Eccezioni    |  Scenario 3.2 |
-
-##### Scenario 3.1
-
-|  Scenario 3.1  |  Creazione account  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente non registrato |
-| Post condition |  Utente registrato  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: fornisce dati per la registrazione (username, name, surname, password, ruolo)  |
-|       2        |   Sistema: elabora le informazioni e permette la registrazione dell'account  |
-
-##### Scenario 3.2
-
-|  Scenario 3.2  |  Utente già registrato  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente registrato |
-| Post condition |  Utente registrato  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: fornisce dati per la registrazione (username, name, surname, password, ruolo)   |
-|       2        |   Sistema: elabora le richiesta e npon permette la registrazione, l'utente è già registrato  |
-
-### Use case 4, UC4: Visualizzazione utente
-
-| Actors Involved  |  Utente     |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Utente loggato, ricerca informazioni su altri utenti |
-|  Post condition  |  Visualizzazione informazioni  |
-| Nominal Scenario | Scenario 4.1, 4.2, 4.3   |
-|    Varianti     |                      No             |
-|    Eccezioni    |  Scenario 4.4 |
-
-##### Scenario 4.1
-
-|  Scenario 4.1  |  Visualizzazione lista di tutti gli utenti  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
-| Post condition |  Visualizzazione informazioni di tutti gli utenti  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: richiede informazioni di tutti gli utenti  |
-|       2        |   Sistema: elabora la richiesta e fornisce una lista con tutte le informazioni di tutti gli utenti (username, name, surname, password, ruolo)  |
-
-##### Scenario 4.2
-
-|  Scenario 4.2  |  Visualizzazione informazioni degli utenti per ruolo  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
-| Post condition |  Visualizzazione informazioni degli utenti per ruolo  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: richiede informazioni di tutti i clienti oppure di tutti i managers  |
-|       2        |   Sistema: elabora la richiesta e fornisce una lista con tutte le informazioni di tutti i clienti oppure di tutti i managers (username, name, surname, password, ruolo) |
-
-##### Scenario 4.3
-
-|  Scenario 4.3  |  Visualizzazione utente con specifico username  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
-| Post condition | Visualizzazione informazioni dell'utente richiesto  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: richiede informazioni di un utente inserendo il suo username  |
-|       2        |   Sistema: elabora le informazioni e fornisce le informazioni dell'utente richiesto (username, name, surname, password, ruolo)  |
-
-##### Scenario 4.4
-
-|  Scenario 4.4  |  Utente non presente nel database  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
-| Post condition |  Nessuna visualizzazione  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: richiede informazioni di un utente inserendo il suo username   |
-|       2        |   Sistema: elabora le informazioni e non permette nessuna visualizzazione, l'utente non esiste con quel username  |
-
-### Use case 5, UC4: Modifica utente
-
-| Actors Involved  |  Admin  |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Admin gestisce gli account |
-|  Post condition  | Account richiesto eliminato  |
-| Nominal Scenario | Scenario 5.1 |
-|    Varianti     |                      No             |
-|    Eccezioni    | Scenario 5.2 |
-
-##### Scenario 5.1
-
-|  Scenario 5.1  | Eliminazione di uno specifico utente a partire dal username  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Admin gestisce gli account |
-| Post condition |  Account richiesto eliminato |
-|     Step#      |               Descrizione    |
-|       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
-|       2        |   Sistema: elabora la richiesta ed elimina l'account  |
-
-##### Scenario 5.2
-
-|  Scenario 5.2  |  Username non esiste  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  |  Admin gestisce gli account |
-| Post condition |   Account richiesto non eliminato |
-|     Step#      |               Descrizione    |
-|       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
-|       2        |   Sistema: elabora la richiesta e non elimina l'account, lo username richiesto non esiste |
-
-
-### Use case 6, UC6: Aggiunta prodotti 
+### Use case 1, UC1: Creazione prodotto
 
 | Actors involved | Manager |
 | :-------------- | :------ |
 | Precondition    | Manager loggato |
 | Post condition  | Database dei prodotti aggiornato |
-| Nominal scenario | 6.1, 6.2 |
+| Nominal scenario | 1.1, 1.2 |
 | Variants | - |
-| Exceptions | 6.3, 6.4 |
+| Exceptions | 1.3, 1.4 |
 
-##### Scenario 6.1
+##### Scenario 1.1
 
-| Scenario 6.1 | Aggiunta prodotto |
+| Scenario 1.1 | Creazione prodotto |
 | :----------- | :----------------- |
 | Precondition | Manager loggato |
 | Post condition | Database dei prodotti aggiornato |
@@ -333,9 +169,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce codice, prezzo di vendita, modello, categoria, eventuali dettagli e la data di arrivo |
 | 4 | Sistema: crea un nuovo prodotto e lo memorizza nel database |
 
-##### Scenario 6.2
+##### Scenario 1.2
 
-| Scenario 6.2 | Aggiunta set di prodotti |
+| Scenario 1.2 | Inserimento set di prodotti |
 | :----------- | :------------------------ |
 | Precondition | Manager loggato |
 | Post condition | Database dei prodotti aggiornato |
@@ -345,9 +181,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce modello, categoria, dettagli eventuali, quantità, data di arrivo e prezzo di vendita |
 | 4 | Sistema: aggiorna il database |
 
-##### Scenario 6.3
+##### Scenario 1.3
 
-| Scenario 6.3 | Prodotto già presente nel database |
+| Scenario 1.3 | Prodotto già presente nel database |
 | :----------- | :--------------------------------- |
 | Precondition | Manager loggato |
 | Post condition | Inserimento del prodotto fallito |
@@ -357,9 +193,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce un codice di un prodotto già presente nel database |
 | 4 | Sistema: ritorna errore 409 |
 
-##### Scenario 6.4
+##### Scenario 1.4
 
-| Scenario 6.4 | Data di arrivo dopo il giorno attuale |
+| Scenario 1.4 | Data di arrivo dopo il giorno attuale |
 | :----------- | :------------------------------------ |
 | Precondition | Manager loggato |
 | Post condition | Inserimento del prodotto fallito |
@@ -369,19 +205,19 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce una data di arrivo per quel prodotto successiva a quella attuale |
 | 4 | Sistema: ritorna errore |
 
-### Use case 7, UC7: Modifica prodotto 
+### Use case 2, UC2: Modifica prodotto 
 
 | Actors involved | Manager |
 | :-------------- | :------ |
 | Precondition    | Manager loggato |
 | Post condition  | Database dei prodotti aggiornato |
-| Nominal scenario | 7.1, 7.5|
+| Nominal scenario | 2.1, 2.5|
 | Variants | - |
-| Exceptions | 7.2, 7.3, 7.4, 7.6|
+| Exceptions | 2.2, 2.3, 2.4, 2.6|
 
-##### Scenario 7.1
+##### Scenario 2.1
 
-| Scenario 7.1 | Segnare un prodotto come venduto |
+| Scenario 2.1 | Segnare un prodotto come venduto |
 | :----------- | :------------------------------- |
 | Precondition | Manager loggato |
 | Post condition | Prodotto venduto |
@@ -391,9 +227,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce il codice del prodotto da segnare come venduto e una eventuale data di vendita |
 | 4 | Sistema: marca il prodotto come venduto |
 
-##### Scenario 7.2
+##### Scenario 2.2
 
-| Scenario 7.2 | Si cerca un prodotto che non è però presente |
+| Scenario 2.2 | Si cerca un prodotto che non è però presente |
 | :----------- | :------------------------------------------ |
 | Precondition | Manager loggato |
 | Post condition | Operazione fallita |
@@ -403,9 +239,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce il codice di un prodotto non presente nel database |
 | 4 | Sistema: ritorna un 404 error |
 
-##### Scenario 7.3
+##### Scenario 2.3
 
-| Scenario 7.3 | Data di vendita inserita non valida |
+| Scenario 2.3 | Data di vendita inserita non valida |
 | :----------- | :---------------------------------- |
 | Precondition | Manager loggato |
 | Post condition | Operazione fallita |
@@ -415,9 +251,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce una data di vendita successiva a quella attuale o precedente a quella di arrivo |
 | 4 | Sistema: ritorna un error |
 
-##### Scenario 7.4
+##### Scenario 2.4
 
-| Scenario 7.4 | Prodotto già segnato come venduto |
+| Scenario 2.4 | Prodotto già segnato come venduto |
 | :----------- | :--------------------------------- |
 | Precondition | Manager loggato |
 | Post condition | Operazione fallita |
@@ -427,9 +263,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce un codice di prodotto già segnato come venduto |
 | 4 | Sistema: ritorna un error |
 
-##### Scenario 7.5
+##### Scenario 2.5
 
-| Scenario 7.5 | Eliminazione di un prodotto |
+| Scenario 2.5 | Eliminazione di un prodotto |
 | :----------- | :--------------------------------- |
 | Precondition | Manager loggato |
 | Post condition | Eliminazione del prodotto dal database |
@@ -439,9 +275,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce il codice del prodotto  |
 | 4 | Sistema: toglie il prodotto dal database |
 
-##### Scenario 7.6
+##### Scenario 2.6
 
-| Scenario 7.6 | Eliminazione di un prodotto già assente dal database |
+| Scenario 2.6 | Eliminazione di un prodotto già assente dal database |
 | :----------- | :--------------------------------- |
 | Precondition | Manager loggato |
 | Post condition | Eliminazione del prodotto dal database |
@@ -451,19 +287,19 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce il codice di un prodotto assente nel database  |
 | 4 | Sistema: ritorna 404 error |
 
-### Use case 8, UC8: Visualizzazione prodotti
+### Use case 3, UC3: Visualizzazione prodotti
 
 | Actors involved | Utente |
 | :-------------- | :------ |
 | Precondition    | Utente loggato |
 | Post condition  | visualizzazione dei prodotti nel database |
-| Nominal scenario | 8.1, 8.2 |
+| Nominal scenario | 3.1, 3.2 |
 | Variants | - |
 | Exceptions ||
 
-##### Scenario 8.1
+##### Scenario 3.1
 
-| Scenario 8.1 | Visualizzazione di tutti i prodotti |
+| Scenario 3.1 | Visualizzazione di tutti i prodotti |
 | :----------- | :---------------------------------- |
 | Precondition | Utente loggato |
 | Post condition | Visualizzazione di tutti i prodotti nel database |
@@ -473,9 +309,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce un codice di prodotto già segnato come venduto |
 | 4 | Sistema: ritorna un error |
 
-##### Scenario 8.2
+##### Scenario 3.2
 
-| Scenario 8.2 | Visualizzazione dei prodotti di una categoria o modello |
+| Scenario 3.2 | Visualizzazione dei prodotti di una categoria o modello |
 | :----------- | :---------------------------------- |
 | Precondition | Utente loggato |
 | Post condition | Visualizzazione di tutti i prodotti nel database di una certa gategoria o modello |
@@ -484,6 +320,158 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 2 | Sistema: chiede di inserire il modello o la categoria dei prodotti |
 | 3 | Manager: inserisce il modello o la categoria dei prodotti da vedere|
 | 4 | Sistema: ritorna l'elenco dei prodotti di quella categoria o modello |
+
+### Use case 4, UC4: Creazione nuovo utente
+
+| Actors Involved  |  Utente     |
+| :--------------: | :------------------------------------------------------------------: |
+|   Precondition   | Utente non registrato |
+|  Post condition  |  Utente registrato  |
+| Nominal Scenario | Scenario 4.1   |
+|    Varianti     |                      No             |
+|    Eccezioni    |  Scenario 4.2 |
+
+##### Scenario 4.1
+
+|  Scenario 4.1  |  Creazione account  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente non registrato |
+| Post condition |  Utente registrato  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: fornisce dati per la registrazione (username, name, surname, password, ruolo)  |
+|       2        |   Sistema: elabora le informazioni e permette la registrazione dell'account  |
+
+##### Scenario 4.2
+
+|  Scenario 4.2  |  Utente già registrato  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente registrato |
+| Post condition |  Utente registrato  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: fornisce dati per la registrazione (username, name, surname, password, ruolo)   |
+|       2        |   Sistema: elabora le richiesta e npon permette la registrazione, l'utente è già registrato  |
+
+### Use case 5, UC5: Visualizzazione utente
+
+| Actors Involved  |  Utente     |
+| :--------------: | :------------------------------------------------------------------: |
+|   Precondition   | Utente loggato, ricerca informazioni su altri utenti |
+|  Post condition  |  Visualizzazione informazioni  |
+| Nominal Scenario | Scenario 5.1, 5.2, 5.3   |
+|    Varianti     |                      No             |
+|    Eccezioni    |  Scenario 5.4 |
+
+##### Scenario 5.1
+
+|  Scenario 5.1  |  Visualizzazione lista di tutti gli utenti  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
+| Post condition |  Visualizzazione informazioni di tutti gli utenti  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede informazioni di tutti gli utenti  |
+|       2        |   Sistema: elabora la richiesta e fornisce una lista con tutte le informazioni di tutti gli utenti (username, name, surname, password, ruolo)  |
+
+##### Scenario 5.2
+
+|  Scenario 5.2  |  Visualizzazione informazioni degli utenti per ruolo  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
+| Post condition |  Visualizzazione informazioni degli utenti per ruolo  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede informazioni di tutti i clienti oppure di tutti i managers  |
+|       2        |   Sistema: elabora la richiesta e fornisce una lista con tutte le informazioni di tutti i clienti oppure di tutti i managers (username, name, surname, password, ruolo) |
+
+##### Scenario 5.3
+
+|  Scenario 5.3  |  Visualizzazione utente con specifico username  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
+| Post condition | Visualizzazione informazioni dell'utente richiesto  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede informazioni di un utente inserendo il suo username  |
+|       2        |   Sistema: elabora le informazioni e fornisce le informazioni dell'utente richiesto (username, name, surname, password, ruolo)  |
+
+##### Scenario 5.4
+
+|  Scenario 5.4  |  Utente non presente nel database  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
+| Post condition |  Nessuna visualizzazione  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede informazioni di un utente inserendo il suo username   |
+|       2        |   Sistema: elabora le informazioni e non permette nessuna visualizzazione, l'utente non esiste con quel username  |
+
+### Use case 6, UC6: Modifica utente
+
+| Actors Involved  |  Utente  |
+| :--------------: | :------------------------------------------------------------------: |
+|   Precondition   | Utente gestisce gli account |
+|  Post condition  | Account richiesto eliminato  |
+| Nominal Scenario | Scenario 6.1 |
+|    Varianti     |                      No             |
+|    Eccezioni    | Scenario 6.2 |
+
+##### Scenario 6.1
+
+|  Scenario 6.1  | Eliminazione di uno specifico utente a partire dal username  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente gestisce gli account |
+| Post condition |  Account richiesto eliminato |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede la cancellazione di un account fornendo lo username  |
+|       2        |   Sistema: elabora la richiesta ed elimina l'account  |
+
+##### Scenario 6.2
+
+|  Scenario 6.2  |  Username non esiste  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  |  Admin gestisce gli account |
+| Post condition |   Account richiesto non eliminato |
+|     Step#      |               Descrizione    |
+|       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
+|       2        |   Sistema: elabora la richiesta e non elimina l'account, lo username richiesto non esiste |
+
+
+### Use case 7, UC7: Login
+
+| Actors Involved  |  Utente  |
+| :--------------: | :------------------------------------------------------------------: |
+|   Precondition   | Utente registrato e non loggato |
+|  Post condition  |  Utente loggato  |
+| Nominal Scenario |   Scenario 7.1  |
+|     Variants     |   No    |
+|    Exceptions    |   No   |
+
+##### Scenario 7.1
+
+|  Scenario 7.1  |  Login  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente registrato e non loggato |
+| Post condition |  Utente loggato  |
+|     Step#      |               Descrizione    |
+|       1        |   Sistema: richiede email e password   |
+|       2        |   Utente: fornisce email e password  |
+|      3      |   Sistema: elabora le informazioni e autorizza l’utente a fare login |
+
+### Use case 8, UC8: Logout
+
+| Actors Involved  |  Utente     |
+| :--------------: | :------------------------------------------------------------------: |
+|   Precondition   | Utente loggato |
+|  Post condition  |  Utente non loggato  |
+| Nominal Scenario | Scenario 8.1   |
+|    Varianti     |                      No             |
+|    Eccezioni    |    No   |
+
+##### Scenario 8.1
+
+|  Scenario 8.1  |  Logout  |
+| :------------: | :------------------------------------------------------------------------: |
+|  Precondition  | Utente loggato |
+| Post condition |  Utente non loggato  |
+|     Step#      |               Descrizione    |
+|       1        |   Utente: richiede logout   |
+|       2        |   Sistema: elabora la richiesta e permette il logout  |
 
 ### Use case 9, UC9: Visualizzazione carrello
 
@@ -577,7 +565,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ##### Scenario 10.5
 
-| Scenario 10.5 | rimozione prodotto |
+| Scenario 10.5 | Rimozione prodotto |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Sistema toglie il prodotto dal carrello |
@@ -589,7 +577,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ##### Scenario 10.6
 
-| Scenario 10.6 | non si ha un carrello |
+| Scenario 10.6 | Carrello non esiste |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Sistema ritorna errore |
@@ -599,113 +587,13 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ##### Scenario 10.7
 
-| Scenario 10.7 | eliminazione carrello attuale |
+| Scenario 10.7 | Eliminazione carrello corrente |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Sistema elimina il carrello |
 | Step# | Descrizione |
 | 1 | Cliente: chiede di rimuovere il carrello|
 | 2 | Sistema: elimina il carrello |
-
-##### Scenario 3.1
-
-|  Scenario 3.1  |  Creazione account  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente non registrato |
-| Post condition |  Utente registrato  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: fornisce dati per la registrazione (username, name, surname, password, ruolo)  |
-|       2        |   Sistema: elabora le informazioni e permette la registrazione dell'account  |
-
-##### Scenario 3.2
-
-|  Scenario 3.2  |  Utente già registrato  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente registrato |
-| Post condition |  Utente registrato  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: fornisce dati per la registrazione (username, name, surname, password, ruolo)   |
-|       2        |   Sistema: elabora le richiesta e npon permette la registrazione, l'utente è già registrato  |
-
-### Use case 4, UC4: Visualizzazione utente
-
-| Actors Involved  |  Utente     |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Utente loggato, ricerca informazioni su altri utenti |
-|  Post condition  |  Visualizzazione informazioni  |
-| Nominal Scenario | Scenario 4.1, 4.2, 4.3   |
-|    Varianti     |                      No             |
-|    Eccezioni    |  Scenario 4.4 |
-
-##### Scenario 4.1
-
-|  Scenario 4.1  |  Visualizzazione lista di tutti gli utenti  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
-| Post condition |  Visualizzazione informazioni di tutti gli utenti  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: richiede informazioni di tutti gli utenti  |
-|       2        |   Sistema: elabora la richiesta e fornisce una lista con tutte le informazioni di tutti gli utenti (username, name, surname, password, ruolo)  |
-
-##### Scenario 4.2
-
-|  Scenario 4.2  |  Visualizzazione informazioni degli utenti per ruolo  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
-| Post condition |  Visualizzazione informazioni degli utenti per ruolo  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: richiede informazioni di tutti i clienti oppure di tutti i managers  |
-|       2        |   Sistema: elabora la richiesta e fornisce una lista con tutte le informazioni di tutti i clienti oppure di tutti i managers (username, name, surname, password, ruolo) |
-
-##### Scenario 4.3
-
-|  Scenario 4.3  |  Visualizzazione utente con specifico username  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
-| Post condition | Visualizzazione informazioni dell'utente richiesto  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: richiede informazioni di un utente inserendo il suo username  |
-|       2        |   Sistema: elabora le informazioni e fornisce le informazioni dell'utente richiesto (username, name, surname, password, ruolo)  |
-
-##### Scenario 4.4
-
-|  Scenario 4.4  |  Utente non presente nel database  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
-| Post condition |  Nessuna visualizzazione  |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: richiede informazioni di un utente inserendo il suo username   |
-|       2        |   Sistema: elabora le informazioni e non permette nessuna visualizzazione, l'utente non esiste con quel username  |
-
-### Use case 5, UC4: Modifica utente
-
-| Actors Involved  |  Admin  |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Admin gestisce gli account |
-|  Post condition  | Account richiesto eliminato  |
-| Nominal Scenario | Scenario 5.1 |
-|    Varianti     |                      No             |
-|    Eccezioni    | Scenario 5.2 |
-
-##### Scenario 5.1
-
-|  Scenario 5.1  | Eliminazione di uno specifico utente a partire dal username  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Admin gestisce gli account |
-| Post condition |  Account richiesto eliminato |
-|     Step#      |               Descrizione    |
-|       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
-|       2        |   Sistema: elabora la richiesta ed elimina l'account  |
-
-##### Scenario 5.2
-
-|  Scenario 5.2  |  Username non esiste  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  |  Admin gestisce gli account |
-| Post condition |   Account richiesto non eliminato |
-|     Step#      |               Descrizione    |
-|       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
-|       2        |   Sistema: elabora la richiesta e non elimina l'account, lo username richiesto non esiste |
 
 ## Glossary
 
