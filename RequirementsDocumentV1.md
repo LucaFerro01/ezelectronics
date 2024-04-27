@@ -87,14 +87,14 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ## Context Diagram
 
-![image](context-diagram.png "context diagram")
+![image](context-diagram-v1.png "context diagram")
 
 ## Interfaces
 
 |   Actor   | Logical Interface | Physical Interface |
 | :-------: | :---------------: | :----------------: |
-| Cliente | Smartphone / PC | GUI (tbd – mostrare i prodotti, riempire il carrello, visionare vecchi carrelli, modificare carrello, effettuare l’ordine) |
-| Manager | Smartphone / PC | GUI (tbd – inserire prodotti, modificare prodotti) |
+| Cliente | Smartphone / PC | GUI (tbd – mostrare i prodotti, riempire il carrello, visionare vecchi carrelli, modificare carrello, effettuare l’ordine, creazione / rimozione account, login / logout) |
+| Manager | Smartphone / PC | GUI (tbd – inserire prodotti, modificare prodotti, creazione / rimozione account, login / logout) |
 
 # Stories and personas
 
