@@ -134,12 +134,12 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 |   ID    | Type (efficiency, reliability, ..) | Description | Refers to |
 | :-----: | :--------------------------------: | :---------: | :-------: |
-|  NFR1   | Usabilità | Gli utenti non devono avere bisogno di training per l'utilizzo del sito web | FR2, FR3, FR5 |
-|  NFR2   | Usabilità | Il sito deve essere facilmente accessibile e comprensibile | FR1, FR2, FR3, FR5 |
-|  NFR3   | Efficienza | Tutte le funzionalità del sito web devono completarsi in un tempo < 0.1 sec (escludendo la rete) | FR1, FR2, FR3, FR4, FR5 |
-|  NFR4   | Affidabilità | Ogni utente non deve segnalare più di un bug all’anno | FR2, FR3, FR5 |
+|  NFR1   | Usabilità | Gli utenti non devono avere bisogno di training per l'utilizzo del sito web | FR2, FR3|
+|  NFR2   | Usabilità | Il sito deve essere facilmente accessibile e comprensibile | FR1, FR2, FR3|
+|  NFR3   | Efficienza | Tutte le funzionalità del sito web devono completarsi in un tempo < 0.1 sec (escludendo la rete) | FR1, FR2, FR3, FR4|
+|  NFR4   | Affidabilità | Ogni utente non deve segnalare più di un bug all’anno | FR2, FR3|
 |  NFR5   | Affidabilità | Backup regolare dei dati per evitare malfunzionamenti e perdita / dispersione di dati | FR3, FR4 |
-|  NFR6   | Portabilità | Disponibilità del website su: Google Chrome, Safari, Mozilla Firefox per Windows 10 e 11 e macOS 14 | FR1, FR2, FR3, FR4, FR5 |
+|  NFR6   | Portabilità | Disponibilità del website su: Google Chrome, Safari, Mozilla Firefox per Windows 10 e 11 e macOS 14 | FR1, FR2, FR3, FR4|
 
 # Use case diagram and use cases
 
@@ -601,11 +601,10 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ## Table
 
-  1. **User**: un utente caratterizzato dal assegnazione di uno tra due ruoli:
-     - **Menager**(a): utente che gestisce i prodotti all'interno del magazzino (inserendo i nuovi prodotti arrivati, eliminando quelli non più disponibili, gestendo l'invio dei prodotti acquistati dai customer)
-     - **Menager**(b): utente che gestisce i prodotti all'interno del magazzino (inserendo i nuovi prodotti arrivati, eliminando quelli non più disponibili)
-     - **Customer**: colui che effettua un qualunque acquisto sul sito, tramite diversi metodi di pagamento, inserendo i prodotti scelti nel carrello.
-  1. **Product**: prodotto disponibile attraverso il sito, che può essere acquistato nel caso in cui sia ancora presente in stock o non sia stato ancora acquistato da un'altro utente.
+  1. **Utente**: un utente caratterizzato dal assegnazione di uno tra due ruoli:
+     - **Manager**(a): utente che gestisce i prodotti all'interno del magazzino (inserendo i nuovi prodotti arrivati, eliminando quelli non più disponibili, gestendo l'invio dei prodotti acquistati dai customer)
+     - **Cliente**: colui che effettua un qualunque acquisto sul sito, tramite diversi metodi di pagamento, inserendo i prodotti scelti nel carrello.
+  1. **Prodotto**: prodotto disponibile attraverso il sito, che può essere acquistato nel caso in cui sia ancora presente in stock o non sia stato ancora acquistato da un'altro utente.
   1. **Carrello**: lista di prodotti scelti dal utente per essere acquistati. Un prodotto può essere inserito nel carrello e poi acquistato in due momenti diversi.
      - **Acquisto**: momento in cui si comprano i prodotti inseriti nel carrello.
 
