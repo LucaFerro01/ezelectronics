@@ -110,15 +110,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 * **Persona 3:** donna, 70 anni, vedova, pensionata
   * **Storia:** è alla ricerca di una tv da usare durante il suo tempo libero. Le serve cercare su una *piattaforma facile da usare* per completare il suo acquisto. 
 * **Persona 4:** uomo, 35 anni, sposato, con figli, docente
-<<<<<<< HEAD
   * **Storia:** ogni anno fa degli acquisti per la propria classe. Ha necessità di fare ordini molto spesso, quindi cerca una *piattaforma con un'interfaccia intuitiva* che gli faccia perdere meno tempo possibile e con cui poter fare degli ordini *periodici*.
 * **Persona 5:** donna, 40 anni, sposata, con figli, medico
   *  **Storia:** sta cercando un regalo da fare a sua figlia e vorrebbe *conoscere le opinioni di altri utenti* riguardo diversi prodotti.
-=======
-  * **Storia:** ogni anno fa degli acquisti per la propria classe. Ha necessità di fare ordini molto spesso, quindi cerca una *piattaforma con un'interfaccia intuitiva* che gli faccia perdere meno tempo possibile.
-  * **Persona 5:** 
-  * **Storia:** .
->>>>>>> db3e56e640f265a31ec238c05aa10c342576da27
 
 # Functional and non functional requirements
 
@@ -134,17 +128,15 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |  **FR2**  | **Autenticazione e autorizzazione**            |
 | FR2.1 | Creazione nuovo utente |
 | FR2.2 | Visualizzazione utente (visualizzazione singolo utente, info utente loggato) |
-| FR2.3 | Modifica utente |
-| FR2.4 | Login / logout utente |
+| FR2.3 | Login / logout utente |
 |  **FR3**  | **Gestione carrello** |
 | FR3.1 | Visualizzazione carrello (carrello attuale del cliente, fornire la cronologia dei carrelli pagati) |
-| FR3.2 | Modifica carrello (aggiunta di un prodotto, rimozione di un prodotto, cancellazione del carrello, cancellazione di tutti i carrelli) |
+| FR3.2 | Modifica carrello (aggiunta di un prodotto, rimozione di un prodotto, svuotamento carrello) |
 | FR3.3 | Esecuzione del pagamento del carrello |
 | FR3.4 | Reorder carrello precedente |
 |  **FR4**  | **Gestione applicazione**    |
-| FR4.1 | Manutenzione sito |
-| FR4.2 | Visualizzazione utente (elenco utenti, elenco utenti con un ruolo) |
-| FR4.3 | Gestione account |
+| FR4.1 | Visualizzazione utente (elenco utenti, elenco utenti con un ruolo) |
+| FR4.2 | Gestione account |
 |  **FR5**  | **Gestione pagamento** |
 | FR5.1 | Pagamento carrello corrente |
 |  **FR6**  | **Gestione recensioni** |
@@ -153,8 +145,6 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | FR6.2 | Rimozione recensione |
 
 ## Non Functional Requirements
-
-\<Describe constraints on functional requirements>
 
 |   ID    | Type (efficiency, reliability, ..) | Description | Refers to |
 | :-----: | :--------------------------------: | :---------: | :-------: |
@@ -171,15 +161,15 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ![image](use-case-diagram-v2.png "use case diagram")
 
-### Use case 1, UC1
+### Use case 1, UC1: Creazione prodotto
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| Actors involved | Manager |
+| :-------------- | :------ |
+| Precondition    | Manager loggato |
+| Post condition  | Database dei prodotti aggiornato |
+| Nominal scenario | 1.1, 1.2 |
+| Variants | - |
+| Exceptions | 1.3, 1.4 |
 
 ##### Scenario 1.1
 
@@ -277,19 +267,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ##### Scenario 2.4
 
-| Scenario 2.4 | Prodotto già segnato come venduto |
-| :----------- | :--------------------------------- |
-| Precondition | Manager loggato |
-| Post condition | Operazione fallita |
-| Step# | Descrizione |
-| 1 | Manager: chiede di marcare un prodotto come venduto |
-| 2 | Sistema: chiede di inserire il codice del prodotto e la data di vendita opzionalmente |
-| 3 | Manager: inserisce un codice di prodotto già segnato come venduto |
-| 4 | Sistema: ritorna un error |
-
-##### Scenario 2.5
-
-| Scenario 2.5 | Eliminazione di un prodotto |
+| Scenario 2.4 | Eliminazione di un prodotto |
 | :----------- | :--------------------------------- |
 | Precondition | Manager loggato |
 | Post condition | Eliminazione del prodotto dal database |
@@ -299,9 +277,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | Manager: inserisce il codice del prodotto  |
 | 4 | Sistema: toglie il prodotto dal database |
 
-##### Scenario 2.6
+##### Scenario 2.5
 
-| Scenario 2.6 | Eliminazione di un prodotto già assente dal database |
+| Scenario 2.5 | Eliminazione di un prodotto già assente dal database |
 | :----------- | :--------------------------------- |
 | Precondition | Manager loggato |
 | Post condition | Eliminazione del prodotto dal database |
@@ -425,50 +403,19 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |       1        |   Utente: richiede informazioni di un utente inserendo il suo username   |
 |       2        |   Sistema: elabora le informazioni e non permette nessuna visualizzazione, l'utente non esiste con quel username  |
 
-### Use case 6, UC6: Modifica utente
-
-| Actors Involved  |  Utente  |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Utente gestisce gli account |
-|  Post condition  | Account richiesto eliminato  |
-| Nominal Scenario | Scenario 6.1 |
-|    Varianti     |                      No             |
-|    Eccezioni    | Scenario 6.2 |
-
-##### Scenario 6.1
-
-|  Scenario 6.1  | Eliminazione di uno specifico utente a partire dal username  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente non loggato gestisce gli account |
-| Post condition |  Account richiesto eliminato |
-|     Step#      |               Descrizione    |
-|       1        |   Utente: richiede la cancellazione di un account fornendo lo username  |
-|       2        |   Sistema: elabora la richiesta ed elimina l'account  |
-
-##### Scenario 6.2
-
-|  Scenario 6.2  |  Username non esiste  |
-| :------------: | :------------------------------------------------------------------------: |
-|  Precondition  |  Utente non loggato gestisce gli account |
-| Post condition |   Account richiesto non eliminato |
-|     Step#      |               Descrizione    |
-|       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
-|       2        |   Sistema: elabora la richiesta e non elimina l'account, lo username richiesto non esiste |
-
-
-### Use case 7, UC7: Login
+### Use case 6, UC6: Login
 
 | Actors Involved  |  Utente  |
 | :--------------: | :------------------------------------------------------------------: |
 |   Precondition   | Utente registrato e non loggato |
 |  Post condition  |  Utente loggato  |
-| Nominal Scenario |   Scenario 7.1  |
+| Nominal Scenario |   Scenario 6.1  |
 |     Variants     |   No    |
 |    Exceptions    |   No   |
 
-##### Scenario 7.1
+##### Scenario 6.1
 
-|  Scenario 7.1  |  Login  |
+|  Scenario 6.1  |  Login  |
 | :------------: | :------------------------------------------------------------------------: |
 |  Precondition  | Utente registrato e non loggato |
 | Post condition |  Utente loggato  |
@@ -477,19 +424,19 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |       2        |   Utente: fornisce email e password  |
 |      3      |   Sistema: elabora le informazioni e autorizza l’utente a fare login |
 
-### Use case 8, UC8: Logout
+### Use case 7, UC7: Logout
 
 | Actors Involved  |  Utente     |
 | :--------------: | :------------------------------------------------------------------: |
 |   Precondition   | Utente loggato |
 |  Post condition  |  Utente non loggato  |
-| Nominal Scenario | Scenario 8.1   |
+| Nominal Scenario | Scenario 7.1   |
 |    Varianti     |                      No             |
 |    Eccezioni    |    No   |
 
-##### Scenario 8.1
+##### Scenario 7.1
 
-|  Scenario 8.1  |  Logout  |
+|  Scenario 7.1  |  Logout  |
 | :------------: | :------------------------------------------------------------------------: |
 |  Precondition  | Utente loggato |
 | Post condition |  Utente non loggato  |
@@ -497,19 +444,19 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |       1        |   Utente: richiede logout   |
 |       2        |   Sistema: elabora la richiesta e permette il logout  |
 
-### Use case 9, UC9: Visualizzazione carrello
+### Use case 8, UC8: Visualizzazione carrello
 
 | Actors involved | Cliente |
 | :-------------- | :------ |
 | Precondition    | Cliente loggato |
 | Post condition  | Visualizzazione dei prodotti di un carrello |
-| Nominal scenario | 9.1, 9.2, 9.3 |
+| Nominal scenario | 8.1, 8.2, 8.3 |
 | Variants | - |
 | Exceptions |  |
 
-##### Scenario 9.1
+##### Scenario 8.1
 
-| Scenario 9.1 | Visualizzazione del carrello attuale |
+| Scenario 8.1 | Visualizzazione del carrello attuale |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Visualizzazione del carrello attuale dell'utente loggato |
@@ -517,9 +464,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 1 | Cliente: chiede di visualizzare il carrello |
 | 2 | Sistema: torna l'elenco dei prodotti presenti nel carrello |
 
-##### Scenario 9.2
+##### Scenario 8.2
 
-| Scenario 9.2 | Visualizzazione della storia dei carrelli già pagati |
+| Scenario 8.2 | Visualizzazione della storia dei carrelli già pagati |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Visualizzazione dei carrelli già pagati dal cliente |
@@ -527,9 +474,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 1 | Cliente: chiede di visualizzare i carrelli |
 | 2 | Sistema: torna l'elenco dei vecchi carrelli già pagati |
 
-##### Scenario 9.3
+##### Scenario 8.3
 
-| Scenario 9.3 | Reorder di un vecchio carrello presente nello storico |
+| Scenario 8.3 | Reorder di un vecchio carrello presente nello storico |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Nuovo ordine corrispondente ad un precedente carrello |
@@ -540,19 +487,19 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 4 | Sistema: avvia la transazione |
 
 
-### Use case 10, UC10: Modifica carrello
+### Use case 9, UC9: Modifica carrello
 
 | Actors involved | Cliente |
 | :-------------- | :------ |
 | Precondition    | Cliente loggato |
 | Post condition  | Modifica del carrello |
-| Nominal scenario | 10.1, 10.5, 10.7 |
+| Nominal scenario | 9.1, 9.5, 9.7 |
 | Variants | - |
-| Exceptions | 10.2, 10.3, 10.4, 10.6 |
+| Exceptions | 9.2, 9.3, 9.4, 9.6 |
 
-##### Scenario 10.1
+##### Scenario 9.1
 
-| Scenario 10.1 | Aggiunta di un prodotto |
+| Scenario 9.1 | Aggiunta di un prodotto |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Aggiunta di un prodotto al carrello |
@@ -562,7 +509,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | cliente: inserisce id del prodotto  |
 | 4 | sistema: aggiunge il prodotto all'elenco dei prodotti del carrello attuale |
 
-##### Scenario 10.2
+##### Scenario 9.2
 
 | Scenario 10.2 | Il prodotto non può essere aggiunto o rimosso  |
 | :----------- | :----------------- |
@@ -575,33 +522,21 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 4 | sistema: ritorna 409 error |
 
 
-##### Scenario 10.3
+##### Scenario 9.3
 
-| Scenario 10.3 | Il prodotto non può essere rimosso  |
+| Scenario 9.3 | Il prodotto non può essere rimosso  |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Sistema ritorna errore |
 | Step# | Descrizione |
 | 1 | Cliente: chiede di inserire il prodotto al carrello |
 | 2 | Sistema: chiede id del prodotto  |
-| 3 | cliente: inserisce un id relativo ad un prodotto non nel carrello o presente in un altro carrello |
+| 3 | cliente: inserisce un id relativo ad un prodotto non nel carrello |
 | 4 | sistema: ritorna 404 error |
 
-##### Scenario 10.4
+##### Scenario 9.4
 
-| Scenario 10.4 | Id del prodotto non valido |
-| :----------- | :----------------- |
-| Precondition | Cliente loggato |
-| Post condition | Sistema ritorna errore |
-| Step# | Descrizione |
-| 1 | Cliente: chiede di inserire o rimuovere il prodotto nel carrello |
-| 2 | Sistema: chiede id del prodotto  |
-| 3 | cliente: inserisce un id non valido    |
-| 4 | sistema: ritorna 404 error |
-
-##### Scenario 10.5
-
-| Scenario 10.5 | Rimozione prodotto |
+| Scenario 9.4 | Rimozione prodotto |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Sistema toglie il prodotto dal carrello |
@@ -611,41 +546,79 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 3 | cliente: inserisce un id valido  |
 | 4 | sistema: toglie il prodotto dal carrello |
 
-##### Scenario 10.6
+##### Scenario 9.5
 
-| Scenario 10.6 | Carrello non esiste |
+| Scenario 9.5 | Svuota carrello corrente |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
-| Post condition | Sistema ritorna errore |
+| Post condition | Sistema svuota il carrello |
 | Step# | Descrizione |
-| 1 | Cliente: chiede di rimuovere il prodotto dal carrello o di eliminare il carello |
-| 2 | Sistema: ritorna error 404 perchè non esiste un carrello |
+| 1 | Cliente: chiede di svuotare il carrello|
+| 2 | Sistema: svuota il carrello |
 
-##### Scenario 10.7
+### Use case 10, UC10: Gestione applicazione
 
-| Scenario 10.7 | Eliminazione carrello corrente |
-| :----------- | :----------------- |
-| Precondition | Cliente loggato |
-| Post condition | Sistema elimina il carrello |
+| Actors involved | Admin |
+| :-------------- | :------ |
+| Precondition    | Utente loggato come cliente |
+| Post condition  | Accesso al servizio di pagamento |
+| Nominal scenario | 10.1, 10.2 |
+| Variants | - |
+| Exceptions ||
+
+##### Scenario 10.1
+
+| Scenario 10.1 | Visualizzazione utente
+| :----------- | :---------------------------------- |
+| Precondition | Admin loggato |
+| Post condition | Visualizzazione dell'account dell'utente |
 | Step# | Descrizione |
-| 1 | Cliente: chiede di rimuovere il carrello|
-| 2 | Sistema: elimina il carrello |
+| 1 | Admin: Richiede la visualizzazione di un account inserendo lo username |
+| 2 | Sistema: Mostra l'account con le specifiche |
 
+##### Scenario 10.2
 
+| Scenario 10.2 | Gestione account
+| :----------- | :---------------------------------- |
+| Precondition | Admin loggato |
+| Post condition | Rimozione account individuato |
+| Step# | Descrizione |
+| 1 | Admin: Richiede la rimozione di un account inserendo lo username |
+| 2 | Sistema: Rimuove l'account selezionato |
 
-### Use case 11, UC3: Gestione recensione
+### Use case 11, UC11: Gestione pagamento
 
 | Actors involved | Utente |
 | :-------------- | :------ |
 | Precondition    | Utente loggato come cliente |
-| Post condition  | aggiornamento database recensioni |
-| Nominal scenario | 11.1, 11.2, 11.3 |
+| Post condition  | Accesso al servizio di pagamento |
+| Nominal scenario | 11.1 |
 | Variants | - |
 | Exceptions ||
 
 ##### Scenario 11.1
 
-| Scenario 11.1 | Visualizzazione di tutte le recensioni di un prodotto
+| Scenario 11.1 | Pagamento del carrello corrente
+| :----------- | :---------------------------------- |
+| Precondition | Utente loggato come cliente |
+| Post condition | Accesso al servizio di pagamento |
+| Step# | Descrizione |
+| 1 | Utente: visualizza il carrello e procede al pagamento |
+| 2 | Sistema: rinvia al sito del servizio di pagamneto |
+
+### Use case 12, UC12: Gestione recensione
+
+| Actors involved | Utente |
+| :-------------- | :------ |
+| Precondition    | Utente loggato come cliente |
+| Post condition  | aggiornamento database recensioni |
+| Nominal scenario | 12.1, 12.2, 12.3 |
+| Variants | - |
+| Exceptions ||
+
+##### Scenario 12.1
+
+| Scenario 12.1 | Visualizzazione di tutte le recensioni di un prodotto
 | :----------- | :---------------------------------- |
 | Precondition | Utente loggato come cliente |
 | Post condition | Visualizzazione di tutti le recensioni nel database |
@@ -653,9 +626,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 1 | Utente: visualizza il prodotto |
 | 2 | Sistema: carica tutte le recensioni memorizzate nel database e relative a quel prodotto |
 
-##### Scenario 11.2
+##### Scenario 12.2
 
-| Scenario 11.2 | Inserisci recensione
+| Scenario 12.2 | Inserisci recensione
 | :----------- | :---------------------------------- |
 | Precondition | Utente loggato come cliente |
 | Post condition | Nuova recensione inserita |
@@ -663,11 +636,11 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | 1 | Utente: visualizza il prodotto e chiede di inserire una recensione |
 | 2 | Sistema: chiede il testo della recensione |
 | 3 | Utente: chiede il testo della recensione |
-| 4 | Sistema: inserisce la nuova recensione al database 
+| 4 | Sistema: inserisce la nuova recensione al database |
 
-##### Scenario 11.3
+##### Scenario 12.3
 
-| Scenario 11.3 | Elimina recensione
+| Scenario 12.3 | Elimina recensione
 | :----------- | :---------------------------------- |
 | Precondition | Utente loggato come cliente |
 | Post condition | Elimina recensione inserita |

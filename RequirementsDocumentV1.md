@@ -426,7 +426,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |  Precondition  |  Utente non loggato gestisce gli account |
 | Post condition |   Account richiesto non eliminato |
 |     Step#      |               Descrizione    |
-|       1        |   Admin: richiede la cancellazione di un account fornendo lo username  |
+|       1        |   Utente: richiede la cancellazione di un account fornendo lo username  |
 |       2        |   Sistema: elabora la richiesta e non elimina l'account, lo username richiesto non esiste |
 
 
