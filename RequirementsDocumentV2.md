@@ -94,7 +94,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | FR3.1 | Visualizzazione carrello (carrello attuale del cliente, fornire la cronologia dei carrelli pagati) |
 | FR3.2 | Modifica carrello (aggiunta di un prodotto, rimozione di un prodotto, cancellazione del carrello, cancellazione di tutti i carrelli) |
 | FR3.3 | Esecuzione del pagamento del carrello |
-| FR3.3 | Reorder carrello precedente |
+| FR3.4 | Reorder carrello precedente |
 |  **FR4**  | **Gestione applicazione**    |
 | FR4.1 | Manutenzione sito |
 | FR4.2 | Visualizzazione utente (elenco utenti, elenco utenti con un ruolo) |
@@ -125,6 +125,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ## Use case diagram
 
+![image](use-case-diagram-v2.png)
 
 
 # Glossary
