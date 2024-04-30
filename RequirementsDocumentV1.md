@@ -104,7 +104,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
   * **Storia:** sta cercando un dispositivo gps per rilevare la posizione del proprio cane. Non ha problemi di budget, ma ha bisogno del *dispositivo con le migliori prestazioni*.
 * **Persona 3:** donna, 70 anni, vedova, pensionata
   * **Storia:** è alla ricerca di una tv da usare durante il suo tempo libero. Le serve cercare su una *piattaforma facile da usare* per completare il suo acquisto. 
-* **Persona 4:** uomo, 35 anni, sposato, con figli, informatico
+* **Persona 4:** uomo, 35 anni, sposato, con figli, docente
   * **Storia:** ogni anno fa degli acquisti per la propria classe. Ha necessità di fare ordini molto spesso, quindi cerca una *piattaforma con un'interfaccia intuitiva* che gli faccia perdere meno tempo possibile.
 
 # Functional and non functional requirements
