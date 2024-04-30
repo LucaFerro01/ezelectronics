@@ -44,6 +44,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |        Cliente         | Cliente del sito web che visualizza i prodotti e può inserirli nel carrello           |
 |        Manager        | Figura che gestisce l'inserimento, la modifica e la rimozione dei prodotti sul sito            |
 |        Admin           | Sviluppatore che gestisce la creazione e accesso dell'utente           |
+|  Metodo di pagamento  | Servizio che permette il pagamento dell'ordine online attraverso una piattaforma esterna        |
 
 # Context Diagram and interfaces
 
@@ -58,6 +59,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | Cliente | Smartphone / PC | GUI (tbd – mostrare i prodotti, riempire il carrello, visionare vecchi carrelli, modificare carrello, effettuare l’ordine, login / logout) |
 | Manager | Smartphone / PC | GUI (tbd – inserire prodotti, modificare prodotti, login / logout) |
 | Admin | PC | GUI (tbd – creazione / rimozione account) |
+| Metodo di pagamento | Internet | GUI (tbd – ) |
 
 # Stories and personas
 
