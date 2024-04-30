@@ -161,11 +161,9 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |  NFR1   | Usabilità | Gli utenti non devono avere bisogno di training per l'utilizzo del sito web | FR2, FR3|
 |  NFR2   | Usabilità | Il sito deve essere facilmente accessibile e comprensibile | FR1, FR2, FR3|
 |  NFR3   | Efficienza | Tutte le funzionalità del sito web devono completarsi in un tempo < 0.1 sec (escludendo la rete) | FR1, FR2, FR3|
-|  NFR4   | Efficienza | L'accesso al servizio esterno di pagamento deve completarsi in un tempo < 0.5 sec | FR5|
-|  NFR5   | Affidabilità | Ogni utente non deve segnalare più di un bug all’anno | FR2, FR3|
-|  NFR6   | Affidabilità | Backup regolare dei dati per evitare malfunzionamenti e perdita / dispersione di dati | FR3|
-|  NFR7   | Affidabilità | Garanzia di crittografia per le informazioni sensibili |FR5|
-|  NFR8   | Portabilità | Disponibilità del website su: Google Chrome, Safari, Mozilla Firefox per Windows 10 e 11 e macOS 14 | FR1, FR2, FR3|
+|  NFR4   | Affidabilità | Ogni utente non deve segnalare più di un bug all’anno | FR2, FR3|
+|  NFR5   | Affidabilità | Backup regolare dei dati per evitare malfunzionamenti e perdita / dispersione di dati | FR3|
+|  NFR6   | Portabilità | Disponibilità del website su: Google Chrome, Safari, Mozilla Firefox per Windows 10 e 11 e macOS 14 | FR1, FR2, FR3|
 
 # Use case diagram and use cases
 
