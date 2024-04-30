@@ -63,16 +63,11 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 # Stories and personas
 
-* **Persona 1:** donna, 25 anni, nubile, studentessa
-  * **Storia:** ha bisogno di un nuovo tablet con cui studiare, il suo tablet attuale non funziona più. Deve trovare un nuovo tablet che abbia un *il costo più contenuto possibile*, anche con funzionalità limitate.
-* **Persona 2:** uomo, 50 anni, sposato con figli, poliziotto
-  * **Storia:** sta cercando un dispositivo gps per rilevare la posizione del proprio cane. Non ha problemi di budget, ma ha bisogno del *dispositivo con le migliori prestazioni*.
-* **Persona 3:** donna, 70 anni, vedova, pensionata
-  * **Storia:** è alla ricerca di una tv da usare durante il suo tempo libero. Le serve cercare su una *piattaforma facile da usare* per completare il suo acquisto. 
-* **Persona 4:** uomo, 35 anni, sposato, con figli, docente
-  * **Storia:** ogni anno fa degli acquisti per la propria classe. Ha necessità di fare ordini molto spesso, quindi cerca una *piattaforma con un'interfaccia intuitiva* che gli faccia perdere meno tempo possibile e con cui poter fare degli ordini *periodici*.
-* **Persona 5:** donna, 40 anni, sposata, con figli, medico
-  *  **Storia:** sta cercando un regalo da fare a sua figlia e vorrebbe *conoscere le opinioni di altri utenti* riguardo diversi prodotti.
+\<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
+
+\<Persona is-an-instance-of actor>
+
+\<stories will be formalized later as scenarios in use cases>
 
 # Functional and non functional requirements
 
@@ -170,16 +165,12 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 # Glossary
 
-\<use UML class diagram to define important terms, or concepts in the domain of the application, and their relationships>
-
-\<concepts must be used consistently all over the document, ex in use cases, requirements etc>
+![Class Diagram](./ClassDiagramV2.png)
 
 # System Design
 
-\<describe here system design>
-
-\<must be consistent with Context diagram>
+![System Design](./SystemDesignV2.png)
 
 # Deployment Diagram
 
-\<describe here deployment diagram >
+![Deployment Design](./Deployment%20Design.png)
