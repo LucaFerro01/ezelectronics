@@ -59,29 +59,52 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | Cliente | Smartphone / PC | GUI (tbd – mostrare i prodotti, riempire il carrello, visionare vecchi carrelli, modificare carrello, effettuare l’ordine, login / logout) |
 | Manager | Smartphone / PC | GUI (tbd – inserire prodotti, modificare prodotti, login / logout) |
 | Admin | PC | GUI (tbd – creazione / rimozione account) |
-| Metodo di pagamento | Internet | GUI (tbd – ) |
+| Metodo di pagamento | Internet | http://satispay.com/... |
 
 # Stories and personas
 
-\<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
-
-\<Persona is-an-instance-of actor>
-
-\<stories will be formalized later as scenarios in use cases>
+* **Persona 1:** donna, 25 anni, nubile, studentessa
+  * **Storia:** ha bisogno di un nuovo tablet con cui studiare, il suo tablet attuale non funziona più. Deve trovare un nuovo tablet che abbia un *il costo più contenuto possibile*, anche con funzionalità limitate.
+* **Persona 2:** uomo, 50 anni, sposato con figli, poliziotto
+  * **Storia:** sta cercando un dispositivo gps per rilevare la posizione del proprio cane. Non ha problemi di budget, ma ha bisogno del *dispositivo con le migliori prestazioni*.
+* **Persona 3:** donna, 70 anni, vedova, pensionata
+  * **Storia:** è alla ricerca di una tv da usare durante il suo tempo libero. Le serve cercare su una *piattaforma facile da usare* per completare il suo acquisto. 
+* **Persona 4:** uomo, 35 anni, sposato, con figli, docente
+  * **Storia:** ogni anno fa degli acquisti per la propria classe. Ha necessità di fare ordini molto spesso, quindi cerca una *piattaforma con un'interfaccia intuitiva* che gli faccia perdere meno tempo possibile.
+  * **Persona 5:** 
+  * **Storia:** .
 
 # Functional and non functional requirements
 
 ## Functional Requirements
 
-\<In the form DO SOMETHING, or VERB NOUN, describe high level capabilities of the system>
-
-\<they match to high level use cases>
-
 |  ID   | Description |
 | :---: | :---------: |
-|  FR1  |             |
-|  FR2  |             |
-| FRx.. |             |
+|  **FR1**  | **Gestione prodotti** |
+|  FR1.1  | Creazione prodotto |
+|  FR1.2  | Inserimento set di prodotto |
+|  FR1.3  | Modifica prodotto (contrassegna venduti, cancellazione di tutti i prodotti, cancellazione prodotto) |
+|  FR1.4  | Visualizzazione prodotto (elenco prodotti, info su un prodotto, elenco prodotti di una categoria, elenco prodotti di un modello) |
+|  **FR2**  | **Autenticazione e autorizzazione**            |
+| FR2.1 | Creazione nuovo utente |
+| FR2.2 | Visualizzazione utente (visualizzazione singolo utente, info utente loggato) |
+| FR2.3 | Modifica utente |
+| FR2.4 | Login / logout utente |
+|  **FR3**  | **Gestione carrello** |
+| FR3.1 | Visualizzazione carrello (carrello attuale del cliente, fornire la cronologia dei carrelli pagati) |
+| FR3.2 | Modifica carrello (aggiunta di un prodotto, rimozione di un prodotto, cancellazione del carrello, cancellazione di tutti i carrelli) |
+| FR3.3 | Esecuzione del pagamento del carrello |
+| FR3.3 | Reorder carrello precedente |
+|  **FR4**  | **Gestione applicazione**    |
+| FR4.1 | Manutenzione sito |
+| FR4.2 | Visualizzazione utente (elenco utenti, elenco utenti con un ruolo) |
+| FR4.3 | Gestione account |
+|  **FR5**  | **Gestione pagamento** |
+| FR5.1 | Pagamento carrello corrente |
+|  **FR6**  | **Gestione recensioni** |
+| FR6.1 | Visualizzazione recensione per prodotto |
+| FR6.2 | Inserimento recensione |
+| FR6.2 | Rimozione recensione |
 
 ## Non Functional Requirements
 
@@ -89,10 +112,12 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 |   ID    | Type (efficiency, reliability, ..) | Description | Refers to |
 | :-----: | :--------------------------------: | :---------: | :-------: |
-|  NFR1   |                                    |             |           |
-|  NFR2   |                                    |             |           |
-|  NFR3   |                                    |             |           |
-| NFRx .. |                                    |             |           |
+|  NFR1   | Usabilità | Gli utenti non devono avere bisogno di training per l'utilizzo del sito web | FR2, FR3|
+|  NFR2   | Usabilità | Il sito deve essere facilmente accessibile e comprensibile | FR1, FR2, FR3|
+|  NFR3   | Efficienza | Tutte le funzionalità del sito web devono completarsi in un tempo < 0.1 sec (escludendo la rete) | FR1, FR2, FR3|
+|  NFR4   | Affidabilità | Ogni utente non deve segnalare più di un bug all’anno | FR2, FR3|
+|  NFR5   | Affidabilità | Backup regolare dei dati per evitare malfunzionamenti e perdita / dispersione di dati | FR3|
+|  NFR6   | Portabilità | Disponibilità del website su: Google Chrome, Safari, Mozilla Firefox per Windows 10 e 11 e macOS 14 | FR1, FR2, FR3|
 
 # Use case diagram and use cases
 
