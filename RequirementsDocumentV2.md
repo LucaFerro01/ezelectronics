@@ -24,11 +24,51 @@ Version: V1 - description of EZElectronics in FUTURE form (as proposed by the te
 - [Use case diagram and use cases](#use-case-diagram-and-use-cases)
   - [Use case diagram](#use-case-diagram)
     - [Use case 1, UC1](#use-case-1-uc1)
-      - [Scenario 1.1](#scenario-11)
-      - [Scenario 1.2](#scenario-12)
-      - [Scenario 1.x](#scenario-1x)
-    - [Use case 2, UC2](#use-case-2-uc2)
-    - [Use case x, UCx](#use-case-x-ucx)
+        - [Scenario 1.1](#scenario-11)
+        - [Scenario 1.2](#scenario-12)
+        - [Scenario 1.3](#scenario-13)
+        - [Scenario 1.4](#scenario-14)
+    - [Use case 2, UC2: Modifica prodotto](#use-case-2-uc2-modifica-prodotto)
+        - [Scenario 2.1](#scenario-21)
+        - [Scenario 2.2](#scenario-22)
+        - [Scenario 2.3](#scenario-23)
+        - [Scenario 2.4](#scenario-24)
+        - [Scenario 2.5](#scenario-25)
+        - [Scenario 2.6](#scenario-26)
+    - [Use case 3, UC3: Visualizzazione prodotti](#use-case-3-uc3-visualizzazione-prodotti)
+        - [Scenario 3.1](#scenario-31)
+        - [Scenario 3.2](#scenario-32)
+    - [Use case 4, UC4: Creazione nuovo utente](#use-case-4-uc4-creazione-nuovo-utente)
+        - [Scenario 4.1](#scenario-41)
+        - [Scenario 4.2](#scenario-42)
+    - [Use case 5, UC5: Visualizzazione utente](#use-case-5-uc5-visualizzazione-utente)
+        - [Scenario 5.1](#scenario-51)
+        - [Scenario 5.2](#scenario-52)
+        - [Scenario 5.3](#scenario-53)
+        - [Scenario 5.4](#scenario-54)
+    - [Use case 6, UC6: Modifica utente](#use-case-6-uc6-modifica-utente)
+        - [Scenario 6.1](#scenario-61)
+        - [Scenario 6.2](#scenario-62)
+    - [Use case 7, UC7: Login](#use-case-7-uc7-login)
+        - [Scenario 7.1](#scenario-71)
+    - [Use case 8, UC8: Logout](#use-case-8-uc8-logout)
+        - [Scenario 8.1](#scenario-81)
+    - [Use case 9, UC9: Visualizzazione carrello](#use-case-9-uc9-visualizzazione-carrello)
+        - [Scenario 9.1](#scenario-91)
+        - [Scenario 9.2](#scenario-92)
+        - [Scenario 9.3](#scenario-93)
+    - [Use case 10, UC10: Modifica carrello](#use-case-10-uc10-modifica-carrello)
+        - [Scenario 10.1](#scenario-101)
+        - [Scenario 10.2](#scenario-102)
+        - [Scenario 10.3](#scenario-103)
+        - [Scenario 10.4](#scenario-104)
+        - [Scenario 10.5](#scenario-105)
+        - [Scenario 10.6](#scenario-106)
+        - [Scenario 10.7](#scenario-107)
+    - [Use case 11, UC3: Gestione recensione](#use-case-11-uc3-gestione-recensione)
+        - [Scenario 11.1](#scenario-111)
+        - [Scenario 11.2](#scenario-112)
+        - [Scenario 11.3](#scenario-113)
 - [Glossary](#glossary)
 - [System Design](#system-design)
 - [Deployment Diagram](#deployment-diagram)
@@ -70,9 +110,15 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 * **Persona 3:** donna, 70 anni, vedova, pensionata
   * **Storia:** è alla ricerca di una tv da usare durante il suo tempo libero. Le serve cercare su una *piattaforma facile da usare* per completare il suo acquisto. 
 * **Persona 4:** uomo, 35 anni, sposato, con figli, docente
+<<<<<<< HEAD
+  * **Storia:** ogni anno fa degli acquisti per la propria classe. Ha necessità di fare ordini molto spesso, quindi cerca una *piattaforma con un'interfaccia intuitiva* che gli faccia perdere meno tempo possibile e con cui poter fare degli ordini *periodici*.
+* **Persona 5:** donna, 40 anni, sposata, con figli, medico
+  *  **Storia:** sta cercando un regalo da fare a sua figlia e vorrebbe *conoscere le opinioni di altri utenti* riguardo diversi prodotti.
+=======
   * **Storia:** ogni anno fa degli acquisti per la propria classe. Ha necessità di fare ordini molto spesso, quindi cerca una *piattaforma con un'interfaccia intuitiva* che gli faccia perdere meno tempo possibile.
   * **Persona 5:** 
   * **Storia:** .
+>>>>>>> db3e56e640f265a31ec238c05aa10c342576da27
 
 # Functional and non functional requirements
 
@@ -125,7 +171,6 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ## Use case diagram
 
-![image](use-case-diagram-v2.png)
 
 
 # Glossary
