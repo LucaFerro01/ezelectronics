@@ -1,5 +1,5 @@
 # Project Estimation - CURRENT
-Date:
+Date: 29/04/2024
 
 Version:
 
@@ -10,34 +10,30 @@ Consider the EZElectronics  project in CURRENT version (as given by the teachers
 ### 
 |             | Estimate                        |             
 | ----------- | ------------------------------- |  
-| NC =  Estimated number of classes to be developed   |                             |             
-|  A = Estimated average size per class, in LOC       |                            | 
-| S = Estimated size of project, in LOC (= NC * A) | |
-| E = Estimated effort, in person hours (here use productivity 10 LOC per person hour)  |                                      |   
-| C = Estimated cost, in euro (here use 1 person hour cost = 30 euro) | | 
-| Estimated calendar time, in calendar weeks (Assume team of 4 people, 8 hours per day, 5 days per week ) |                    |               
+| NC =  Estimated number of classes to be developed   |       12                      |             
+|  A = Estimated average size per class, in LOC       |        300                    | 
+| S = Estimated size of project, in LOC (= NC * A) | 3600 |
+| E = Estimated effort, in person hours (here use productivity 10 LOC per person hour)  |     360     |   
+| C = Estimated cost, in euro (here use 1 person hour cost = 30 euro) |10800 | 
+| Estimated calendar time, in calendar weeks (Assume team of 4 people, 8 hours per day, 5 days per week ) | 9      |               
 
 # Estimate by product decomposition
 ### 
 |         component name    | Estimated effort (person hours)   |             
 | ----------- | ------------------------------- | 
-|requirement document    | |
-| GUI prototype ||
-|design document ||
-|code ||
-| unit tests ||
-| api tests ||
-| management documents  ||
-
+|requirement document    |70 | 
+| GUI prototype |50|
+|design document |30|
+|code |80|
+| unit tests |50|
+| api tests |60|
+| management documents  |20|
 
 
 # Estimate by activity decomposition
 ### 
-|         Activity name    | Estimated effort (person hours)   |             
-| ----------- | ------------------------------- | 
-| | |
-###
-Insert here Gantt chart with above activities
+![image](diagramma-gantt.png "diagramma di gantt")
+
 
 # Summary
 
