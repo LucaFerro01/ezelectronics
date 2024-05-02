@@ -143,7 +143,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ## Use case diagram
 
-![image](use-case-diagram.png "use case diagram")
+![image](use-case-diagram-v1.png)
 
 ### Use case 1, UC1: Creazione prodotto
 
@@ -227,7 +227,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ##### Scenario 2.2
 
-| Scenario 2.2 | Si cerca un prodotto che non è però presente |
+| Scenario 2.2 | Si cerca un prodotto che non è presente |
 | :----------- | :------------------------------------------ |
 | Precondition | Manager loggato |
 | Post condition | Operazione fallita |
@@ -526,12 +526,12 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ##### Scenario 10.2
 
-| Scenario 10.2 | Il prodotto non può essere aggiunto o rimosso  |
+| Scenario 10.2 | Il prodotto non può essere aggiunto  |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Sistema ritorna errore |
 | Step# | Descrizione |
-| 1 | Cliente: chiede di inserire o rimuovere il prodotto al carrello |
+| 1 | Cliente: chiede di inserire il prodotto al carrello |
 | 2 | Sistema: chiede id del prodotto  |
 | 3 | cliente: inserisce un id relativo ad un prodotto già venduto |
 | 4 | sistema: ritorna 409 error |
@@ -544,7 +544,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | Precondition | Cliente loggato |
 | Post condition | Sistema ritorna errore |
 | Step# | Descrizione |
-| 1 | Cliente: chiede di inserire il prodotto al carrello |
+| 1 | Cliente: chiede di rimuovere il prodotto al carrello |
 | 2 | Sistema: chiede id del prodotto  |
 | 3 | cliente: inserisce un id relativo ad un prodotto non nel carrello o presente in un altro carrello |
 | 4 | sistema: ritorna 404 error |
@@ -602,10 +602,8 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
   1. **Utente**: un utente caratterizzato dal assegnazione di uno tra due ruoli:
      - **Manager**: utente che gestisce i prodotti all'interno del magazzino (inserendo i nuovi prodotti arrivati, eliminando quelli non più disponibili, gestendo l'invio dei prodotti acquistati dai customer)
      - **Cliente**: colui che effettua un qualunque acquisto sul sito, tramite diversi metodi di pagamento, inserendo i prodotti scelti nel carrello.
-  1. **Prodotto**: prodotto disponibile attraverso il sito, che può essere acquistato nel caso in cui sia ancora presente in stock o non sia stato ancora acquistato da un'altro utente.
-  1. **Carrello**: lista di prodotti scelti dal utente per essere acquistati. Un prodotto può essere inserito nel carrello e poi acquistato in due momenti diversi.
-     - **Acquisto**: momento in cui si comprano i prodotti inseriti nel carrello.
-
+  2. **Prodotto**: prodotto disponibile attraverso il sito, che può essere acquistato nel caso in cui sia ancora presente in stock o non sia stato ancora acquistato da un'altro utente.
+  3. **Carrello**: lista di prodotti scelti dal utente per essere acquistati. Un prodotto può essere inserito nel carrello e poi acquistato in due momenti diversi.
 
 # System Design
 

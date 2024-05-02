@@ -476,7 +476,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ##### Scenario 8.3
 
-| Scenario 8.3 | Reorder di un vecchio carrello presente nello storico |
+| Scenario 8.3 | Reorder di un carrello presente nello storico |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Nuovo ordine corrispondente ad un precedente carrello |
@@ -511,12 +511,12 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ##### Scenario 9.2
 
-| Scenario 10.2 | Il prodotto non può essere aggiunto o rimosso  |
+| Scenario 10.2 | Il prodotto non può essere aggiunto  |
 | :----------- | :----------------- |
 | Precondition | Cliente loggato |
 | Post condition | Sistema ritorna errore |
 | Step# | Descrizione |
-| 1 | Cliente: chiede di inserire o rimuovere il prodotto al carrello |
+| 1 | Cliente: chiede di inserire il prodotto al carrello |
 | 2 | Sistema: chiede id del prodotto  |
 | 3 | cliente: inserisce un id relativo ad un prodotto già venduto |
 | 4 | sistema: ritorna 409 error |
@@ -529,7 +529,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | Precondition | Cliente loggato |
 | Post condition | Sistema ritorna errore |
 | Step# | Descrizione |
-| 1 | Cliente: chiede di inserire il prodotto al carrello |
+| 1 | Cliente: chiede di rimuovere il prodotto al carrello |
 | 2 | Sistema: chiede id del prodotto  |
 | 3 | cliente: inserisce un id relativo ad un prodotto non nel carrello |
 | 4 | sistema: ritorna 404 error |
@@ -588,7 +588,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ### Use case 11, UC11: Gestione pagamento
 
-| Actors involved | Utente |
+| Actors involved | Cliente|
 | :-------------- | :------ |
 | Precondition    | Utente loggato come cliente |
 | Post condition  | Accesso al servizio di pagamento |
@@ -608,7 +608,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ### Use case 12, UC12: Gestione recensione
 
-| Actors involved | Utente |
+| Actors involved | Cliente |
 | :-------------- | :------ |
 | Precondition    | Utente loggato come cliente |
 | Post condition  | aggiornamento database recensioni |

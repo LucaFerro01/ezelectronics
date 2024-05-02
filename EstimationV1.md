@@ -10,12 +10,12 @@ Consider the EZElectronics  project in CURRENT version (as given by the teachers
 ### 
 |             | Estimate                        |             
 | ----------- | ------------------------------- |  
-| NC =  Estimated number of classes to be developed   |       28                      |             
-|  A = Estimated average size per class, in LOC       |        60                   | 
-| S = Estimated size of project, in LOC (= NC * A) | 1680 |
-| E = Estimated effort, in person hours (here use productivity 10 LOC per person hour)  |     168    |   
-| C = Estimated cost, in euro (here use 1 person hour cost = 30 euro) | 5040 | 
-| Estimated calendar time, in calendar weeks (Assume team of 4 people, 8 hours per day, 5 days per week ) |   1    |               
+| NC =  Estimated number of classes to be developed   |       4            |             
+|  A = Estimated average size per class, in LOC       |        300                 | 
+| S = Estimated size of project, in LOC (= NC * A) | 1200 |
+| E = Estimated effort, in person hours (here use productivity 10 LOC per person hour)  |     120    |   
+| C = Estimated cost, in euro (here use 1 person hour cost = 30 euro) | 3600 | 
+| Estimated calendar time, in calendar weeks (Assume team of 4 people, 8 hours per day, 5 days per week ) | 0,75 weeks |               
 
 # Estimate by product decomposition
 ### 
@@ -24,7 +24,7 @@ Consider the EZElectronics  project in CURRENT version (as given by the teachers
 |requirement document    |12 | 
 | GUI prototype |6|
 |design document |2|
-|code |168|
+|code |80|
 | unit tests |10|
 | api tests |10|
 | management documents  |1|
@@ -32,6 +32,30 @@ Consider the EZElectronics  project in CURRENT version (as given by the teachers
 
 # Estimate by activity decomposition
 ### 
+
+| Activity name        | Estimated effort (person hours) |
+|----------------------------------------|----------------------------------|
+|**requirement document**|**12**|
+|ricerca dei requisiti|3|
+|trascrizione dei requisiti|6|
+|analisi dei requisiti|3|
+|**GUI prototype**|**6**|
+|progettazione delle interfacce|2|
+|disegno delle interfacce|4|
+|**design document**|**2**|
+|**code**|**80**|
+|scrittura del codice|60|
+|revisione del codice|20|
+|**unit tests**|**10**|
+|applicazione dei test|2|
+|analisi dei test|4|
+|risoluzione dei problemi rilevati dai test|4|
+|**api tests**|**10**|
+|applicazione dei test|2|
+|analisi dei test|4|
+|risoluzione dei problemi rilevati dai test|4|
+|**management documents**|**1**|
+
 ![image](diagramma-gantt.png "diagramma di gantt")
 
 
@@ -41,7 +65,7 @@ La differenza tra le diverse stime dipende dalle attività prese in considerazio
 
 |             | Estimated effort                        |   Estimated duration  |          
 | ----------- | ------------------------------- | ---------------|
-| estimate by size |168 ph |1 week
+| estimate by size |120 ph |0,75 weeks
 | estimate by product decomposition |209 ph|1,5 weeks
 | estimate by activity decomposition |480 ph|2 weeks
 
