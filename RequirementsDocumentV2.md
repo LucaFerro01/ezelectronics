@@ -653,6 +653,18 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ![Class Diagram](./ClassDiagramV2.png)
 
+## Table
+
+  1. **Utente**: un utente caratterizzato dal assegnazione di uno tra due ruoli:
+     - **Manager**: utente che gestisce i prodotti all'interno del magazzino (inserendo i nuovi prodotti arrivati, eliminando quelli non più disponibili, gestendo l'invio dei prodotti acquistati dai customer)
+     - **Cliente**: colui che effettua un qualunque acquisto sul sito, tramite diversi metodi di pagamento, inserendo i prodotti scelti nel carrello.
+     - **Admin**: utente che gestisce la creazione ed eliminazione degli utenti.
+  2. **Prodotto**: prodotto disponibile attraverso il sito, che può essere acquistato nel caso in cui sia ancora presente in stock o non sia stato ancora acquistato da un'altro utente.
+  3. **Carrello**: lista di prodotti scelti dal utente per essere acquistati. Un prodotto può essere inserito nel carrello e poi acquistato in due momenti diversi.
+  4. **Pagamento**: Tipo, valore e data del pagamento riferito al carrello.
+  5. **Recensione**: Descrizione della qualità di un prodotto creata da un cliente.
+
+
 # System Design
 
 ![System Design](./SystemDesignV2.png)
