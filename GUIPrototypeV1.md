@@ -6,7 +6,7 @@ Date:
 
 Version:
 
-## Regsitrazione
+## Registrazione
 
 ![Register](./gui/register.png)
 
