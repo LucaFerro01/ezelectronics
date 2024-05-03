@@ -57,6 +57,7 @@ Consider the EZElectronics  project in FUTURE version (as proposed by your team 
 |risoluzione dei problemi rilevati dai test|10|
 |**management documents**|**2**|
 
+![image](diagram-gantt-v2.png "diagramma di gantt")
 
 
 # Summary
