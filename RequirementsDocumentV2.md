@@ -143,6 +143,35 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 | FR6.2 | Inserimento recensione |
 | FR6.2 | Rimozione recensione |
 
+## Access rights
+| Function       | Cliente | Manager       | Admin         |
+| :------------- |:-------------:|:-------------:|:-------------:|
+| Creazione nuovo prodotto | |x | | 
+| Inserimento set di prodotti | |x | |  
+| Modifica prodotto | |x |  | 
+| Eliminazione prodotto | |x | x |  
+| Visualizzazione lista prodotti |x | x|x  |  
+| Visualizzazione prodotti per categoria |x |x |x  |  
+| Visualizzazione prodotti per modello | x| x| x |  
+| Creazione nuovo utente per ruolo |x |x | x | 
+| Visualizzazione lista utenti | x|x | x |  
+| Visualizzazione informazioni sull'utente loggato | x | x | x |
+| Visualizzazione utente per username | x | x | x |  
+| Login | x | x | x |
+| Logout | x | x | x | 
+| Visualizzazione carrello attuale | x |  | | 
+| Visualizzazione storico carrelli | x |  | |
+| Reorder carrello precedente | x|  | |   
+| Inserimento prodotto nell carrello attuale| x |  | |  
+| Eliminazione prodotto dal carrello attuale | x |  | |  
+| Svuotamento carrello | x |  | |  
+| Gestione account |  | | x| 
+| Visualizzazione utente/admin per username |  |  | x |  
+| Pagamento carrello (checkout) | x | | |  
+| Visualizzazione recensione per prodotto | x | x |x | 
+| Inserimento recensione | x | | |  
+| Eliminazione recensione | x | | x| 
+
 ## Non Functional Requirements
 
 |   ID    | Type (efficiency, reliability, ..) | Description | Refers to |
@@ -268,31 +297,31 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 | Scenario 2.4 | Eliminazione di un prodotto |
 | :----------- | :--------------------------------- |
-| Precondition | Manager loggato |
+| Precondition | Manager/Admin loggato |
 | Post condition | Eliminazione del prodotto dal database |
 | Step# | Descrizione |
-| 1 | Manager: chiede di eliminare un prodotto |
+| 1 | Manager/Admin: chiede di eliminare un prodotto |
 | 2 | Sistema: chiede di inserire il codice del prodotto |
-| 3 | Manager: inserisce il codice del prodotto  |
+| 3 | Manager/Admin: inserisce il codice del prodotto  |
 | 4 | Sistema: toglie il prodotto dal database |
 
 ##### Scenario 2.5
 
 | Scenario 2.5 | Eliminazione di un prodotto già assente dal database |
 | :----------- | :--------------------------------- |
-| Precondition | Manager loggato |
+| Precondition | Manager/Admin loggato |
 | Post condition | Eliminazione del prodotto dal database |
 | Step# | Descrizione |
-| 1 | Manager: chiede di eliminare un prodotto |
+| 1 | Manager/Admin: chiede di eliminare un prodotto |
 | 2 | Sistema: chiede di inserire il codice del prodotto |
-| 3 | Manager: inserisce il codice di un prodotto assente nel database  |
+| 3 | Manager/Admin: inserisce il codice di un prodotto assente nel database  |
 | 4 | Sistema: ritorna 404 error |
 
 ### Use case 3, UC3: Visualizzazione prodotti
 
-| Actors involved | Utente |
+| Actors involved | Utente/Admin |
 | :-------------- | :------ |
-| Precondition    | Utente loggato |
+| Precondition    | Utente/Admin loggato |
 | Post condition  | visualizzazione dei prodotti nel database |
 | Nominal scenario | 3.1, 3.2 |
 | Variants | - |
@@ -302,32 +331,32 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 | Scenario 3.1 | Visualizzazione di tutti i prodotti |
 | :----------- | :---------------------------------- |
-| Precondition | Utente loggato |
+| Precondition | Utente/Admin loggato |
 | Post condition | Visualizzazione di tutti i prodotti nel database |
 | Step# | Descrizione |
-| 1 | Utente: accede al catalogo |
+| 1 | Utente/Admin: accede al catalogo |
 | 2 | Sistema: chiede di inserire il codice del prodotto e la data di vendita opzionalmente |
-| 3 | Manager: inserisce un codice di prodotto già segnato come venduto |
+| 3 | Manager/Admin: inserisce un codice di prodotto già segnato come venduto |
 | 4 | Sistema: ritorna un error |
 
 ##### Scenario 3.2
 
 | Scenario 3.2 | Visualizzazione dei prodotti di una categoria o modello |
 | :----------- | :---------------------------------- |
-| Precondition | Utente loggato |
+| Precondition | Utente/Admin loggato |
 | Post condition | Visualizzazione di tutti i prodotti nel database di una certa gategoria o modello |
 | Step# | Descrizione |
-| 1 | Utente: accede al catalogo |
+| 1 | Utente/Admin: accede al catalogo |
 | 2 | Sistema: chiede di inserire il modello o la categoria dei prodotti |
-| 3 | Manager: inserisce il modello o la categoria dei prodotti da vedere|
+| 3 | Manager/Admin: inserisce il modello o la categoria dei prodotti da vedere|
 | 4 | Sistema: ritorna l'elenco dei prodotti di quella categoria o modello |
 
 ### Use case 4, UC4: Creazione nuovo utente
 
 | Actors Involved  |  Utente     |
 | :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Utente non registrato |
-|  Post condition  |  Utente registrato  |
+|   Precondition   | Utente/Admin non registrato |
+|  Post condition  |  Utente/Admin registrato  |
 | Nominal Scenario | Scenario 4.1   |
 |    Varianti     |                      No             |
 |    Eccezioni    |  Scenario 4.2 |
@@ -336,10 +365,10 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 |  Scenario 4.1  |  Creazione account  |
 | :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente non registrato |
-| Post condition |  Utente registrato  |
+|  Precondition  | Utente/Admin non registrato |
+| Post condition |  Utente/Admin registrato  |
 |     Step#      |               Descrizione    |
-|       1        |   Utente: fornisce dati per la registrazione (username, name, surname, password, ruolo)  |
+|       1        |   Utente/Admin: fornisce dati per la registrazione (username, name, surname, password, ruolo)  |
 |       2        |   Sistema: elabora le informazioni e permette la registrazione dell'account  |
 
 ##### Scenario 4.2
@@ -356,7 +385,7 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 | Actors Involved  |  Utente     |
 | :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Utente loggato, ricerca informazioni su altri utenti |
+|   Precondition   | Utente loggato, ricerca informazioni sugli utenti |
 |  Post condition  |  Visualizzazione informazioni  |
 | Nominal Scenario | Scenario 5.1, 5.2, 5.3   |
 |    Varianti     |                      No             |
@@ -366,10 +395,10 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 |  Scenario 5.1  |  Visualizzazione lista di tutti gli utenti  |
 | :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato, ricerca informazioni su altri utenti |
+|  Precondition  | Utenti loggato, ricerca informazioni sugli utenti |
 | Post condition |  Visualizzazione informazioni di tutti gli utenti  |
 |     Step#      |               Descrizione    |
-|       1        |   Utente: richiede informazioni di tutti gli utenti  |
+|       1        |   Utente/Admin: richiede informazioni di tutti gli utenti  |
 |       2        |   Sistema: elabora la richiesta e fornisce una lista con tutte le informazioni di tutti gli utenti (username, name, surname, password, ruolo)  |
 
 ##### Scenario 5.2
@@ -381,6 +410,8 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 |     Step#      |               Descrizione    |
 |       1        |   Utente: richiede informazioni di tutti i clienti oppure di tutti i managers  |
 |       2        |   Sistema: elabora la richiesta e fornisce una lista con tutte le informazioni di tutti i clienti oppure di tutti i managers (username, name, surname, password, ruolo) |
+
+
 
 ##### Scenario 5.3
 
@@ -406,8 +437,8 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 | Actors Involved  |  Utente  |
 | :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Utente registrato e non loggato |
-|  Post condition  |  Utente loggato  |
+|   Precondition   | Utente/Admin registrato e non loggato |
+|  Post condition  |  Utente/Admin loggato  |
 | Nominal Scenario |   Scenario 6.1  |
 |     Variants     |   No    |
 |    Exceptions    |   No   |
@@ -416,19 +447,19 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 |  Scenario 6.1  |  Login  |
 | :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente registrato e non loggato |
-| Post condition |  Utente loggato  |
+|  Precondition  | Utente/Admin registrato e non loggato |
+| Post condition |  Utente/Admin loggato  |
 |     Step#      |               Descrizione    |
 |       1        |   Sistema: richiede email e password   |
-|       2        |   Utente: fornisce email e password  |
+|       2        |   Utente/Admin: fornisce email e password  |
 |      3      |   Sistema: elabora le informazioni e autorizza l’utente a fare login |
 
 ### Use case 7, UC7: Logout
 
 | Actors Involved  |  Utente     |
 | :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | Utente loggato |
-|  Post condition  |  Utente non loggato  |
+|   Precondition   | Utente/Admin loggato |
+|  Post condition  |  Utente/Admin non loggato  |
 | Nominal Scenario | Scenario 7.1   |
 |    Varianti     |                      No             |
 |    Eccezioni    |    No   |
@@ -437,10 +468,10 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 |  Scenario 7.1  |  Logout  |
 | :------------: | :------------------------------------------------------------------------: |
-|  Precondition  | Utente loggato |
-| Post condition |  Utente non loggato  |
+|  Precondition  | Utente/Admin loggato |
+| Post condition |  Utente/Admin non loggato  |
 |     Step#      |               Descrizione    |
-|       1        |   Utente: richiede logout   |
+|       1        |   Utente/Admin: richiede logout   |
 |       2        |   Sistema: elabora la richiesta e permette il logout  |
 
 ### Use case 8, UC8: Visualizzazione carrello
@@ -567,10 +598,10 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 ##### Scenario 10.1
 
-| Scenario 10.1 | Visualizzazione utente
+| Scenario 10.1 | Visualizzazione utente/admin
 | :----------- | :---------------------------------- |
 | Precondition | Admin loggato |
-| Post condition | Visualizzazione dell'account dell'utente |
+| Post condition | Visualizzazione dell'account dell'utente o dell'admin |
 | Step# | Descrizione |
 | 1 | Admin: Richiede la visualizzazione di un account inserendo lo username |
 | 2 | Sistema: Mostra l'account con le specifiche |
@@ -621,10 +652,10 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 | Scenario 12.1 | Visualizzazione di tutte le recensioni di un prodotto
 | :----------- | :---------------------------------- |
-| Precondition | Utente loggato come cliente |
+| Precondition | Utente/Admin loggato come cliente |
 | Post condition | Visualizzazione di tutti le recensioni nel database |
 | Step# | Descrizione |
-| 1 | Utente: visualizza il prodotto |
+| 1 | Utente/Admin: visualizza il prodotto |
 | 2 | Sistema: carica tutte le recensioni memorizzate nel database e relative a quel prodotto |
 
 ##### Scenario 12.2
@@ -643,10 +674,10 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
 
 | Scenario 12.3 | Elimina recensione
 | :----------- | :---------------------------------- |
-| Precondition | Utente loggato come cliente |
+| Precondition | Utente loggato come cliente o Admin |
 | Post condition | Elimina recensione inserita |
 | Step# | Descrizione |
-| 1 | Utente: Visualizza le recensioni e chiede di eliminare la propria|
+| 1 | Utente/Admin: Visualizza le recensioni e chiede di eliminare la propria|
 | 2 | Sistema: elimina la recensione dal database |
 
 # Glossary
