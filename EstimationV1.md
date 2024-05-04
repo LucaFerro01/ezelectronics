@@ -65,9 +65,9 @@ La differenza tra le diverse stime dipende dalle attività prese in considerazio
 
 |             | Estimated effort                        |   Estimated duration  |          
 | ----------- | ------------------------------- | ---------------|
-| estimate by size |120 ph |0,75 weeks
-| estimate by product decomposition |209 ph|1,5 weeks
-| estimate by activity decomposition |480 ph|2 weeks
+| estimate by size |120 ph | 3 weeks
+| estimate by product decomposition |121 ph| 3 weeks
+| estimate by activity decomposition |239 ph| 6 weeks
 
 
 

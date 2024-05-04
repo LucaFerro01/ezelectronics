@@ -66,9 +66,9 @@ Report here the results of the three estimation approaches. The  estimates may d
 
 |             | Estimated effort                        |   Estimated duration |          
 | ----------- | ------------------------------- | ---------------|
-| estimate by size ||
-| estimate by product decomposition ||
-| estimate by activity decomposition ||
+| estimate by size |225 ph| 5.5 weeks
+| estimate by product decomposition |204 ph| 5 weeks
+| estimate by activity decomposition |404 ph| 10 weeks
 
 
 
