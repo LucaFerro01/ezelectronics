@@ -15,7 +15,7 @@ Consider the EZElectronics  project in CURRENT version (as given by the teachers
 | S = Estimated size of project, in LOC (= NC * A) | 1200 |
 | E = Estimated effort, in person hours (here use productivity 10 LOC per person hour)  |     120    |   
 | C = Estimated cost, in euro (here use 1 person hour cost = 30 euro) | 3600 | 
-| Estimated calendar time, in calendar weeks (Assume team of 4 people, 8 hours per day, 5 days per week ) | 0,75 weeks |               
+| Estimated calendar time, in calendar weeks (Assume team of 4 people, 8 hours per day, 5 days per week ) | 0,75 weeks (working days) |               
 
 # Estimate by product decomposition
 ### 
@@ -35,17 +35,17 @@ Consider the EZElectronics  project in CURRENT version (as given by the teachers
 
 | Activity name        | Estimated effort (person hours) |
 |----------------------------------------|----------------------------------|
-|**requirement document**|**12**|
-|ricerca dei requisiti|3|
+|**requirement document**|**14**|
+|ricerca dei requisiti|4|
 |trascrizione dei requisiti|6|
-|analisi dei requisiti|3|
+|analisi dei requisiti|4|
 |**GUI prototype**|**6**|
 |progettazione delle interfacce|2|
 |disegno delle interfacce|4|
 |**design document**|**2**|
-|**code**|**80**|
+|**code**|**85**|
 |scrittura del codice|60|
-|revisione del codice|20|
+|revisione del codice|25|
 |**unit tests**|**10**|
 |applicazione dei test|2|
 |analisi dei test|4|
@@ -56,18 +56,18 @@ Consider the EZElectronics  project in CURRENT version (as given by the teachers
 |risoluzione dei problemi rilevati dai test|4|
 |**management documents**|**1**|
 
-![image](diagramma-gantt.png "diagramma di gantt")
+![image](diagramma-gantt-v1.png)
 
 
 # Summary
 
-La differenza tra le diverse stime dipende dalle attività prese in considerazione nel calcolo delle person hours (nel primo calcolo è stato preso in considerazione solo il periodo di scrittura del codice). Inoltre dipende anche dalla suddivisione dei compiti nei giorni lavorativi, contando eventuali problematiche e imprevisti.
+I dati seguenti sono stati stimati prendendo in considerazione l'effort impiegato dal gruppo per il presente progetto, mettendolo in relazione con le ore di lavoro effettuate. La differenza tra le diverse stime dipende dalla suddivisione dei compiti nei giorni lavorativi, contando eventuali problematiche e imprevisti.
 
 |             | Estimated effort                        |   Estimated duration  |          
 | ----------- | ------------------------------- | ---------------|
-| estimate by size |120 ph | 3 weeks
-| estimate by product decomposition |121 ph| 3 weeks
-| estimate by activity decomposition |239 ph| 6 weeks
+| estimate by size |120 ph | 0,75 weeks (working days)
+| estimate by product decomposition |121 ph| 0,75 weeks (working days)
+| estimate by activity decomposition |128 ph| 0,75 weeks (working days)
 
 
 

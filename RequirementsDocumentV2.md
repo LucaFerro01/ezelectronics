@@ -695,7 +695,6 @@ EZElectronics (read EaSy Electronics) is a software application designed to help
   4. **Pagamento**: Tipo, valore e data del pagamento riferito al carrello.
   5. **Recensione**: Descrizione della qualità di un prodotto creata da un cliente.
 
-
 # System Design
 
 ![System Design](./SystemDesignV2.png)
