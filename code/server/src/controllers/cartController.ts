@@ -28,7 +28,14 @@ class CartController {
      * @param user - The user for whom to retrieve the cart.
      * @returns A Promise that resolves to the user's cart or an empty one if there is no current cart.
      */
-    async getCart(user: User)/*: Cart*/ { }
+    async getCart(user: User)/*: Cart*/ {
+        try {
+            const cart = await this.dao.getCurrentCart(user.username)
+            return cart
+        } catch (error) {
+            throw error
+        }
+     }
 
     /**
      * Checks out the user's cart. We assume that payment is always successful, there is no need to implement anything related to payment.
