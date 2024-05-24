@@ -21,7 +21,14 @@ class ProductController {
      * @param arrivalDate The optional date in which the product arrived.
      * @returns A Promise that resolves to nothing.
      */
-    async registerProducts(model: string, category: string, quantity: number, details: string | null, sellingPrice: number, arrivalDate: string | null) /**:Promise<void> */ { }
+    async registerProducts(model: string, category: string, quantity: number, details: string | null, sellingPrice: number, arrivalDate: string | null) /**:Promise<void> */ { 
+        try{
+            const isOk = await this.dao.insertProduct(model, category, quantity, details, sellingPrice, arrivalDate);
+            console.log(isOk);
+        } catch (error){
+            throw error;
+        }
+    }
 
     /**
      * Increases the available quantity of a product through the addition of new units.
@@ -48,7 +55,9 @@ class ProductController {
      * @param model An optional parameter. It can only be present if grouping is equal to "model" (in which case it must be present and not empty).
      * @returns A Promise that resolves to an array of Product objects.
      */
-    async getProducts(grouping: string | null, category: string | null, model: string | null) /**Promise<Product[]> */ { }
+    async getProducts(grouping: string | null, category: string | null, model: string | null) /**Promise<Product[]> */ { 
+        return this.dao.getAllProducts();
+    }
 
     /**
      * Returns all available products (with a quantity above 0) in the database, with the option to filter them by category or model.
