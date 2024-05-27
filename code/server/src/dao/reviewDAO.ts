@@ -90,5 +90,33 @@ class ReviewDAO {
         });
     }
 
+    //check if a product exists
+    productExists(model: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            const sql = 'SELECT COUNT(*) as count FROM Products WHERE model = ?';
+            db.get(sql, [model], (err: Error | null, row: any) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(row.count > 0);
+                }
+            });
+        });
+    }
+
+    //check if a user made a review
+    reviewDone(model: string, user: User): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            const sql = 'SELECT COUNT(*) as count FROM Reviews WHERE modelP = ? AND userId = ?';
+            db.get(sql, [model, user], (err: Error | null, row: any) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(row.count > 0);
+                }
+            });
+        });
+    }
+
 }
 export default ReviewDAO;

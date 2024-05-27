@@ -4,6 +4,7 @@ import { body, param, query } from "express-validator"
 import ReviewController from "../controllers/reviewController"
 import Authenticator from "./auth"
 import { ProductReview } from "../components/review"
+import ReviewDAO from "../dao/reviewDAO"
 
 class ReviewRoutes {
     private controller: ReviewController
@@ -36,6 +37,12 @@ class ReviewRoutes {
          */
         this.router.post(
             "/:model",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isCustomer,
+            param('model').isString().notEmpty().productExists(),
+            body('score').isInt({min: 1, max: 5}),
+            body('comment').isString().notEmpty(),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.addReview(req.params.model, req.user, req.body.score, req.body.comment)
                 .then(() => res.status(200).send())
                 .catch((err: Error) => {
@@ -52,6 +59,9 @@ class ReviewRoutes {
          */
         this.router.get(
             "/:model",
+            this.authenticator.isLoggedIn,
+            param('model').isString().notEmpty().productExists(),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getProductReviews(req.params.model)
                 .then((reviews: any/*ProductReview[]*/) => res.status(200).json(reviews))
                 .catch((err: Error) => next(err))
@@ -65,6 +75,10 @@ class ReviewRoutes {
          */
         this.router.delete(
             "/:model",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isCustomer,
+            param('model').isString().notEmpty().productExists().reviewDone(),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.deleteReview(req.params.model, req.user)
                 .then(() => res.status(200).send())
                 .catch((err: Error) => {
@@ -81,6 +95,10 @@ class ReviewRoutes {
          */
         this.router.delete(
             "/:model/all",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isAdminOrManager,
+            param('model').isString().notEmpty().productExists(),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.deleteReviewsOfProduct(req.params.model)
                 .then(() => res.status(200).send())
                 .catch((err: Error) => next(err))
@@ -93,6 +111,9 @@ class ReviewRoutes {
          */
         this.router.delete(
             "/",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isAdminOrManager,
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.deleteAllReviews()
                 .then(() => res.status(200).send())
                 .catch((err: Error) => next(err))
