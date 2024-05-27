@@ -4,12 +4,13 @@
  * You are free to implement any method you need here, as long as the requirements are satisfied.
  */
 
+import { User } from "../components/user";
 import { ExistingReviewError, NoReviewProductError } from "../errors/reviewError";
 import db from "../db/db"
 
 
 class ReviewDAO {
-    static addReview(model: string, userId: number, score: number, comment: string): Promise<boolean> {
+    newReview(model: string, userId: User, score: number, comment: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             
             db.get('SELECT * FROM products WHERE modelP = ? ', [model], (err : Error, product: any) =>{
@@ -30,7 +31,7 @@ class ReviewDAO {
         });
     }
 
-    static returnReviews (model: string ) : Promise<any[]>{
+    returnReviews (model: string ) : Promise<any[]>{
         return new Promise<any[]>((resolve, reject) => {
             db.get('SELECT * FROM Reviews WHERE modelP = ?', [model], (err: Error | null, reviewss: any) => {
                 if(err) return reject (err);
@@ -45,7 +46,7 @@ class ReviewDAO {
         });
     }
 
-    static deleteReview(model: string, userId: number): Promise<boolean> {
+    deleteReview(model: string, userId: User): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             db.get('SELECT * FROM Products WHERE modelP = ?', [model], (err: Error | null, product: any) => {
                 if (err) return reject(err);
@@ -64,7 +65,7 @@ class ReviewDAO {
         });
     }
 
-    static deleteAllReviewsProduct(model: string): Promise<boolean> {
+    deleteAllReviewsProduct(model: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             db.get('SELECT * FROM products WHERE modelP = ?', [model], (err: Error | null, product: any) => {
                 if (err) return reject(err);
@@ -79,7 +80,7 @@ class ReviewDAO {
         });
     }
 
-    static deleteAllReviews(): Promise<boolean> {
+    deleteAllReviews(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             const query = 'DELETE FROM reviews';
             db.run(query, (err: Error | null) => {
