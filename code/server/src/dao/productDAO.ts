@@ -46,7 +46,7 @@ class ProductDAO {
             try{
                 let SQL = "UPDATE Products SET quantity = quantity + ? WHERE model = ?";
                 if(changeDate !== null)
-                    SQL = SQL + `AND arrivalDate = ${changeDate}`;
+                    SQL = SQL + `AND arrivalDate = \"${changeDate}\"`;
                 db.run(SQL, [newQuantity, model], (err : Error) => {
                     if(err){
                         reject(err);
@@ -67,9 +67,9 @@ class ProductDAO {
             try{
                 let SQL = "SELECT * FROM Products";
                 if(grouping == 'model'){
-                    SQL = SQL + `WHERE model = ${model}`;
+                    SQL = SQL + `WHERE model = \"${model}\"`;
                 } else if (grouping == 'category'){
-                    SQL = SQL + `WHERE category = ${category}`;
+                    SQL = SQL + `WHERE category = \"${category}\"`;
                 }
                 db.all(SQL, (err : Error | null, rows: any[] | null) => {
                     if(err){
@@ -104,14 +104,14 @@ class ProductDAO {
         })
     }
 
-    availableProducts(grouping: string | null, category: string | null, model: string | null){
+    availableProducts(grouping: string | null, category: string | null, model: string | null): Promise<Product[]>{
         return new Promise<Product[]>((resolve, reject) => {
             try{
                 let SQL = "SELECT * FROM Products";
                 if(grouping === 'model'){
-                    SQL = SQL + `WHERE model = ${model}`;
+                    SQL = SQL + `WHERE model = \"${model}\"`;
                 } else if(grouping === 'category'){
-                    SQL = SQL + `WHERE category = ${category}`
+                    SQL = SQL + `WHERE category = \"${category}\"`
                 }
                 db.all(SQL, (err : Error | null, rows : any[]) => {
                     if(err !== null){
@@ -124,6 +124,40 @@ class ProductDAO {
                 })
             } catch(error){ 
                 reject(error)
+            }
+        })
+    }
+
+    deleteAllProducts(): Promise<Boolean>{
+        return new Promise<Boolean>((resolve, reject) => {
+            try{
+                const SQL = "DELETE FROM Products"
+                db.run(SQL, (err : Error | null) => {
+                    if(err !== null){
+                        reject(err)
+                    } else {
+                        resolve(true);
+                    }
+                })
+            } catch(error){
+                resolve(error);
+            }
+        })
+    }
+
+    deleteProducts(model: string): Promise<Boolean>{
+        return new Promise<boolean>((resolve, reject) => {
+            try{
+                const SQL = "DELETE FROM Products WHERE model = ?";
+                db.run(SQL, (err: Error | null) => {
+                    if(err !== null){
+                        reject(err);
+                    } else {
+                        resolve(true);
+                    }
+                })
+            } catch(error){
+                reject(error);
             }
         })
     }
