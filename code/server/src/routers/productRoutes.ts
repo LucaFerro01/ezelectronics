@@ -4,6 +4,7 @@ import { body, param, query } from "express-validator"
 import ProductController from "../controllers/productController"
 import Authenticator from "./auth"
 import { Product } from "../components/product"
+import { request } from "http"
 
 /**
  * Represents a class that defines the routes for handling proposals.
@@ -83,6 +84,12 @@ class ProductRoutes {
          */
         this.router.patch(
             "/:model",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isManager,
+            param("model").isString().isLength({min: 1}),
+            body("quantity").isFloat({min: 1}),
+            body("changeDate").optional().if((value: string) => value !== null).isDate({ format: "YYYY-MM-DD", strictMode: true }),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.changeProductQuantity(req.params.model, req.body.quantity, req.body.changeDate)
                 .then((quantity: any /**number */) => res.status(200).json({ quantity: quantity }))
                 .catch((err) => next(err))
@@ -99,6 +106,11 @@ class ProductRoutes {
          */
         this.router.patch(
             "/:model/sell",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isManager,
+            param("model").isString().isLength({min: 1}),
+            body("quantity").isInt({min:1}),
+            body("sellingDate").optional().if((value: string) => value !== null).isDate({ format: "YYYY-MM-DD", strictMode: true }),
             (req: any, res: any, next: any) => this.controller.sellProduct(req.params.model, req.body.quantity, req.body.sellingDate)
                 .then((quantity: any /**number */) => res.status(200).json({ quantity: quantity }))
                 .catch((err) => {
