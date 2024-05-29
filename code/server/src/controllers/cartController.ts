@@ -3,17 +3,18 @@ import { User } from "../components/user";
 import CartDAO from "../dao/cartDAO";
 import { Cart } from "../components/cart";
 import ProductDAO from "../dao/productDAO";
+import { EmptyProductStockError, LowProductStockError, ProductNotFoundError } from "../errors/productError";
 
 /**
  * Represents a controller for managing shopping carts.
  * All methods of this class must interact with the corresponding DAO class to retrieve or store data.
  */
 class CartController {
-    private dao: CartDAO;
+    private cartDAO: CartDAO;
     private productDAO: ProductDAO;
 
     constructor() {
-        this.dao = new CartDAO();
+        this.cartDAO = new CartDAO();
         this.productDAO = new ProductDAO();
     }
 
@@ -22,32 +23,39 @@ class CartController {
      * If the product is not in the cart, it should be added with a quantity of 1.
      * If there is no current unpaid cart in the database, then a new cart should be created.
      * @param user - The user to whom the product should be added.
-     * @param productId - The model of the product to add.
+     * @param model - The model of the product to add.
      * @returns A Promise that resolves to `true` if the product was successfully added.
      */
-    async addToCart(user: User, product: string) /*: Promise<Boolean>*/ {
+    async addToCart(user: User, model: string) /*: Promise<Boolean>*/ {
         try {
-            // TODO! check product exists
+            const products = await this.productDAO.getAllProducts("model", null, model);
+            if (products.length == 0) {
+                throw new ProductNotFoundError();
+            }
+            const product = products[0];
+            if (product.quantity == 0) {
+                throw new EmptyProductStockError();
+            }
 
-            const cart = await this.dao.getCurrentCart(user.username);
+            const cart = await this.cartDAO.getCurrentCart(user.username);
             if (!cart) {
-                await this.dao.createCart(user.username);
-                // await this.dao.addCartProduct(user.username, product, ...)
+                await this.cartDAO.createCart(user.username);
+                await this.cartDAO.addCartProduct(user.username, model, product.sellingPrice, product.category);
                 return true;
             }
 
             let foundProduct = false;
             for (let i = 0; i < cart.products.length; i++) {
-                if (cart.products[i].model == product) {
+                if (cart.products[i].model == model) {
                     foundProduct = true;
                     break;
                 }
             }
 
             if (foundProduct) {
-                await this.dao.incrementProductQty(user.username, product);
+                await this.cartDAO.incrementProductQty(user.username, model);
             } else {
-                // await this.dao.addCartProduct(user.username, product, ...)
+                await this.cartDAO.addCartProduct(user.username, model, product.sellingPrice, product.category);
             }
 
             return true;
@@ -63,7 +71,7 @@ class CartController {
      */
     async getCart(user: User) /*: Cart*/ {
         try {
-            const cart = await this.dao.getCurrentCart(user.username);
+            const cart = await this.cartDAO.getCurrentCart(user.username);
             if (!cart) {
                 return new Cart(user.username, false, null, 0, []);
             }
@@ -81,7 +89,7 @@ class CartController {
      */
     async checkoutCart(user: User) /**Promise<Boolean> */ {
         try {
-            const cart = await this.dao.getCurrentCart(user.username);
+            const cart = await this.cartDAO.getCurrentCart(user.username);
             if (!cart) {
                 throw new CartNotFoundError();
             }
@@ -90,12 +98,22 @@ class CartController {
                 throw new EmptyCartError();
             }
 
-            // TODO! check if product is in stock in the right qty
             for (let i = 0; i < cart.products.length; i++) {
                 const p = cart.products[i];
+                const tmpProds = await this.productDAO.getAllProducts("model", null, p.model);
+                if (tmpProds.length == 0) {
+                    // should never happen
+                    continue;
+                }
+                const tmpP = tmpProds[0];
+                if (tmpP.quantity == 0) {
+                    throw new EmptyProductStockError();
+                } else if (tmpP.quantity < p.quantity) {
+                    throw new LowProductStockError();
+                }
             }
 
-            await this.dao.updateCartToPaid(user.username);
+            await this.cartDAO.updateCartToPaid(user.username);
 
             return true;
         } catch (error) {
@@ -111,7 +129,7 @@ class CartController {
      */
     async getCustomerCarts(user: User) /**Promise<Cart[]> */ {
         try {
-            const carts = await this.dao.getPaidCarts(user.username);
+            const carts = await this.cartDAO.getPaidCarts(user.username);
             return carts;
         } catch (error) {
             throw error;
@@ -121,19 +139,19 @@ class CartController {
     /**
      * Removes one product unit from the current cart. In case there is more than one unit in the cart, only one should be removed.
      * @param user The user who owns the cart.
-     * @param product The model of the product to remove.
+     * @param model The model of the product to remove.
      * @returns A Promise that resolves to `true` if the product was successfully removed.
      */
-    async removeProductFromCart(user: User, product: string) /**Promise<Boolean> */ {
+    async removeProductFromCart(user: User, model: string) /**Promise<Boolean> */ {
         try {
-            const cart = await this.dao.getCurrentCart(user.username);
+            const cart = await this.cartDAO.getCurrentCart(user.username);
             if (!cart) {
                 throw new CartNotFoundError();
             }
 
             let foundProduct = false;
             for (let i = 0; i < cart.products.length; i++) {
-                if (cart.products[i].model == product) {
+                if (cart.products[i].model == model) {
                     foundProduct = true;
                     break;
                 }
@@ -142,9 +160,12 @@ class CartController {
                 throw new ProductNotInCartError();
             }
 
-            // TODO! check if product exists
+            const products = await this.productDAO.getAllProducts("model", null, model);
+            if (products.length == 0) {
+                throw new ProductNotFoundError();
+            }
 
-            await this.dao.decrementProductQty(user.username, product);
+            await this.cartDAO.decrementProductQty(user.username, model);
 
             return true;
         } catch (error) {
@@ -159,7 +180,7 @@ class CartController {
      */
     async clearCart(user: User) /*:Promise<Boolean> */ {
         try {
-            await this.dao.deleteAllCartProducts(user.username);
+            await this.cartDAO.deleteAllCartProducts(user.username);
             return true;
         } catch (error) {
             throw error;
@@ -172,7 +193,7 @@ class CartController {
      */
     async deleteAllCarts() /**Promise<Boolean> */ {
         try {
-            await this.dao.deleteAllCarts();
+            await this.cartDAO.deleteAllCarts();
             return true;
         } catch (error) {
             throw error;
@@ -185,7 +206,7 @@ class CartController {
      */
     async getAllCarts() /*:Promise<Cart[]> */ {
         try {
-            const carts = await this.dao.getAllCarts();
+            const carts = await this.cartDAO.getAllCarts();
             return carts;
         } catch (error) {
             throw error;
