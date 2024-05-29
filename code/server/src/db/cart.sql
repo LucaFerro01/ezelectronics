@@ -16,4 +16,3 @@ CREATE TABLE cart_products (
     category TEXT NOT NULL,
     quantity INTEGER NOT NULL
 );
-

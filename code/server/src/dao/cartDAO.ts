@@ -7,8 +7,8 @@ import db from "../db/db";
  * You are free to implement any method you need here, as long as the requirements are satisfied.
  */
 class CartDAO {
-    getCurrentCart(username: string): Promise<Cart> {
-        return new Promise<Cart>((resolve, reject) => {
+    getCurrentCart(username: string): Promise<Cart | null> {
+        return new Promise<Cart | null>((resolve, reject) => {
             const cart = new Cart(username, false, null, 0, []);
 
             const sql = `
@@ -25,7 +25,7 @@ class CartDAO {
                 }
 
                 if (rows.length == 0) {
-                    reject(new CartNotFoundError());
+                    resolve(null);
                     return;
                 }
 
@@ -108,6 +108,49 @@ class CartDAO {
             });
 
             resolve(carts);
+        });
+    }
+
+    createCart(username: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            const sql = "INSERT INTO carts (username, paid) VALUES (?, 0)";
+            db.run(sql, [username], (err: Error | null) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+            });
+            resolve(true);
+        });
+    }
+
+    addCartProduct(username: string, model: string, price: number, category: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            let cartId: number;
+
+            const cartIdSQL = `SELECT c.cartId FROM carts WHERE c.username = ? AND c.paid = 0`;
+            db.get(cartIdSQL, [username], (err: Error | null, row: any) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                if (!row) {
+                    reject(new CartNotFoundError());
+                    return;
+                }
+
+                cartId = row.cartId;
+            });
+
+            const sql = "INSERT INTO cart_products (cartId, model, price, category, quantity) VALUES (?, ?, ?, ?, 1)";
+            db.run(sql, [cartId, model, price, category], (err: Error | null) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+            });
+            resolve(true);
         });
     }
 
@@ -231,6 +274,40 @@ class CartDAO {
         });
 
         return Promise.all([cartPromise, cartProductsPromise]);
+    }
+
+    decrementProductQty(username: string, model: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            const sql = `
+            UPDATE cart_products AS cp SET quantity = quantity - 1
+            FROM carts AS c
+            WHERE c.username = ? AND cp.model = ? AND c.cartId = cp.cartId AND c.paid = 0
+            `;
+            db.run(sql, [username, model], (err: Error | null) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+            });
+            resolve(true);
+        });
+    }
+
+    incrementProductQty(username: string, model: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            const sql = `
+            UPDATE cart_products AS cp SET quantity = quantity + 1
+            FROM carts AS c
+            WHERE c.username = ? AND cp.model = ? AND c.cartId = cp.cartId AND c.paid = 0
+            `;
+            db.run(sql, [username, model], (err: Error | null) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+            });
+            resolve(true);
+        });
     }
 }
 

@@ -1,7 +1,8 @@
-import { CartNotFoundError, EmptyCartError } from "../errors/cartError";
+import { CartNotFoundError, EmptyCartError, ProductNotInCartError } from "../errors/cartError";
 import { User } from "../components/user";
 import CartDAO from "../dao/cartDAO";
 import { Cart } from "../components/cart";
+import ProductDAO from "../dao/productDAO";
 
 /**
  * Represents a controller for managing shopping carts.
@@ -9,9 +10,11 @@ import { Cart } from "../components/cart";
  */
 class CartController {
     private dao: CartDAO;
+    private productDAO: ProductDAO;
 
     constructor() {
         this.dao = new CartDAO();
+        this.productDAO = new ProductDAO();
     }
 
     /**
@@ -22,7 +25,36 @@ class CartController {
      * @param productId - The model of the product to add.
      * @returns A Promise that resolves to `true` if the product was successfully added.
      */
-    async addToCart(user: User, product: string) /*: Promise<Boolean>*/ {}
+    async addToCart(user: User, product: string) /*: Promise<Boolean>*/ {
+        try {
+            // TODO! check product exists
+
+            const cart = await this.dao.getCurrentCart(user.username);
+            if (!cart) {
+                await this.dao.createCart(user.username);
+                // await this.dao.addCartProduct(user.username, product, ...)
+                return true;
+            }
+
+            let foundProduct = false;
+            for (let i = 0; i < cart.products.length; i++) {
+                if (cart.products[i].model == product) {
+                    foundProduct = true;
+                    break;
+                }
+            }
+
+            if (foundProduct) {
+                await this.dao.incrementProductQty(user.username, product);
+            } else {
+                // await this.dao.addCartProduct(user.username, product, ...)
+            }
+
+            return true;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     /**
      * Retrieves the current cart for a specific user.
@@ -32,11 +64,11 @@ class CartController {
     async getCart(user: User) /*: Cart*/ {
         try {
             const cart = await this.dao.getCurrentCart(user.username);
-            return cart;
-        } catch (error) {
-            if (error instanceof CartNotFoundError) {
+            if (!cart) {
                 return new Cart(user.username, false, null, 0, []);
             }
+            return cart;
+        } catch (error) {
             throw error;
         }
     }
@@ -50,6 +82,10 @@ class CartController {
     async checkoutCart(user: User) /**Promise<Boolean> */ {
         try {
             const cart = await this.dao.getCurrentCart(user.username);
+            if (!cart) {
+                throw new CartNotFoundError();
+            }
+
             if (cart.products.length == 0) {
                 throw new EmptyCartError();
             }
@@ -60,6 +96,7 @@ class CartController {
             }
 
             await this.dao.updateCartToPaid(user.username);
+
             return true;
         } catch (error) {
             throw error;
@@ -87,7 +124,33 @@ class CartController {
      * @param product The model of the product to remove.
      * @returns A Promise that resolves to `true` if the product was successfully removed.
      */
-    async removeProductFromCart(user: User, product: string) /**Promise<Boolean> */ {}
+    async removeProductFromCart(user: User, product: string) /**Promise<Boolean> */ {
+        try {
+            const cart = await this.dao.getCurrentCart(user.username);
+            if (!cart) {
+                throw new CartNotFoundError();
+            }
+
+            let foundProduct = false;
+            for (let i = 0; i < cart.products.length; i++) {
+                if (cart.products[i].model == product) {
+                    foundProduct = true;
+                    break;
+                }
+            }
+            if (!foundProduct) {
+                throw new ProductNotInCartError();
+            }
+
+            // TODO! check if product exists
+
+            await this.dao.decrementProductQty(user.username, product);
+
+            return true;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     /**
      * Removes all products from the current cart.
