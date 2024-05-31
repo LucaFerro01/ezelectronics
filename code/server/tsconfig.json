@@ -11,9 +11,7 @@
     "paths": {
       "*": ["node_modules/*"]
     },
-    "types": ["node"]
+    "types": ["node", "jest", "@types/jest"]
   },
   "include": ["src/**/*"]
 }
-
-
