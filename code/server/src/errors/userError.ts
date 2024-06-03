@@ -5,6 +5,9 @@ const USER_NOT_CUSTOMER = "This operation can be performed only by a customer"
 const USER_NOT_ADMIN = "This operation can be performed only by an admin"
 const USER_IS_ADMIN = "Admins cannot be deleted"
 const UNAUTHORIZED_USER = "You cannot access the information of other users"
+const INVALID_BIRTHDATE = "Birthdate cannot be in the future";
+const UNAUTHORIZED_EDIT = "You cannot edit the information of other admins"
+
 
 /**
  * Represents an error that occurs when a user is not found.
@@ -97,4 +100,26 @@ class UnauthorizedUserError extends Error {
     }
 }
 
-export { UserNotFoundError, UserNotManagerError, UserNotCustomerError, UserAlreadyExistsError, UserNotAdminError, UserIsAdminError, UnauthorizedUserError }
+class InvalidBirthdateError extends Error {
+    customMessage: string;
+    customCode: number;
+
+    constructor() {
+        super();
+        this.customMessage = INVALID_BIRTHDATE;
+        this.customCode = 400;
+    }
+}
+
+class UnauthorizedEditError extends Error {
+    customMessage: String;
+    customCode: Number;
+
+    constructor() {
+        super()
+        this.customMessage = UNAUTHORIZED_EDIT;
+        this.customCode = 401
+    }
+}
+
+export { UserNotFoundError, UserNotManagerError, UserNotCustomerError, UserAlreadyExistsError, UserNotAdminError, UserIsAdminError, UnauthorizedUserError, InvalidBirthdateError, UnauthorizedEditError }
