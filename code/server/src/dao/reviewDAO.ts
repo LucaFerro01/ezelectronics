@@ -6,86 +6,105 @@
 
 import { User } from "../components/user";
 import { ExistingReviewError, NoReviewProductError } from "../errors/reviewError";
+import { ProductNotFoundError } from "../errors/productError";
 import db from "../db/db"
 
 
 class ReviewDAO {
-    newReview(model: string, userId: User, score: number, comment: string): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-            
-            db.get('SELECT * FROM products WHERE modelP = ? ', [model], (err : Error, product: any) =>{
-                if (err) return reject(err);
-                if(!product) return reject(new Error('404: Product not found'));
+    newReview(model: string, userId: User, score: number, comment: string): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
 
-                db.get('SELECT * FROM Reviews WHERE modelP = ? AND userId = ?', [model, userId], (err : Error, ExistingReview: any) => {
-                    if (err) return reject(err);
-                    if (ExistingReview) return reject(new ExistingReviewError());
+            db.get('SELECT * FROM Products WHERE model = ? ', [model], (err: Error, product: any) => {
+                if (err)
+                    return reject(err);
+                if (!product)
+                    return reject(new ProductNotFoundError());
 
-                    const query = 'INSERT INTO Reviews (modelP, userId, score, comment, date) VALUES (?, ?, ?, ?, DATE("now"))';
-                    db.run(query, [model, userId, score, comment], (err : Error) => {
-                        if (err) return reject(err);
-                        resolve(true);
+                db.get('SELECT * FROM Reviews WHERE model = ? AND userId = ?', [model, userId], (err: Error, review: any) => {
+                    if (err)
+                        return reject(err);
+                    if (review)
+                        return reject(new ExistingReviewError());
+
+                    const query = 'INSERT INTO Reviews (model, userId, score, comment, date) VALUES (?, ?, ?, ?, DATE("now"))';
+                    db.run(query, [model, userId, score, comment], (err: Error) => {
+                        if (err)
+                            return reject(err);
+                        resolve();
                     });
                 });
             });
         });
     }
 
-    returnReviews (model: string ) : Promise<any[]>{
+    returnReviews(model: string): Promise<any[]> {
         return new Promise<any[]>((resolve, reject) => {
-            db.get('SELECT * FROM Reviews WHERE modelP = ?', [model], (err: Error | null, reviewss: any) => {
-                if(err) return reject (err);
-                if (!reviewss) return reject(new Error('404: Product not found'));
+            db.get('SELECT * FROM Products WHERE model = ?', [model], (err: Error | null, product: any) => {
+                if (err)
+                    return reject(err);
+                if (!product)
+                    return reject(new ProductNotFoundError());
 
-                const query = 'SELECT * FROM Reviews WHERE modelP = ?';
-                db.all(query, [model], (err:Error|null, res: any[]) => {
-                    if(err) return reject(err);
+                const query = 'SELECT * FROM Reviews WHERE model = ?';
+                db.all(query, [model], (err: Error | null, res: any[]) => {
+                    if (err)
+                        return reject(err);
                     resolve(res);
                 });
             });
         });
     }
 
-    deleteReview(model: string, userId: User): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-            db.get('SELECT * FROM Products WHERE modelP = ?', [model], (err: Error | null, product: any) => {
-                if (err) return reject(err);
-                if (!product) return reject(new Error('404: Product not found'));
+    deleteReview(model: string, userId: User): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            db.get('SELECT * FROM Products WHERE model = ?', [model], (err: Error | null, product: any) => {
+                if (err)
+                    return reject(err);
+                if (!product)
+                    return reject(new ProductNotFoundError());
 
-                db.get('SELECT * FROM Reviews WHERE modelP = ? AND userId = ?', [model, userId], (err: Error | null, review: any) => {
-                    if (err) return reject(err);
-                    if (!review) return reject(new NoReviewProductError());
-                    const query = 'DELETE FROM Reviews WHERE modelP = ? AND userId = ?';
+                db.get('SELECT * FROM Reviews WHERE model = ? AND userId = ?', [model, userId], (err: Error | null, review: any) => {
+                    if (err)
+                        return reject(err);
+                    if (!review)
+                        return reject(new NoReviewProductError());
+                    
+                    const query = 'DELETE FROM Reviews WHERE model = ? AND userId = ?';
                     db.run(query, [model, userId], (err: Error | null) => {
-                        if (err) return reject(err);
-                        resolve(true);
+                        if (err)
+                            return reject(err);
+                        resolve();
                     });
                 });
             });
         });
     }
 
-    deleteAllReviewsProduct(model: string): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-            db.get('SELECT * FROM products WHERE modelP = ?', [model], (err: Error | null, product: any) => {
-                if (err) return reject(err);
-                if (!product) return reject(new Error('404: Product not found'));
+    deleteAllReviewsProduct(model: string): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            db.get('SELECT * FROM Products WHERE model = ?', [model], (err: Error | null, product: any) => {
+                if (err)
+                    return reject(err);
+                if (!product)
+                    return reject(new ProductNotFoundError());
 
-                const query = 'DELETE FROM reviews WHERE modelP = ?';
+                const query = 'DELETE FROM Reviews WHERE model = ?';
                 db.run(query, [model], (err: Error | null) => {
-                    if (err) return reject(err);
-                    resolve(true);
+                    if (err)
+                        return reject(err);
+                    resolve();
                 });
             });
         });
     }
 
-    deleteAllReviews(): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-            const query = 'DELETE FROM reviews';
+    deleteAllReviews(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            const query = 'DELETE FROM Reviews';
             db.run(query, (err: Error | null) => {
-                if (err) return reject(err);
-                resolve(true);
+                if (err)
+                    return reject(err);
+                resolve();
             });
         });
     }
@@ -107,7 +126,7 @@ class ReviewDAO {
     //check if a user made a review
     reviewDone(model: string, user: User): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) as count FROM Reviews WHERE modelP = ? AND userId = ?';
+            const sql = 'SELECT COUNT(*) as count FROM Reviews WHERE model = ? AND userId = ?';
             db.get(sql, [model, user], (err: Error | null, row: any) => {
                 if (err) {
                     reject(err);
