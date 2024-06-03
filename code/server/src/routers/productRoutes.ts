@@ -1,10 +1,11 @@
 import express, { Router } from "express"
 import ErrorHandler from "../helper"
-import { body, param, query } from "express-validator"
+import { body, CustomValidator, param, query } from "express-validator"
 import ProductController from "../controllers/productController"
 import Authenticator from "./auth"
 import { Product } from "../components/product"
 import { request } from "http"
+import ProductDAO from "../dao/productDAO"
 
 /**
  * Represents a class that defines the routes for handling proposals.
@@ -44,6 +45,14 @@ class ProductRoutes {
      * 
      */
     initRoutes() {
+
+        const productDAO = new ProductDAO();
+
+        const productExists : CustomValidator = async (value) => {
+            const productExists = await productDAO.getAllProducts("model", null, value);
+            if(productExists.length === 0)
+                throw new Error("Model doesn't exists"); 
+        }
 
         /**
          * Route for registering the arrival of a set of products.
@@ -111,6 +120,7 @@ class ProductRoutes {
             param("model").isString().isLength({min: 1}),
             body("quantity").isInt({min:1}),
             body("sellingDate").optional().if((value: string) => value !== null).isDate({ format: "YYYY-MM-DD", strictMode: true }),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.sellProduct(req.params.model, req.body.quantity, req.body.sellingDate)
                 .then((quantity: any /**number */) => res.status(200).json({ quantity: quantity }))
                 .catch((err) => {
@@ -130,6 +140,18 @@ class ProductRoutes {
          */
         this.router.get(
             "/",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isAdminOrManager,
+            body("grouping").isString().custom((value) => {
+                if(value !== "category" && value !== "model")
+                    throw new Error("Invalid grouping parameter");
+            }),
+            body("category").isString().if(body("grouping").exists().equals("category")).custom(value => {
+                if(value !== "Smartphone" && value !== "Laptop" && value !== "Appliance")
+                    throw new Error("Invalid category field");
+            }),
+            body("model").isString().if(body("grouping").exists().equals("model")).notEmpty().custom(productExists),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getProducts(req.query.grouping, req.query.category, req.query.model)
                 .then((products: any /*Product[]*/) => res.status(200).json(products))
                 .catch((err) => {
@@ -149,6 +171,18 @@ class ProductRoutes {
          */
         this.router.get(
             "/available",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isCustomer,
+            body("grouping").isString().custom((value) => {
+                if(value !== "category" && value !== "model")
+                    throw new Error("Invalid grouping parameter");
+            }),
+            body("category").isString().if(body("grouping").exists().equals("category")).custom(value => {
+                if(value !== "Smartphone" && value !== "Laptop" && value !== "Appliance")
+                    throw new Error("Invalid category field");
+            }),
+            body("model").isString().if(body("grouping").exists().equals("model")).notEmpty().custom(productExists),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getAvailableProducts(req.query.grouping, req.query.category, req.query.model)
                 .then((products: any/*Product[]*/) => res.status(200).json(products))
                 .catch((err) => next(err))
@@ -161,6 +195,9 @@ class ProductRoutes {
          */
         this.router.delete(
             "/",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isAdminOrManager,
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.deleteAllProducts()
                 .then(() => res.status(200).end())
                 .catch((err: any) => next(err))
@@ -174,6 +211,9 @@ class ProductRoutes {
          */
         this.router.delete(
             "/:model",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isAdminOrManager,
+            param("model").isString().isLength({min: 1}).custom(productExists),
             (req: any, res: any, next: any) => this.controller.deleteProduct(req.params.model)
                 .then(() => res.status(200).end())
                 .catch((err: any) => next(err))
