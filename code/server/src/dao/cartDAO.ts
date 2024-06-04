@@ -120,8 +120,10 @@ class CartDAO {
             }
 
             if (r.cartId != prevCartId) {
-                carts[carts.length - 1].products = products;
-                carts[carts.length - 1].total = total;
+                if (i > 0) {
+                    carts[carts.length - 1].products = products;
+                    carts[carts.length - 1].total = total;
+                }
 
                 let paid = true;
                 if (!r.paid) {
@@ -163,6 +165,7 @@ class CartDAO {
                 }
 
                 if (rows.length == 0) {
+                    resolve([]);
                     return;
                 }
 
@@ -180,6 +183,7 @@ class CartDAO {
                 }
 
                 if (rows.length == 0) {
+                    resolve([]);
                     return;
                 }
 
