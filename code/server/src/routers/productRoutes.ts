@@ -6,6 +6,7 @@ import Authenticator from "./auth"
 import { Product } from "../components/product"
 import { request } from "http"
 import ProductDAO from "../dao/productDAO"
+import { group } from "console"
 
 /**
  * Represents a class that defines the routes for handling proposals.
@@ -142,15 +143,9 @@ class ProductRoutes {
             "/",
             this.authenticator.isLoggedIn,
             this.authenticator.isAdminOrManager,
-            body("grouping").isString().custom((value) => {
-                if(value !== "category" && value !== "model")
-                    throw new Error("Invalid grouping parameter");
-            }),
-            body("category").isString().if(body("grouping").exists().equals("category")).custom(value => {
-                if(value !== "Smartphone" && value !== "Laptop" && value !== "Appliance")
-                    throw new Error("Invalid category field");
-            }),
-            body("model").isString().if(body("grouping").exists().equals("model")).notEmpty().custom(productExists),
+            body("grouping").if(body("grouping").exists({checkNull: true})).isString().isIn(["category", "model", ""]),
+            body("category").if(body("grouping").equals("category")).isString().notEmpty(),
+            body("model").if(body("grouping").equals("model")).isString().notEmpty(),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getProducts(req.query.grouping, req.query.category, req.query.model)
                 .then((products: any /*Product[]*/) => res.status(200).json(products))
@@ -173,15 +168,9 @@ class ProductRoutes {
             "/available",
             this.authenticator.isLoggedIn,
             this.authenticator.isCustomer,
-            body("grouping").isString().custom((value) => {
-                if(value !== "category" && value !== "model")
-                    throw new Error("Invalid grouping parameter");
-            }),
-            body("category").isString().if(body("grouping").exists().equals("category")).custom(value => {
-                if(value !== "Smartphone" && value !== "Laptop" && value !== "Appliance")
-                    throw new Error("Invalid category field");
-            }),
-            body("model").isString().if(body("grouping").exists().equals("model")).notEmpty().custom(productExists),
+            body("grouping").if(body("grouping").exists({checkNull: true})).isString().isIn(["category", "model", ""]),
+            body("category").if(body("grouping").equals("category")).isString().notEmpty(),
+            body("model").if(body("grouping").equals("model")).isString().notEmpty(),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getAvailableProducts(req.query.grouping, req.query.category, req.query.model)
                 .then((products: any/*Product[]*/) => res.status(200).json(products))

@@ -65,10 +65,10 @@ class ProductDAO {
     getAllProducts(grouping: string | null, category: string | null, model: string | null): Promise<Product[]>{
         return new Promise<Product[]>((resolve, reject) => {
             try{
-                let SQL = "SELECT * FROM Products";
-                if(grouping == 'model'){
+                let SQL = `SELECT * FROM Products`;
+                if(grouping === 'model'){
                     SQL = SQL + ` WHERE model = \"${model}\"`;
-                } else if (grouping == 'category'){
+                } else if (grouping === 'category'){
                     SQL = SQL + ` WHERE category = \"${category}\"`;
                 }
                 db.all(SQL, (err : Error | null, rows: any[] | null) => {
