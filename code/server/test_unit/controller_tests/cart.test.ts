@@ -81,7 +81,7 @@ describe("CartController unit tests", () => {
             expect(CartDAO.prototype.getCurrentCart).toHaveBeenCalled();
             expect(CartDAO.prototype.getCurrentCart).toHaveBeenCalledWith(mockUsername);
             expect(CartDAO.prototype.incrementProductQty).toHaveBeenCalled();
-            expect(CartDAO.prototype.incrementProductQty).toBeCalledWith(mockUsername, mockModel0);
+            expect(CartDAO.prototype.incrementProductQty).toBeCalledWith(1, mockModel0);
             expect(ProductDAO.prototype.getAllProducts).toHaveBeenCalled();
         });
 
@@ -215,7 +215,7 @@ describe("CartController unit tests", () => {
             expect(CartDAO.prototype.getCurrentCart).toHaveBeenCalledWith(mockUsername);
             expect(ProductDAO.prototype.getAllProducts).toHaveBeenCalled();
             expect(CartDAO.prototype.decrementProductQty).toHaveBeenCalled();
-            expect(CartDAO.prototype.decrementProductQty).toHaveBeenCalledWith(mockUsername, mockModel0);
+            expect(CartDAO.prototype.decrementProductQty).toHaveBeenCalledWith(1, mockModel0);
         });
 
         test("It should throw ProductNotInCartError", async () => {

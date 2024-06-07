@@ -53,7 +53,7 @@ class CartController {
             }
 
             if (foundProduct) {
-                await this.cartDAO.incrementProductQty(user.username, model);
+                await this.cartDAO.incrementProductQty(dbCart.cartId, model);
             } else {
                 await this.cartDAO.addCartProduct(dbCart.cartId, model, product.sellingPrice, product.category);
             }
@@ -175,7 +175,7 @@ class CartController {
                 throw new ProductNotFoundError();
             }
 
-            await this.cartDAO.decrementProductQty(user.username, model);
+            await this.cartDAO.decrementProductQty(dbCart.cartId, model);
 
             return true;
         } catch (error) {

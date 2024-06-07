@@ -28,8 +28,8 @@ const sqlStatements = {
 
     updateCartToPaid: "UPDATE carts SET paid = 1, paymentDate = ? WHERE username = ? AND paid = 0",
 
-    incrementCartProductQty: "UPDATE cart_products SET quantity = quantity + 1 WHERE model = ? AND cartId = ?",
-    decrementCartProductQty: "UPDATE cart_products SET quantity = quantity - 1 WHERE model = ? AND cartId = ?",
+    incrementCartProductQty: "UPDATE cart_products SET quantity = quantity + 1 WHERE cartId = ? AND model = ?",
+    decrementCartProductQty: "UPDATE cart_products SET quantity = quantity - 1 WHERE cartId = ? AND model = ?",
 
     deleteAllCartProducts: `DELETE FROM cart_products
     WHERE cartId IN (
@@ -111,8 +111,6 @@ class CartDAO {
         const carts: Cart[] = [];
 
         let prevCartId = -1;
-        let products: ProductInCart[] = [];
-        let total = 0;
         for (let i = 0; i < rows.length; i++) {
             const r = rows[i];
             if (!r) {
@@ -120,11 +118,6 @@ class CartDAO {
             }
 
             if (r.cartId != prevCartId) {
-                if (i > 0) {
-                    carts[carts.length - 1].products = products;
-                    carts[carts.length - 1].total = total;
-                }
-
                 let paid = true;
                 if (!r.paid) {
                     paid = false;
@@ -132,8 +125,6 @@ class CartDAO {
 
                 cartIds.push(r.cartId);
                 carts.push(new Cart(r.username, paid, r.paymentDate, 0, []));
-                products = [];
-                total = 0;
                 prevCartId = r.cartId;
             }
 
@@ -141,8 +132,8 @@ class CartDAO {
                 continue;
             }
 
-            products.push(new ProductInCart(r.model, r.quantity, r.category, r.price));
-            total += r.price * r.quantity;
+            carts[carts.length - 1].products.push(new ProductInCart(r.model, r.quantity, r.category, r.price));
+            carts[carts.length - 1].total += r.price * r.quantity;
         }
 
         const dbCarts: DBCart[] = [];
@@ -207,7 +198,13 @@ class CartDAO {
                         return;
                     }
 
-                    cartId = row.cartId;
+                    db.run(sqlStatements.addCartProduct, [row.cartId, model, price, category], (err: Error | null) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                    });
+                    resolve(true);
                 });
             }
 
@@ -241,9 +238,9 @@ class CartDAO {
         });
     }
 
-    incrementProductQty(username: string, model: string): Promise<boolean> {
+    incrementProductQty(cartId: number, model: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            db.run(sqlStatements.incrementCartProductQty, [username, model], (err: Error | null) => {
+            db.run(sqlStatements.incrementCartProductQty, [cartId, model], (err: Error | null) => {
                 if (err) {
                     reject(err);
                     return;
@@ -253,9 +250,9 @@ class CartDAO {
         });
     }
 
-    decrementProductQty(username: string, model: string): Promise<boolean> {
+    decrementProductQty(cartId: number, model: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            db.run(sqlStatements.decrementCartProductQty, [username, model], (err: Error | null) => {
+            db.run(sqlStatements.decrementCartProductQty, [cartId, model], (err: Error | null) => {
                 if (err) {
                     reject(err);
                     return;

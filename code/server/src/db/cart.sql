@@ -15,8 +15,7 @@ CREATE TABLE cart_products (
     price REAL NOT NULL,
     category TEXT NOT NULL,
     quantity INTEGER NOT NULL,
-    FOREIGN KEY (cartId) REFERENCES carts (cartId),
-    FOREIGN KEY (model) REFERENCES Products (model)
+    FOREIGN KEY (cartId) REFERENCES carts (cartId)
 );
 
 INSERT INTO carts (username, paid) VALUES ("Pippo1", 0);

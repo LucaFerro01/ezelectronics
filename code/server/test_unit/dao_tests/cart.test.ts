@@ -232,7 +232,7 @@ describe("CartDAO unit tests", () => {
                 return {} as Database;
             });
 
-            const res = await dao.incrementProductQty(mockUsername, mockModel0);
+            const res = await dao.incrementProductQty(1, mockModel0);
             expect(res).toBe(true);
         });
 
@@ -242,7 +242,7 @@ describe("CartDAO unit tests", () => {
                 return {} as Database;
             });
 
-            await expect(dao.incrementProductQty(mockUsername, mockModel0)).rejects.toThrow();
+            await expect(dao.incrementProductQty(1, mockModel0)).rejects.toThrow();
         });
     });
 
@@ -253,7 +253,7 @@ describe("CartDAO unit tests", () => {
                 return {} as Database;
             });
 
-            const res = await dao.decrementProductQty(mockUsername, mockModel0);
+            const res = await dao.decrementProductQty(1, mockModel0);
             expect(res).toBe(true);
         });
 
@@ -263,7 +263,7 @@ describe("CartDAO unit tests", () => {
                 return {} as Database;
             });
 
-            await expect(dao.decrementProductQty(mockUsername, mockModel0)).rejects.toThrow();
+            await expect(dao.decrementProductQty(1, mockModel0)).rejects.toThrow();
         });
     });
 

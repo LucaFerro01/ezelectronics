@@ -5,7 +5,6 @@ import { app } from "../../index";
 import CartController from "../../src/controllers/cartController";
 import { Cart, ProductInCart } from "../../src/components/cart";
 import { Category } from "../../src/components/product";
-import { Role, User } from "../../src/components/user";
 import Authenticator from "../../src/routers/auth";
 
 jest.mock("../../src/controllers/cartController");
@@ -38,6 +37,7 @@ describe("CartRouter unit tests", () => {
             jest.spyOn(Authenticator.prototype, "isCustomer").mockImplementationOnce((_req, res, _next) => {
                 return res.status(401).json({ error: "Unauthorized" });
             });
+            jest.spyOn(CartController.prototype, "getCart").mockResolvedValueOnce(mockCart);
             const res = await request(app).get(baseURL);
             expect(res.statusCode).toBe(401);
         });
@@ -60,6 +60,7 @@ describe("CartRouter unit tests", () => {
             jest.spyOn(Authenticator.prototype, "isCustomer").mockImplementationOnce((_req, res, _next) => {
                 return res.status(401).json({ error: "Unauthorized" });
             });
+            jest.spyOn(CartController.prototype, "addToCart").mockResolvedValueOnce(true);
             const res = await request(app).post(baseURL).send({ model: mockModel });
             expect(res.statusCode).toBe(401);
         });
@@ -82,6 +83,7 @@ describe("CartRouter unit tests", () => {
             jest.spyOn(Authenticator.prototype, "isCustomer").mockImplementationOnce((_req, res, _next) => {
                 return res.status(401).json({ error: "Unauthorized" });
             });
+            jest.spyOn(CartController.prototype, "checkoutCart").mockResolvedValueOnce(true);
             const res = await request(app).patch(baseURL);
             expect(res.statusCode).toBe(401);
         });
@@ -105,6 +107,7 @@ describe("CartRouter unit tests", () => {
             jest.spyOn(Authenticator.prototype, "isCustomer").mockImplementationOnce((_req, res, _next) => {
                 return res.status(401).json({ error: "Unauthorized" });
             });
+            jest.spyOn(CartController.prototype, "getCustomerCarts").mockResolvedValueOnce([mockCart]);
             const res = await request(app).get(baseURL + "/history");
             expect(res.statusCode).toBe(401);
         });
@@ -127,6 +130,7 @@ describe("CartRouter unit tests", () => {
             jest.spyOn(Authenticator.prototype, "isCustomer").mockImplementationOnce((_req, res, _next) => {
                 return res.status(401).json({ error: "Unauthorized" });
             });
+            jest.spyOn(CartController.prototype, "removeProductFromCart").mockResolvedValueOnce(true);
             const res = await request(app).delete(baseURL + "/products/" + mockModel);
             expect(res.statusCode).toBe(401);
         });
@@ -149,6 +153,7 @@ describe("CartRouter unit tests", () => {
             jest.spyOn(Authenticator.prototype, "isCustomer").mockImplementationOnce((_req, res, _next) => {
                 return res.status(401).json({ error: "Unauthorized" });
             });
+            jest.spyOn(CartController.prototype, "clearCart").mockResolvedValueOnce(true);
             const res = await request(app).delete(baseURL + "/current");
             expect(res.statusCode).toBe(401);
         });
@@ -171,6 +176,7 @@ describe("CartRouter unit tests", () => {
             jest.spyOn(Authenticator.prototype, "isAdminOrManager").mockImplementationOnce((_req, res, _next) => {
                 return res.status(401).json({ error: "Unauthorized" });
             });
+            jest.spyOn(CartController.prototype, "deleteAllCarts").mockResolvedValueOnce(true);
             const res = await request(app).delete(baseURL);
             expect(res.statusCode).toBe(401);
         });
@@ -194,6 +200,7 @@ describe("CartRouter unit tests", () => {
             jest.spyOn(Authenticator.prototype, "isAdminOrManager").mockImplementationOnce((_req, res, _next) => {
                 return res.status(401).json({ error: "Unauthorized" });
             });
+            jest.spyOn(CartController.prototype, "getAllCarts").mockResolvedValueOnce([mockCart]);
             const res = await request(app).get(baseURL + "/all");
             expect(res.statusCode).toBe(401);
         });
