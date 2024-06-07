@@ -1,9 +1,8 @@
-import { describe, test, expect, beforeAll, afterAll, jest } from "@jest/globals";
+import { describe, test, expect, jest } from "@jest/globals";
 import { Database } from "sqlite3";
 import CartDAO from "../../src/dao/cartDAO";
 import db from "../../src/db/db";
 import { Category } from "../../src/components/product";
-import { Cart, ProductInCart } from "../../src/components/cart";
 
 jest.mock("../../src/db/db.ts");
 
