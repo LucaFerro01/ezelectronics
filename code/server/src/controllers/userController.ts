@@ -73,30 +73,24 @@ class UserController {
      */
     async deleteUser(user: User, username: string) /** :Promise<Boolean>*/ {
         try {
-            // Get the user to be deleted
-            const userToDelete = await this.dao.getUserByUsername(username);
-            if(!(userToDelete)){
-                throw new UserNotFoundError();
-            }
             // Check if the logged-in user is not an admin and is trying to delete another user
             if (user.role !== "Admin" && user.username !== username) {
-                throw new UnauthorizedEditError();
+                throw new UserNotAdminError();
             }
-    
-            
-    
+            // Get the user to be deleted
+            const userToDelete = await this.dao.getUserByUsername(username);
+
             // Check if the user to be deleted is an admin
             if (userToDelete.role === "Admin") {
                 throw new UserIsAdminError();
             }
-    
+
             // Proceed with deletion if checks pass
             return this.dao.deleteUser(username);
         } catch (error) {
-            throw error; // Rethrow other errors
+            throw error;
         }
     }
-    
 
     /**
      * Deletes all non-Admin users
@@ -118,24 +112,20 @@ class UserController {
      */
     async updateUserInfo(user: User, name: string, surname: string, address: string, birthdate: string, username: string) /*:Promise<User>*/ {
         try {
-            const bdate = new Date(birthdate);
-            const currentDate = new Date();
-            if (bdate > currentDate) {
-                throw new InvalidBirthdateError();
-            }
-
-
             if (user.role !== "Admin" && user.username !== username) {
-                throw new UnauthorizedEditError();
+                throw new UserNotAdminError();
             }
-            
             const userToEdit = await this.dao.getUserByUsername(username);
 
             if (userToEdit.role === "Admin" && user.username !== username) {
                 throw new UnauthorizedEditError();
             }
 
-            
+            const bdate = new Date(birthdate);
+            const currentDate = new Date();
+            if (bdate > currentDate) {
+                throw new InvalidBirthdateError();
+            }
 
             return this.dao.updateUserInfo(name, surname, address, birthdate, username)
 
