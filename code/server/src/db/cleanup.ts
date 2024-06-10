@@ -12,5 +12,10 @@ export function cleanup() {
         // Delete all data from the database.
         db.run("DELETE FROM users")
         //Add delete statements for other tables here
+        db.run("DELETE FROM Products")
+        db.run("DELETE FROM cart_products")
+        db.run("DELETE FROM carts")
+        db.run("DELETE FROM Reviews")
+
     })
 }

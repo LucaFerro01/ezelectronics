@@ -13,8 +13,8 @@ import db from "../db/db"
 class ReviewDAO {
     newReview(model: string, userId: User, score: number, comment: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-
             db.get('SELECT * FROM Products WHERE model = ? ', [model], (err: Error, product: any) => {
+               
                 if (err)
                     return reject(err);
                 if (!product)
@@ -105,34 +105,6 @@ class ReviewDAO {
                 if (err)
                     return reject(err);
                 resolve();
-            });
-        });
-    }
-
-    //check if a product exists
-    productExists(model: string): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) as count FROM Products WHERE model = ?';
-            db.get(sql, [model], (err: Error | null, row: any) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(row.count > 0);
-                }
-            });
-        });
-    }
-
-    //check if a user made a review
-    reviewDone(model: string, user: User): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) as count FROM Reviews WHERE model = ? AND userId = ?';
-            db.get(sql, [model, user], (err: Error | null, row: any) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(row.count > 0);
-                }
             });
         });
     }

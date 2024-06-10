@@ -26,22 +26,6 @@ class ReviewRoutes {
 
     initRoutes() {
 
-        const reviewDAO = new ReviewDAO();
-
-        const productExists: CustomValidator = async (value) => {
-            const productExists = await reviewDAO.productExists(value);
-            if (!productExists) {
-                throw new Error('Product does not exist');
-            }
-        };
-
-        const reviewDone: CustomValidator = async (value, { req }) => {
-            const reviewDone = await reviewDAO.reviewDone(req.params.model, req.user);
-            if (!reviewDone) {
-                throw new Error('Review does not exist');
-            }
-        };
-
         /**
          * Route for adding a review to a product.
          * It requires the user calling it to be authenticated and to be a customer
@@ -55,14 +39,13 @@ class ReviewRoutes {
             "/:model",
             this.authenticator.isLoggedIn,
             this.authenticator.isCustomer,
-            param('model').isString().notEmpty().custom(productExists),
+            param('model').isString().notEmpty(),
             body('score').isInt({min: 1, max: 5}),
             body('comment').isString().notEmpty(),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.addReview(req.params.model, req.user, req.body.score, req.body.comment)
                 .then(() => res.status(200).send())
                 .catch((err: Error) => {
-                    console.log(err)
                     next(err)
                 })
         )
@@ -76,12 +59,14 @@ class ReviewRoutes {
         this.router.get(
             "/:model",
             this.authenticator.isLoggedIn,
-            param('model').isString().notEmpty().custom(productExists),
+            param('model').isString().notEmpty(),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getProductReviews(req.params.model)
-                .then((reviews: any/*ProductReview[]*/) => res.status(200).json(reviews))
-                .catch((err: Error) => next(err))
-        )
+                .then(() => res.status(200).send())
+                .catch((err: Error) => {
+                    next(err)
+                })
+            )
 
         /**
          * Route for deleting the review made by a user for one product.
@@ -93,12 +78,11 @@ class ReviewRoutes {
             "/:model",
             this.authenticator.isLoggedIn,
             this.authenticator.isCustomer,
-            param('model').isString().notEmpty().custom(productExists).custom(reviewDone),
+            param('model').isString().notEmpty(),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.deleteReview(req.params.model, req.user)
                 .then(() => res.status(200).send())
                 .catch((err: Error) => {
-                    console.log(err)
                     next(err)
                 })
         )
@@ -113,11 +97,13 @@ class ReviewRoutes {
             "/:model/all",
             this.authenticator.isLoggedIn,
             this.authenticator.isAdminOrManager,
-            param('model').isString().notEmpty().custom(productExists),
+            param('model').isString().notEmpty(),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.deleteReviewsOfProduct(req.params.model)
                 .then(() => res.status(200).send())
-                .catch((err: Error) => next(err))
+                .catch((err: Error) => {
+                    next(err)
+                })
         )
 
         /**
@@ -132,7 +118,9 @@ class ReviewRoutes {
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.deleteAllReviews()
                 .then(() => res.status(200).send())
-                .catch((err: Error) => next(err))
+                .catch((err: Error) => {
+                    next(err)
+                })
         )
     }
 }
