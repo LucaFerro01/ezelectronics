@@ -17,32 +17,31 @@ class UserDAO {
      */
     getIsUserAuthenticated(username: string, plainPassword: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            try {
-                /**
-                 * Example of how to retrieve user information from a table that stores username, encrypted password and salt (encrypted set of 16 random bytes that ensures additional protection against dictionary attacks).
-                 * Using the salt is not mandatory (while it is a good practice for security), however passwords MUST be hashed using a secure algorithm (e.g. scrypt, bcrypt, argon2).
-                 */
-                const sql = "SELECT username, password, salt FROM users WHERE username = ?"
-                db.get(sql, [username], (err: Error | null, row: any) => {
-                    if (err) reject(err)
-                    //If there is no user with the given username, or the user salt is not saved in the database, the user is not authenticated.
-                    if (!row || row.username !== username || !row.salt) {
-                        resolve(false)
-                    } else {
-                        //Hashes the plain password using the salt and then compares it with the hashed password stored in the database
-                        const hashedPassword = crypto.scryptSync(plainPassword, row.salt, 16)
-                        const passwordHex = Buffer.from(row.password, "hex")
-                        if (!crypto.timingSafeEqual(passwordHex, hashedPassword)) resolve(false)
-                        resolve(true)
-                    }
+            const sql = "SELECT username, password, salt FROM users WHERE username = ?";
+            db.get(sql, [username], (err: Error | null, row: any) => {
 
-                })
-            } catch (error) {
-                reject(error)
-            }
+                if (err) {
+                    reject(err); // Errore di database
+                    return;
+                }
+                if (!row || row.username !== username || !row.salt) {
+                    console.log("Rowf:", row); // Visualizza il valore di row
+                    resolve(false); // Utente non trovato o informazioni mancanti
+                    return;
+                }
 
+                // Hash della password fornita e confronto con la password hashata salvata
+                const hashedPassword = crypto.scryptSync(plainPassword, row.salt, 64);
+                const passwordHex = Buffer.from(row.password, "hex");
+                if (!crypto.timingSafeEqual(passwordHex, hashedPassword)) {
+                    resolve(false); // Password non corretta
+                    return;
+                }
+                resolve(true); // Utente autenticato
+            });
         });
     }
+    
 
     /**
      * Creates a new user and saves their information in the database
@@ -160,12 +159,12 @@ class UserDAO {
         return new Promise<boolean>((resolve, reject) => {
             try {
                 const sql = "DELETE FROM users WHERE username = ?"
-                db.run(sql, [username], function(err) {
+                db.run(sql, [username], (err: Error | null, result: any) => {
                     if (err) {
                         reject(err)
                         return
                     }   
-                    if (this.changes === 0) {
+                    if (result.changes === 0) {
                         reject(new UserNotFoundError());
                         return;
                     }
@@ -213,12 +212,12 @@ class UserDAO {
             try {
                 const sql = "UPDATE users SET name = ?, surname = ?, address = ?, birthdate = ? WHERE username = ?;";
                 const params = [name, surname, address, birthdate, username];
-                db.run(sql, params, function(err) {
+                db.run(sql, params, (err: Error | null, result: any) => {
                     if (err) {
                         reject(err);
                         return;
                     }
-                    if (this.changes === 0) {
+                    if (result.changes === 0) {
                         reject(new UserNotFoundError());
                         return;
                     }

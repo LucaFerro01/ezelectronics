@@ -8,7 +8,6 @@ const baseURL = "/ezelectronics";
 
 
 
-
 //creazione utente
 
 test("It should return a 200 success code for creating a user", async () => {
