@@ -40,7 +40,7 @@ describe("ProductDAO", () => {
         //expect(resultChange).toBe(11)
     })
 
-    /* test("Get Product", async () => {
+    test("Get Product", async () => {
         const mockDBAll = jest.spyOn(db, "all").mockImplementation((sql, callback) => {
             callback(null, product)
             return {} as Database
@@ -48,5 +48,5 @@ describe("ProductDAO", () => {
 
         const getProducts = await dao.getAllProducts("model", null, "Motorola g84");
         expect(getProducts).toContain(product);
-    }) */
+    })
 })
