@@ -11,11 +11,13 @@ jest.mock("../../src/db/db.ts");
 
 describe("ProductDAO", () => {
     let dao : ProductDAO;
-    let product : Product;
+    let product1 : Product;
+    let product2 : Product;
 
     beforeAll(() => {
         dao = new ProductDAO;
-        product = new Product(200, "Motorola g84", Category.SMARTPHONE, "04/06/2024", "Best buy phone", 4);
+        product1 = new Product(200, "Motorola g84", Category.SMARTPHONE, "04/06/2024", "Best buy phone", 4);
+        product2 = new Product(500, "Samsung galaxy s24", Category.SMARTPHONE, "11/06/2025", "Explode", 0);
     })
 
 
@@ -24,7 +26,7 @@ describe("ProductDAO", () => {
             callback(null)
             return {} as Database
         })
-        const resultInsert = await dao.insertProduct(product.model, product.category, product.quantity, product.details, product.sellingPrice, product.arrivalDate);
+        const resultInsert = await dao.insertProduct(product1.model, product1.category, product1.quantity, product1.details, product1.sellingPrice, product1.arrivalDate);
         expect(resultInsert).toBe(true);
     })
 
@@ -33,7 +35,7 @@ describe("ProductDAO", () => {
             callback(null)
             return {} as Database
         })
-        const insertProduct = await dao.insertProduct(product.model, product.category, product.quantity, product.details, product.sellingPrice, product.arrivalDate);
+        const insertProduct = await dao.insertProduct(product1.model, product1.category, product1.quantity, product1.details, product1.sellingPrice, product1.arrivalDate);
         //const resultChange = await dao.changeProductQuantity(product.model, 7, "05/05/2020");
 
         expect(insertProduct).toBe(true)
@@ -42,11 +44,59 @@ describe("ProductDAO", () => {
 
     test("Get Product", async () => {
         const mockDBAll = jest.spyOn(db, "all").mockImplementation((sql, callback) => {
-            callback(null, product)
+            callback(null, [product1])
             return {} as Database
         })
 
         const getProducts = await dao.getAllProducts("model", null, "Motorola g84");
-        expect(getProducts).toContain(product);
+        expect(getProducts).toContainEqual(product1);
     })
+
+    test("Sell product", async () => {
+        const mockDBRun = jest.spyOn(db, "run").mockImplementation((sql, callback) => {
+            callback(null)
+            return {} as Database
+        })
+        // mock of the function getAllProducts because it is use in the sellProduct function
+        const mockDAOgetAllProducts = jest.spyOn(ProductDAO.prototype, "getAllProducts").mockResolvedValueOnce([new Product(product1.sellingPrice, product1.model, product1.category, product1.arrivalDate, product1.details, product1.quantity - 1)]);
+
+        const sellProducts = await dao.sellProduct("Motorola g84", 1, null);
+        expect(sellProducts).toBe(3);
+
+
+    })
+
+    test("Available products", async () => {
+        const mockDBAll = jest.spyOn(db, "all").mockImplementation((sql, callback) => {
+            callback(null, [product1, product2].filter(p => p.quantity > 0))
+            return {} as Database
+        })
+
+        const availableProducts = await dao.availableProducts("category", "smartphone", null);
+        expect(availableProducts).toContainEqual(product1);
+    })
+
+    test("Delete all products", async () => {
+        const mockDBRun = jest.spyOn(db, "run").mockImplementation((sql, callback) => {
+            callback(null)
+            return {} as Database
+        })
+
+        const isDeleted = await dao.deleteAllProducts();
+        expect(isDeleted).toBe(true);
+    })
+
+    test("Delete one product", async () => {
+        const mockDBRun = jest.spyOn(db, "run").mockImplementation((sql, callback) => {
+            callback(null)
+            return {} as Database
+        })
+
+        const isDeleted = await dao.deleteProducts("Motorola g84");
+        expect(isDeleted).toBe(true)
+    })
+})
+
+describe("Product DAO with error", () => {
+    //insert test with error
 })

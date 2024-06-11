@@ -1,7 +1,8 @@
 import { resolve } from "path";
-import { Category, Product, getCategory } from "./../components/product";
+import { Category, Product} from "./../components/product";
 import db from "./../db/db";
 import { rejects } from "assert";
+import { ProductNotFoundError } from "../errors/productError";
 /**
  * A class that implements the interaction with the database for all product-related operations.
  * You are free to implement any method you need here, as long as the requirements are satisfied.
@@ -75,7 +76,7 @@ class ProductDAO {
                     if(err){
                         reject(err);
                     } else {
-                        const products = rows.map(pr => new Product(pr.price, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
+                        const products = rows.map(pr => new Product(pr.sellingPrice, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
                         resolve(products);
                     }
                 })
@@ -95,7 +96,7 @@ class ProductDAO {
                     } else {
                         this.getAllProducts("model", null, model).then(
                             p => resolve(p[0].quantity)
-                        )
+                        ).catch(e => reject(new ProductNotFoundError))
                     }
                 })
             } catch(error){
@@ -117,7 +118,7 @@ class ProductDAO {
                     if(err !== null){
                         reject(err);
                     } else {
-                        const availableProducts = rows.map(pr => new Product(pr.price, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
+                        const availableProducts = rows.map(pr => new Product(pr.sellingPrice, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
                         resolve(availableProducts);
                     }
                     
