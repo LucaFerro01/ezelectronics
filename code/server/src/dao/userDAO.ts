@@ -127,27 +127,25 @@ class UserDAO {
      */
     getUserByUsername(username: string): Promise<User> {
         return new Promise<User>((resolve, reject) => {
-            try {
-                const sql = "SELECT * FROM users WHERE username = ?"
-                db.get(sql, [username], (err: Error | null, row: any) => {
-                    if (err) {
-                        reject(err)
-                        return
-                    }
+            const sql = "SELECT * FROM users WHERE username = ?";
+            db.get(sql, [username], (err: Error | null, row: any) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                try {
                     if (!row) {
-                        reject(new UserNotFoundError())
-                        return
+                        throw new UserNotFoundError();
                     }
-                    
-                    const user: User = new User(row.username, row.name, row.surname, row.role, row.address, row.birthdate)
-                    resolve(user)
-                })
-            } catch (error) {
-                reject(error)
-            }
-
-        })
+                    const user: User = new User(row.username, row.name, row.surname, row.role, row.address, row.birthdate);
+                    resolve(user);
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        });
     }
+    
 
     /**
      * Deletes a specific user
