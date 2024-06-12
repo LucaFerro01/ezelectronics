@@ -17,31 +17,32 @@ class UserDAO {
      */
     getIsUserAuthenticated(username: string, plainPassword: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            const sql = "SELECT username, password, salt FROM users WHERE username = ?";
-            db.get(sql, [username], (err: Error | null, row: any) => {
+            try {
+                /**
+                 * Example of how to retrieve user information from a table that stores username, encrypted password and salt (encrypted set of 16 random bytes that ensures additional protection against dictionary attacks).
+                 * Using the salt is not mandatory (while it is a good practice for security), however passwords MUST be hashed using a secure algorithm (e.g. scrypt, bcrypt, argon2).
+                 */
+                const sql = "SELECT username, password, salt FROM users WHERE username = ?"
+                db.get(sql, [username], (err: Error | null, row: any) => {
+                    if (err) reject(err)
+                    //If there is no user with the given username, or the user salt is not saved in the database, the user is not authenticated.
+                    if (!row || row.username !== username || !row.salt) {
+                        resolve(false)
+                    } else {
+                        //Hashes the plain password using the salt and then compares it with the hashed password stored in the database
+                        const hashedPassword = crypto.scryptSync(plainPassword, row.salt, 16)
+                        const passwordHex = Buffer.from(row.password, "hex")
+                        if (!crypto.timingSafeEqual(passwordHex, hashedPassword)) resolve(false)
+                        resolve(true)
+                    }
 
-                if (err) {
-                    reject(err); // Errore di database
-                    return;
-                }
-                if (!row || row.username !== username || !row.salt) {
-                    console.log("Rowf:", row); // Visualizza il valore di row
-                    resolve(false); // Utente non trovato o informazioni mancanti
-                    return;
-                }
+                })
+            } catch (error) {
+                reject(error)
+            }
 
-                // Hash della password fornita e confronto con la password hashata salvata
-                const hashedPassword = crypto.scryptSync(plainPassword, row.salt, 64);
-                const passwordHex = Buffer.from(row.password, "hex");
-                if (!crypto.timingSafeEqual(passwordHex, hashedPassword)) {
-                    resolve(false); // Password non corretta
-                    return;
-                }
-                resolve(true); // Utente autenticato
-            });
         });
     }
-    
 
     /**
      * Creates a new user and saves their information in the database
@@ -57,6 +58,7 @@ class UserDAO {
             try {
                 const salt = crypto.randomBytes(16)
                 const hashedPassword = crypto.scryptSync(password, salt, 16)
+                
                 const sql = "INSERT INTO users(username, name, surname, role, password, salt) VALUES(?, ?, ?, ?, ?, ?)"
                 db.run(sql, [username, name, surname, role, hashedPassword, salt], (err: Error | null) => {
                     if (err) {
@@ -69,8 +71,8 @@ class UserDAO {
                 reject(error)
             }
 
-        })
-    }
+        })
+    }
 
     /**
      * Returns all users.
@@ -125,27 +127,25 @@ class UserDAO {
      */
     getUserByUsername(username: string): Promise<User> {
         return new Promise<User>((resolve, reject) => {
-            try {
-                const sql = "SELECT * FROM users WHERE username = ?"
-                db.get(sql, [username], (err: Error | null, row: any) => {
-                    if (err) {
-                        reject(err)
-                        return
-                    }
+            const sql = "SELECT * FROM users WHERE username = ?";
+            db.get(sql, [username], (err: Error | null, row: any) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                try {
                     if (!row) {
-                        reject(new UserNotFoundError())
-                        return
+                        throw new UserNotFoundError();
                     }
-                    
-                    const user: User = new User(row.username, row.name, row.surname, row.role, row.address, row.birthdate)
-                    resolve(user)
-                })
-            } catch (error) {
-                reject(error)
-            }
-
-        })
+                    const user: User = new User(row.username, row.name, row.surname, row.role, row.address, row.birthdate);
+                    resolve(user);
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        });
     }
+    
 
     /**
      * Deletes a specific user

@@ -1,128 +1,425 @@
 import { test, expect, jest } from "@jest/globals";
-import request from 'supertest';
-import { app } from "../../index";
+import request from "supertest";
+import { app } from "../../index"; // Ensure this is the correct path to your Express app
 import UserController from "../../src/controllers/userController";
-import { User, Role } from "../../src/components/user";
+import AuthService from "../../src/routers/auth"; // Ensure this is the correct path to your AuthService
+import { User, Role} from "../../src/components/user"
+import UserDAO from "../../src/dao/userDAO";
+import { UserAlreadyExistsError, UserNotAdminError, UserNotFoundError, UnauthorizedUserError , UnauthorizedEditError} from "../../src/errors/userError";
+
+jest.mock("../../src/dao/userDAO");
 
 const baseURL = "/ezelectronics";
 
+//Example of a unit test for the POST ezelectronics/users route
+//The test checks if the route returns a 200 success code
+//The test also expects the createUser method of the controller to be called once with the correct parameters
 
-
-//creazione utente
-
-test("It should return a 200 success code for creating a user", async () => {
-    const testUser = {
+test("It should return a 200 success code", async () => {
+    const testUser = { //Define a test user object sent to the route
         username: "test",
         name: "test",
         surname: "test",
         password: "test",
-        role: Role.MANAGER
-    };
-
-    jest.spyOn(UserController.prototype, "createUser").mockResolvedValueOnce(true);
-
-    const response = await request(app).post(baseURL + "/users").send(testUser);
-
-    expect(response.status).toBe(200);
-    expect(UserController.prototype.createUser).toHaveBeenCalledTimes(1);
-    expect(UserController.prototype.createUser).toHaveBeenCalledWith(
-        testUser.username,
+        role: "Manager"
+    }
+    jest.spyOn(UserController.prototype, "createUser").mockResolvedValueOnce(true) //Mock the createUser method of the controller
+    const response = await request(app).post(baseURL + "/users").send(testUser) //Send a POST request to the route
+    expect(response.status).toBe(200) //Check if the response status is 200
+    expect(UserController.prototype.createUser).toHaveBeenCalledTimes(1) //Check if the createUser method has been called once
+    //Check if the createUser method has been called with the correct parameters
+    expect(UserController.prototype.createUser).toHaveBeenCalledWith(testUser.username,
         testUser.name,
         testUser.surname,
         testUser.password,
-        testUser.role
-    );
+        testUser.role)
+})
+
+describe("Create User", () => {
+    test("Dovrebbe restituire true se l'utente viene creato con successo", async () => {
+        const datiUtenteTest = {
+            username: "test",
+            nome: "test",
+            cognome: "test",
+            password: "test",
+            ruolo: Role.MANAGER
+        };
+
+        jest.spyOn(UserDAO.prototype, "createUser").mockResolvedValueOnce(true);
+
+        const controller = new UserController();
+
+        const risposta = await controller.createUser(
+            datiUtenteTest.username,
+            datiUtenteTest.nome,
+            datiUtenteTest.cognome,
+            datiUtenteTest.password,
+            datiUtenteTest.ruolo
+        );
+
+        expect(UserDAO.prototype.createUser).toHaveBeenCalledTimes(1);
+        expect(UserDAO.prototype.createUser).toHaveBeenCalledWith(
+            datiUtenteTest.username,
+            datiUtenteTest.nome,
+            datiUtenteTest.cognome,
+            datiUtenteTest.password,
+            datiUtenteTest.ruolo
+        );
+
+        expect(risposta).toBe(true);
+    }); 
+    
+    test("Dovrebbe rifiutare con UserAlreadyExistError se l'utente esiste già", async () => {
+        const datiUtenteTest = {
+            username: "test",
+            nome: "test",
+            cognome: "test",
+            password: "test",
+            ruolo: Role.MANAGER
+        };
+
+        jest.spyOn(UserDAO.prototype, "createUser").mockRejectedValueOnce(new UserAlreadyExistsError);
+
+        const controller = new UserController();
+
+        await expect(controller.createUser(
+            datiUtenteTest.username,
+            datiUtenteTest.nome,
+            datiUtenteTest.cognome,
+            datiUtenteTest.password,
+            datiUtenteTest.ruolo
+        )).rejects.toThrow(UserAlreadyExistsError);
+    });
+    test("Errore quando fallisce", async () => {
+        const utenteDiTest = {
+            username: "test",
+            nome: "test",
+            cognome: "test",
+            password: "test",
+            ruolo: Role.MANAGER
+        };
+    
+        const controller = new UserController();
+    
+        jest.spyOn(UserDAO.prototype, "createUser").mockRejectedValueOnce(new Error);
+    
+        await expect(controller.createUser(utenteDiTest.username, utenteDiTest.nome, utenteDiTest.cognome, utenteDiTest.password, utenteDiTest.ruolo))
+            .rejects.toThrow(Error);
+    });});
+
+
+
+describe("Ottenere gli Utenti", () => {
+    test("Dovrebbe restituire una lista di utenti", async () => {
+        const utenteDiTest1: User = {
+            username: "utente1",
+            name: "Utente Uno",
+            surname: "Uno",
+            role: Role.MANAGER,
+            address: "Indirizzo Uno",
+            birthdate: "2000-01-01",
+        };
+        const utenteDiTest2: User = {
+            username: "utente2",
+            name: "Utente Due",
+            surname: "Due",
+            role: Role.CUSTOMER,
+            address: "Indirizzo Due",
+            birthdate: "1990-02-02",
+        };
+
+        jest.spyOn(UserDAO.prototype, "getUsers").mockResolvedValueOnce([utenteDiTest1, utenteDiTest2]);
+
+        const controller = new UserController();
+
+        const risposta = await controller.getUsers();
+
+        expect(UserDAO.prototype.getUsers).toHaveBeenCalledTimes(1);
+        expect(risposta).toEqual([utenteDiTest1, utenteDiTest2]);
+
+        jest.clearAllMocks();
+
+       
+        
+    });
+
+    test("Errore per il fail", async () => {
+        jest.spyOn(UserDAO.prototype, "getUsers").mockRejectedValueOnce(new Error());
+        const controller = new UserController();
+        await expect(controller.getUsers()).rejects.toThrow(Error);
+    });
+    
 });
 
-//recupero tutti utenti
-test("It should return a 200 success code for retrieving all users", async () => {
-    const testUsers = [
-        new User("user1", "User One", "Surname One", Role.MANAGER, "Address One", "2000-01-01"),
-        new User("user2", "User Two", "Surname Two", Role.CUSTOMER, "Address Two", "2000-02-02")
-    ];
+describe("Ottieni utente per nome utente", () => { 
+    test("Dovrebbe restituire un utente", async () => { 
+        const utenteDiTest: User = { 
+            username: "test", 
+            name: "test", 
+            surname: "test", 
+            role: Role.MANAGER, 
+            address: "test", 
+            birthdate: "test", 
+        } 
+        jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(utenteDiTest); 
+        const controller = new UserController(); 
+        const risposta = await controller.getUserByUsername(utenteDiTest, utenteDiTest.username); 
 
-    jest.spyOn(UserController.prototype, "getUsers").mockResolvedValueOnce(testUsers);
+        expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledTimes(1); 
+        expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledWith(utenteDiTest.username); 
+        expect(risposta).toEqual(utenteDiTest); 
+        jest.clearAllMocks();
+    }); 
 
-    const response = await request(app).get(baseURL + "/users");
+    test("Dovrebbe restituire un errore non autorizzato se l'utente non è un amministratore", async () => {
+        const utenteDiTest1: User = { 
+            username: "test", 
+            name: "test", 
+            surname: "test", 
+            role: Role.CUSTOMER, 
+            address: "test", 
+            birthdate: "test", 
+        } 
+        const utenteDiTest2: User = { 
+            username: "test2", 
+            name: "test2", 
+            surname: "test2", 
+            role: Role.MANAGER, 
+            address: "test2", 
+            birthdate: "test2", 
+        }
+        jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(utenteDiTest2); 
+        const controller = new UserController(); 
+        await expect(controller.getUserByUsername(utenteDiTest1, utenteDiTest2.username)).rejects.toThrow(UnauthorizedUserError); 
+        jest.clearAllMocks();
+    })
 
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(testUsers);
-    expect(UserController.prototype.getUsers).toHaveBeenCalledTimes(1);
-});
+     
+    
 
-//recupero utenti ruolo
-test("It should return a 200 success code for retrieving users by role", async () => {
-    const role = Role.MANAGER;
-    const testUsers = [
-        new User("user1", "User One", "Surname One", Role.MANAGER, "Address One", "2000-01-01")
-    ];
+    describe("Cancellazione utente", () => {  
 
-    jest.spyOn(UserController.prototype, "getUsersByRole").mockResolvedValueOnce(testUsers);
+        test("Dovrebbe eliminare", async () => {
+            const utenteDiTest: User = {
+                username: "test",
+                name: "test",
+                surname: "test",
+                role: Role.MANAGER,
+                address: "test",
+                birthdate: "test",
+            };
+        
+            // Mock the DAO methods
+            jest.spyOn(UserDAO.prototype, "deleteUser").mockResolvedValueOnce(true);
+            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(utenteDiTest);
+        
+            const controller = new UserController();
+        
+            // Call the deleteUser method and check the response
+            const risposta = await controller.deleteUser(utenteDiTest, utenteDiTest.username);
+        
+            // Verify that the mocks were called with the correct arguments
+            expect(UserDAO.prototype.deleteUser).toHaveBeenCalledTimes(1);
+            expect(UserDAO.prototype.deleteUser).toHaveBeenCalledWith(utenteDiTest.username);
+            expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledWith(utenteDiTest.username);
+        
+            // Verify the response
+            expect(risposta).toBe(true);
+        
+            // Clear all mocks
+            jest.clearAllMocks();
+            jest.resetAllMocks();
+        });
+        
+        
+        
+        test("Dovrebbe eliminare un altro utente se l'utente è un amministratore", async () => { 
+            const utenteDiTest1: User = { 
+                username: "test", 
+                name: "test", 
+                surname: "test", 
+                role: Role.ADMIN, 
+                address: "test", 
+                birthdate: "test", 
+            } 
+            const utenteDiTest2: User = { 
+                username: "test2", 
+                name: "test2", 
+                surname: "test2", 
+                role: Role.MANAGER, 
+                address: "test2", 
+                birthdate: "test2", 
+            } 
+            jest.spyOn(UserDAO.prototype, "deleteUser").mockResolvedValueOnce(true); 
+            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(utenteDiTest2); 
+            const controller = new UserController(); 
+            const risposta = await controller.deleteUser(utenteDiTest1, utenteDiTest2.username); 
+         
+            expect(UserDAO.prototype.deleteUser).toHaveBeenCalledTimes(1); 
+            expect(UserDAO.prototype.deleteUser).toHaveBeenCalledWith(utenteDiTest2.username); 
+            expect(risposta).toBe(true); 
+            jest.clearAllMocks();
+            jest.resetAllMocks();
+        });
+    
+        
+        test("Dovrebbe lanciare un errore non autorizzato se l'utente non è un amministratore e cerca di eliminare un altro utente", async () => {
+            const utenteDiTest1: User = { 
+                username: "test", 
+                name: "test", 
+                surname: "test", 
+                role: Role.CUSTOMER, 
+                address: "test", 
+                birthdate: "test", 
+            } 
+            const utenteDiTest2: User = { 
+                username: "test2", 
+                name: "test2", 
+                surname: "test2", 
+                role: Role.MANAGER, 
+                address: "test2", 
+                birthdate: "test2", 
+            }
+            jest.spyOn(UserDAO.prototype, "deleteUser").mockResolvedValueOnce(true); 
+            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(utenteDiTest2); 
+            const controller = new UserController(); 
+            await expect(controller.deleteUser(utenteDiTest1, utenteDiTest2.username)).rejects.toThrow(new UnauthorizedUserError); 
+            jest.clearAllMocks();
+            jest.resetAllMocks();
+        })
+        
+        test("Dovrebbe lanciare un errore se la cancellazione fallisce", async () => { 
+            const testUser: User = { 
+                username: "test", 
+                name: "test", 
+                surname: "test", 
+                role: Role.MANAGER, 
+                address: "test", 
+                birthdate: "test", 
+            } 
+            jest.spyOn(UserDAO.prototype, "deleteUser").mockRejectedValueOnce(new Error()); 
+            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(testUser);  
+            const controller = new UserController(); 
+            await expect(controller.deleteUser(testUser, testUser.username)).rejects.toThrow(Error); 
+            jest.clearAllMocks();
+            jest.resetAllMocks();});});
 
-    const response = await request(app).get(`${baseURL}/users/roles/${role}`);
+ 
 
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(testUsers);
-    expect(UserController.prototype.getUsersByRole).toHaveBeenCalledTimes(1);
-    expect(UserController.prototype.getUsersByRole).toHaveBeenCalledWith(role);
-});
+    });
 
-
-//recupero username
-test("It should return a 200 success code for retrieving a user by username", async () => {
-    const username = "testUser";
-    const testUser = new User("testUser", "Test", "User", Role.MANAGER, "Test Address", "2000-01-01");
-
-    jest.spyOn(UserController.prototype, "getUserByUsername").mockResolvedValueOnce(testUser);
-
-    const response = await request(app).get(`${baseURL}/users/${username}`);
-
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(testUser);
-    expect(UserController.prototype.getUserByUsername).toHaveBeenCalledTimes(1);
-    expect(UserController.prototype.getUserByUsername).toHaveBeenCalledWith(expect.any(Object), username);
-});
-
-
-//delete
-test("It should return a 200 success code for deleting a user", async () => {
-    const username = "testUser";
-
-    jest.spyOn(UserController.prototype, "deleteUser").mockResolvedValueOnce(true);
-
-    const response = await request(app).delete(`${baseURL}/users/${username}`);
-
-    expect(response.status).toBe(200);
-    expect(UserController.prototype.deleteUser).toHaveBeenCalledTimes(1);
-    expect(UserController.prototype.deleteUser).toHaveBeenCalledWith(expect.any(Object), username);
-});
-
-//aggiornamento info
-test("It should return a 200 success code for updating a user", async () => {
-    const username = "testUser";
-    const updateData = {
-        name: "Updated Name",
-        surname: "Updated Surname",
-        address: "Updated Address",
-        birthdate: "2000-01-01"
-    };
-
-    // Il mock del metodo updateUserInfo restituisce true
-    jest.spyOn(UserController.prototype, "updateUserInfo").mockResolvedValueOnce(true);
-
-    const response = await request(app).patch(`${baseURL}/users/${username}`).send(updateData);
-
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(true);
-    expect(UserController.prototype.updateUserInfo).toHaveBeenCalledTimes(1);
-    expect(UserController.prototype.updateUserInfo).toHaveBeenCalledWith(
-        expect.any(Object),
-        updateData.name,
-        updateData.surname,
-        updateData.address,
-        updateData.birthdate,
-        username
-    );
-});
-
-
+    describe("Update user Info", () => {
+        test("true con user aggiornato", async () => {
+            const testUser: User = {
+                username: "test",
+                name: "test",
+                surname: "test",
+                role: Role.MANAGER,
+                address: "test",
+                birthdate: "test",
+            };
+            jest.spyOn(UserDAO.prototype, "updateUserInfo").mockResolvedValueOnce(true);
+            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(testUser);
+            const controller = new UserController();
+            const response = await controller.updateUserInfo(testUser, testUser.name, testUser.surname, testUser.address, testUser.birthdate, testUser.username);
+    
+            expect(UserDAO.prototype.updateUserInfo).toHaveBeenCalledTimes(1);
+            expect(UserDAO.prototype.updateUserInfo).toHaveBeenCalledWith(testUser.name, testUser.surname, testUser.address, testUser.birthdate, testUser.username);
+            expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledTimes(1);
+            expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledWith(testUser.username);
+            expect(response).toEqual(true);
+            jest.clearAllMocks();
+            jest.resetAllMocks();
+        });
+    
+        test("true se admin aggiorna utente", async () => {
+            const testUser1: User = {
+                username: "test",
+                name: "test",
+                surname: "test",
+                role: Role.ADMIN,
+                address: "test",
+                birthdate: "test",
+            };
+            const testUser2: User = {
+                username: "test2",
+                name: "test2",
+                surname: "test2",
+                role: Role.MANAGER,
+                address: "test2",
+                birthdate: "test2",
+            };
+            jest.spyOn(UserDAO.prototype, "updateUserInfo").mockResolvedValueOnce(true);
+            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(testUser2);
+            const controller = new UserController();
+            const response = await controller.updateUserInfo(testUser1, testUser2.name, testUser2.surname, testUser2.address, testUser2.birthdate, testUser2.username);
+    
+            expect(UserDAO.prototype.updateUserInfo).toHaveBeenCalledTimes(1);
+            expect(UserDAO.prototype.updateUserInfo).toHaveBeenCalledWith(testUser2.name, testUser2.surname, testUser2.address, testUser2.birthdate, testUser2.username);
+            expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledTimes(1);
+            expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledWith(testUser2.username);
+            expect(response).toEqual(true);
+            jest.clearAllMocks();
+            jest.resetAllMocks();
+        });
+    
+        test("error se customer aggiorna un altro utente ", async () => {
+            const testUser1: User = {
+                username: "test",
+                name: "test",
+                surname: "test",
+                role: Role.CUSTOMER,
+                address: "test",
+                birthdate: "test",
+            };
+            const testUser2: User = {
+                username: "test2",
+                name: "test2",
+                surname: "test2",
+                role: Role.CUSTOMER,
+                address: "test2",
+                birthdate: "test2",
+            };
+            jest.spyOn(UserDAO.prototype, "updateUserInfo").mockResolvedValueOnce(true);
+            const controller = new UserController();
+            await expect(controller.updateUserInfo(testUser1, testUser2.name, testUser2.surname, testUser2.address, testUser2.birthdate, testUser2.username)).rejects.toThrow(new UnauthorizedEditError());
+            jest.clearAllMocks();
+            jest.resetAllMocks();
+        });
+    
+        test("aggiornamento fail", async () => {
+            const testUser: User = {
+                username: "test",
+                name: "test",
+                surname: "test",
+                role: Role.MANAGER,
+                address: "test",
+                birthdate: "test",
+            };
+            jest.spyOn(UserDAO.prototype, "updateUserInfo").mockRejectedValueOnce(new Error("Update failed"));
+            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(testUser);
+            const controller = new UserController();
+            await expect(controller.updateUserInfo(testUser, testUser.name, testUser.surname, testUser.address, testUser.birthdate, testUser.username)).rejects.toThrow("Update failed");
+            jest.clearAllMocks();
+            jest.resetAllMocks();
+        });
+    
+        test("user non trovato", async () => {
+            const testUser: User = {
+                username: "test",
+                name: "test",
+                surname: "test",
+                role: Role.MANAGER,
+                address: "test",
+                birthdate: "test",
+            };
+            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockRejectedValueOnce(new UserNotFoundError());
+            const controller = new UserController();
+            await expect(controller.getUserByUsername(testUser, testUser.username)).rejects.toThrow(UserNotFoundError);
+            jest.clearAllMocks();
+        });
+    });
+    
+    
+    
+    

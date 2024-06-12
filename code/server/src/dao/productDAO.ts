@@ -1,38 +1,25 @@
 import { resolve } from "path";
-import { Category, Product, getCategory } from "./../components/product";
+import { Category, Product} from "./../components/product";
 import db from "./../db/db";
 import { rejects } from "assert";
+import { EmptyProductStockError, LowProductStockError, ProductAlreadyExistsError, ProductNotFoundError } from "../errors/productError";
 /**
  * A class that implements the interaction with the database for all product-related operations.
  * You are free to implement any method you need here, as long as the requirements are satisfied.
  */
 class ProductDAO {
-    /*async insertProduct(model: string, category: string, quantity: number, details: string | null, sellingPrice: number, arrivalDate: string | null) : Promise<Product> {
-        const query = "INSERT INTO Products (model, category, quantity, details, sellingPrice, arrivalDate) VALUES(?, ?, ?, ?, ?, ?)";
-        const cat = getCategory(category);
 
-        return new Promise((resolve, reject) => {
-            
-            db.run(query, [model, category, quantity, details, sellingPrice, arrivalDate], (err) => {
-                if(err){
-                    reject(err);
-                } else {
-                    const p = new Product(sellingPrice, model, cat, arrivalDate, details, quantity);
-                    resolve(p);
-                }
-            })
-        })
-    }*/
-
-    insertProduct(model: string, category: string, quantity: number, details: string | null, sellingPrice: number, arrivalDate: string | null) : Promise<boolean>{
-        return new Promise<boolean>((resolve, reject) => {
+    insertProduct(model: string, category: string, quantity: number, details: string | null, sellingPrice: number, arrivalDate: string | null) : Promise<void>{
+        return new Promise<void>((resolve, reject) => {
             try{
                 const sql = "INSERT INTO Products (model, category, quantity, details, price, arrivalDate) VALUES(?, ?, ?, ?, ?, ?)";
                 db.run(sql, [model, category, quantity, details, sellingPrice, arrivalDate], (err : Error | null) => {
                     if(err){
+                        if(err.message.includes("UNIQUE constraint failed: Products.model"))
+                            reject(new ProductAlreadyExistsError());
                         reject(err);
                     } else {
-                        resolve(true);
+                        resolve();
                     }
                 })
             } catch(error){
@@ -42,8 +29,9 @@ class ProductDAO {
     }
 
     changeProductQuantity(model: string, newQuantity: number, changeDate: string | null) : Promise<Number>{
-        return new Promise<Number>((resolve, reject) => {
+        return new Promise<Number>(async (resolve, reject) => {
             try{
+                const product = await this.getAllProducts("model", null, model);
                 let SQL = `UPDATE Products SET quantity = quantity + \"${newQuantity}\" WHERE model = \"${model}\"`;
                 if(changeDate !== null)
                     SQL = SQL + `AND arrivalDate = \"${changeDate}\"`;
@@ -51,9 +39,7 @@ class ProductDAO {
                     if(err){
                         reject(err);
                     } else {
-                        this.getAllProducts("model", null, model).then(
-                            p => resolve(p[0].quantity)
-                        )
+                        resolve(product[0].quantity + newQuantity);
                     }
                 })
             } catch (error){
@@ -75,7 +61,7 @@ class ProductDAO {
                     if(err){
                         reject(err);
                     } else {
-                        const products = rows.map(pr => new Product(pr.price, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
+                        const products = rows.map(pr => new Product(pr.sellingPrice, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
                         resolve(products);
                     }
                 })
@@ -86,16 +72,27 @@ class ProductDAO {
     }
 
     sellProduct(model: string, quantity: number, sellingDate: string | null): Promise<Number>{
-        return new Promise<Number>((resolve, reject) => {
+        return new Promise<Number>(async (resolve, reject) => {
             try{
+                const p = await this.getAllProducts("model", null, model)
+                if(p.length === 0){
+                     reject(new ProductNotFoundError);
+                     return;
+                }
+                else if(p[0].quantity === 0){
+                    reject(new EmptyProductStockError);
+                    return;
+                }
+                else if(p[0].quantity < quantity){ 
+                    reject(new LowProductStockError);
+                    return;
+                }
                 const SQL = `UPDATE Products SET quantity = quantity - \"${quantity}\" WHERE model = \"${model}\"`;
                 db.run(SQL, (err : Error | null) => {
                     if(err !== null){
                         reject(err)
                     } else {
-                        this.getAllProducts("model", null, model).then(
-                            p => resolve(p[0].quantity)
-                        )
+                        resolve(p[0].quantity - quantity);
                     }
                 })
             } catch(error){
@@ -117,7 +114,7 @@ class ProductDAO {
                     if(err !== null){
                         reject(err);
                     } else {
-                        const availableProducts = rows.map(pr => new Product(pr.price, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
+                        const availableProducts = rows.map(pr => new Product(pr.sellingPrice, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
                         resolve(availableProducts);
                     }
                     
@@ -145,7 +142,7 @@ class ProductDAO {
         })
     }
 
-    deleteProducts(model: string): Promise<Boolean>{
+    deleteProduct(model: string): Promise<Boolean>{
         return new Promise<boolean>((resolve, reject) => {
             try{
                 const SQL = `DELETE FROM Products WHERE model = \"${model}\"`;
