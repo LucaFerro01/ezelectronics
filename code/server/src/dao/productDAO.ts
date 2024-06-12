@@ -142,7 +142,7 @@ class ProductDAO {
         })
     }
 
-    deleteProducts(model: string): Promise<Boolean>{
+    deleteProduct(model: string): Promise<Boolean>{
         return new Promise<boolean>((resolve, reject) => {
             try{
                 const SQL = `DELETE FROM Products WHERE model = \"${model}\"`;

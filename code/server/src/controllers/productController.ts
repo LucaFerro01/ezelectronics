@@ -23,12 +23,8 @@ class ProductController {
      * @returns A Promise that resolves to nothing.
      */
     async registerProducts(model: string, category: string, quantity: number, details: string | null, sellingPrice: number, arrivalDate: string | null) : Promise<void>/**:Promise<void> */ { 
-        try{
-            const isOk = await this.dao.insertProduct(model, category, quantity, details, sellingPrice, arrivalDate);
-            return isOk;
-        } catch (error){
-            throw error;
-        }
+        const isOk = await this.dao.insertProduct(model, category, quantity, details, sellingPrice, arrivalDate);
+        return isOk;
     }
 
     /**
@@ -93,7 +89,9 @@ class ProductController {
      * @param model The model of the product to delete
      * @returns A Promise that resolves to `true` if the product has been successfully deleted.
      */
-    async deleteProduct(model: string) /**:Promise <Boolean> */ { }
+    async deleteProduct(model: string) /**:Promise <Boolean> */ {
+        return this.dao.deleteProduct(model);
+     }
 
 }
 

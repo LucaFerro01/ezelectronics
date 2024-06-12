@@ -95,7 +95,7 @@ describe("ProductDAO", () => {
             return {} as Database
         })
 
-        const isDeleted = await dao.deleteProducts("Motorola g84");
+        const isDeleted = await dao.deleteProduct("Motorola g84");
         expect(isDeleted).toBe(true)
     })
 })
