@@ -26,4 +26,15 @@ describe("Route product test", () => {
         expect(ProductController.prototype.registerProducts).toHaveBeenCalledTimes(1);
         expect(ProductController.prototype.registerProducts).toHaveBeenCalledWith(productTest.model, productTest.category, productTest.quantity, productTest.details, productTest.sellingPrice, productTest.arrivalDate);
     })
+
+    test("Return 401 status code, for low quantity", async () => {
+        const productTest = new Product(200, "IDK", Category.APPLIANCE, null, "Idk what is it an appliance", 0);
+        jest.spyOn(Authenticator.prototype, "isLoggedIn").mockImplementationOnce((req, res, next) => {return next()});
+        jest.spyOn(Authenticator.prototype, "isManager").mockImplementationOnce((req, res, next) => {return next()});
+        jest.spyOn(ProductController.prototype, "registerProducts").mockResolvedValueOnce(undefined);
+
+        const response = await request(app).post(baseURL + "/products").send(productTest);
+        expect(response.status).toBe(422);
+        //expect(ProductController.prototype.registerProducts).toHaveBeenCalledTimes(0);
+    })
 })
