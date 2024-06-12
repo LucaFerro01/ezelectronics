@@ -98,7 +98,7 @@ class ProductRoutes {
             this.authenticator.isManager,
             param("model").isString().isLength({min: 1}),
             body("quantity").isFloat({min: 1}),
-            body("changeDate").optional().if((value: string) => value !== null).isDate({ format: "YYYY-MM-DD", strictMode: true }),
+            body("changeDate").optional().if((value: string) => (value !== null || value !== "")).isDate({ format: "YYYY-MM-DD", strictMode: true }),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.changeProductQuantity(req.params.model, req.body.quantity, req.body.changeDate)
                 .then((quantity: any /**number */) => res.status(200).json({ quantity: quantity }))
