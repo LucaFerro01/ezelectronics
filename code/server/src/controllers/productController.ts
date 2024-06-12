@@ -22,10 +22,10 @@ class ProductController {
      * @param arrivalDate The optional date in which the product arrived.
      * @returns A Promise that resolves to nothing.
      */
-    async registerProducts(model: string, category: string, quantity: number, details: string | null, sellingPrice: number, arrivalDate: string | null) /**:Promise<void> */ { 
+    async registerProducts(model: string, category: string, quantity: number, details: string | null, sellingPrice: number, arrivalDate: string | null) : Promise<void>/**:Promise<void> */ { 
         try{
             const isOk = await this.dao.insertProduct(model, category, quantity, details, sellingPrice, arrivalDate);
-            console.log(isOk);
+            return isOk;
         } catch (error){
             throw error;
         }

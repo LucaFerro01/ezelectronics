@@ -1,13 +1,11 @@
 import { describe, test, expect, beforeAll, afterAll, jest } from "@jest/globals";
 
 import ProductDAO from "../../src/dao/productDAO";
-import crypto from "crypto";
 import db from "../../src/db/db";
 import { Database } from "sqlite3";
 import { Category, Product } from "../../src/components/product";
 import { beforeEach } from "node:test";
 import { EmptyProductStockError, LowProductStockError, ProductAlreadyExistsError, ProductNotFoundError } from "../../src/errors/productError";
-import { escape } from "querystring";
 
 jest.mock("../../src/db/db.ts");
 
@@ -30,7 +28,7 @@ describe("ProductDAO", () => {
             return {} as Database
         })
         const resultInsert = await dao.insertProduct(product1.model, product1.category, product1.quantity, product1.details, product1.sellingPrice, product1.arrivalDate);
-        expect(resultInsert).toBe(true);
+        expect(resultInsert).toBe(undefined);
     })
 
     test("Change quantity", async () => {
@@ -116,10 +114,6 @@ describe("Product DAO with error", () => {
         product3 = new Product(300, "HP Pavillion", Category.LAPTOP, null, "Not enough", 1);
     })
 
-    beforeEach(() => {
-        jest.clearAllMocks();
-    })
-
     test("Insert product already exists", async () => {
         const mockDBRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
             callback(new Error("UNIQUE constraint failed: Products.model"));
@@ -129,6 +123,7 @@ describe("Product DAO with error", () => {
     })
 
     test("Sell not existing product", () => {
+        jest.clearAllMocks();
 
         const mockDBRun = jest.spyOn(db, "run").mockImplementation((sql, callback) => {
             callback(null)
@@ -137,7 +132,7 @@ describe("Product DAO with error", () => {
         const mockDAOgetAllProducts = jest.spyOn(ProductDAO.prototype, "getAllProducts").mockResolvedValueOnce([]);
 
         expect(dao.sellProduct("iPhone", 3, null)).rejects.toThrow(ProductNotFoundError)
-        //expect(mockDBRun).toHaveBeenCalledTimes(0);
+        expect(mockDBRun).toHaveBeenCalledTimes(0);
     })
 
     test("Sell product with no quantity", () => {

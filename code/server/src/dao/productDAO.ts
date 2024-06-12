@@ -9,8 +9,8 @@ import { EmptyProductStockError, LowProductStockError, ProductAlreadyExistsError
  */
 class ProductDAO {
 
-    insertProduct(model: string, category: string, quantity: number, details: string | null, sellingPrice: number, arrivalDate: string | null) : Promise<boolean>{
-        return new Promise<boolean>((resolve, reject) => {
+    insertProduct(model: string, category: string, quantity: number, details: string | null, sellingPrice: number, arrivalDate: string | null) : Promise<void>{
+        return new Promise<void>((resolve, reject) => {
             try{
                 const sql = "INSERT INTO Products (model, category, quantity, details, price, arrivalDate) VALUES(?, ?, ?, ?, ?, ?)";
                 db.run(sql, [model, category, quantity, details, sellingPrice, arrivalDate], (err : Error | null) => {
@@ -19,7 +19,7 @@ class ProductDAO {
                             reject(new ProductAlreadyExistsError());
                         reject(err);
                     } else {
-                        resolve(true);
+                        resolve();
                     }
                 })
             } catch(error){
