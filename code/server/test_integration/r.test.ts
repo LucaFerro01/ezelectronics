@@ -50,7 +50,7 @@ async function payCart() {
 describe("Review routes integration tests", () => {
     
     beforeAll(async () => {
-        await cleanup();
+        //await cleanup();
     });
 
     afterAll(async () => {
@@ -59,7 +59,7 @@ describe("Review routes integration tests", () => {
 
     test("add Review - OK", async () => {
         // Cancello tutto ciò che è dentro al db
-        await cleanup();
+        //await cleanup();
     
         // Creazione customers
         await createUsers();

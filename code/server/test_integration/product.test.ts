@@ -14,11 +14,11 @@ const baseURL = "/ezelectronics";
 // User for testing the API 
 const customer = { username: "customer", name: "customer", surname: "customer", password: "customer", role: "Customer" }
 const admin = { username: "admin", name: "admin", surname: "admin", password: "admin", role: "Admin" }
-const menager = { username: "menager", name: "menager", surname: "menager", password: "menager", role: "Menager" }
+const manager = { username: "manager", name: "manager", surname: "manager", password: "manager", role: "Manager" }
 // Cookie to keep user logged in
 let customerCookie : string
 let adminCookie : string
-let menagerCookie : string
+let managerCookie : string
 
 // Product for testing the API
 const testProduct1 = new Product(1000, "LG Gram", Category.LAPTOP, "2024-06-13", "Light PC", 2);
@@ -35,18 +35,9 @@ const postUser = async (userInfo: any) => {
 
 // Function to logs in a user, and return the cookie -> inBound test
 const login = async (userInfo: any) => {
-    return new Promise<string>((resolve, reject) => {
-        request(app)
-            .post(`${baseURL}/sessions`)
-            .send(userInfo)
-            .expect(200)
-            .end((err, res) => {
-                if (err) {
-                    reject(err)
-                }
-                resolve(res.header["set-cookie"][0])
-            })
-    })
+   const userResponse = await request(app).post(`${baseURL}/sessions`).send(userInfo);
+   const sessionID = userResponse.headers['set-cookie'];
+   return sessionID;
 }
 
 describe("Integration test, with no error", () => {
@@ -54,13 +45,13 @@ describe("Integration test, with no error", () => {
     // Before all test clean the test DB, create an Admin user and a Customer user
     beforeAll(async () => {
         await cleanup();
-        console.log(menager)
         await postUser(admin);
         await postUser(customer);
-        await postUser(menager);
+        await postUser(manager);
         adminCookie = await login({username : admin.username, password : admin.password});
         customerCookie = await login({username : customer.username, password : customer.password});
-        menagerCookie = await login({username : menager.username, password : menager.password});
+        managerCookie = await login({username : manager.username, password : manager.password});
+        console.log(managerCookie)
     })
     
     // When conclude all the tests clean the test DB
@@ -70,7 +61,7 @@ describe("Integration test, with no error", () => {
 
     test("Return 200 status code if the product is correctly register", async () => {
         // check the return status code for the product registration
-        await request(app).post(baseURL + "/product").set("Cookie", menagerCookie).send(testProduct1).expect(200);
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(testProduct1).expect(200);
 
     })
 })
