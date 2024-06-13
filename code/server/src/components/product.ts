@@ -38,7 +38,7 @@ enum Category {
     APPLIANCE = "Appliance",
 }
 
-function getCategory(value : string) : Category{
+/*function getCategory(value : string) : Category{
     if(value === Category.APPLIANCE)
         return Category.APPLIANCE
     else if(value === Category.LAPTOP)
@@ -47,6 +47,6 @@ function getCategory(value : string) : Category{
         return Category.SMARTPHONE
     else
         return null;
-}
+}*/
 
-export { Product, Category, getCategory}
+export { Product, Category}
