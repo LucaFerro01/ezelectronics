@@ -134,4 +134,27 @@ describe("Route product test", () => {
 
     })
 
+    test("Delete all the product in the stock", async () => {
+        jest.spyOn(Authenticator.prototype, "isLoggedIn").mockImplementationOnce((req, res, next) => {return next()});
+        jest.spyOn(Authenticator.prototype, "isAdminOrManager").mockImplementationOnce((req, res, next) => {return next()});
+        jest.spyOn(ProductController.prototype, "deleteAllProducts").mockResolvedValueOnce(true);
+
+        const response = await request(app).delete(baseURL + "/products");
+        expect(response.status).toBe(200);
+        expect(ProductController.prototype.deleteAllProducts).toHaveBeenCalledTimes(1);
+        expect(ProductController.prototype.deleteAllProducts).toHaveBeenCalledWith();
+    })
+
+    test("Delete a single product", async ()=> {
+        const deleteModel = "Asus ROG 1";
+        jest.spyOn(Authenticator.prototype, "isLoggedIn").mockImplementationOnce((req, res, next) => {return next()});
+        jest.spyOn(Authenticator.prototype, "isAdminOrManager").mockImplementationOnce((req, res, next) => {return next()});
+        jest.spyOn(ProductController.prototype, "deleteProduct").mockResolvedValueOnce(true);
+
+        const response = await request(app).delete(baseURL + "/products/" + deleteModel);
+        expect(response.status).toBe(200);
+        expect(ProductController.prototype.deleteProduct).toHaveBeenCalledTimes(1);
+        expect(ProductController.prototype.deleteProduct).toHaveBeenCalledWith(deleteModel);
+    })
+
 })

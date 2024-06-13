@@ -79,7 +79,7 @@ class ProductController {
      * Deletes all products.
      * @returns A Promise that resolves to `true` if all products have been successfully deleted.
      */
-    async deleteAllProducts() /**:Promise <Boolean> */ {
+    async deleteAllProducts() : Promise<Boolean>/**:Promise <Boolean> */ {
         return this.dao.deleteAllProducts();
      }
 
@@ -89,7 +89,7 @@ class ProductController {
      * @param model The model of the product to delete
      * @returns A Promise that resolves to `true` if the product has been successfully deleted.
      */
-    async deleteProduct(model: string) /**:Promise <Boolean> */ {
+    async deleteProduct(model: string) : Promise<Boolean> /**:Promise <Boolean> */ {
         return this.dao.deleteProduct(model);
      }
 
