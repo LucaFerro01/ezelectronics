@@ -187,29 +187,33 @@ describe("UserDAO", () => {
     describe("deleteUser", () => {
         test("It should resolve with true when user is deleted by admin", async () => {
             const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
-                callback(null, { changes: 1 }); return {} as Database;
+                callback.call({ changes: 1 }, null); 
+                return {} as Database;
             });
             const result = await userDAO.deleteUser("userToDelete");
             expect(result).toBe(true);
             mockDbRun.mockRestore();
         });
-
+    
         test("It should reject with UserNotFoundError when user does not exist", async () => {
             const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
-                callback(null, { changes: 0 }); return {} as Database;
+                callback.call({ changes: 0 }, null); 
+                return {} as Database;
             });
             await expect(userDAO.deleteUser("nonexistentUser")).rejects.toThrow(UserNotFoundError);
             mockDbRun.mockRestore();
         });
-
+    
         test("It should reject with error when database operation fails", async () => {
             const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
-                callback(new Error("Database error")); return {} as Database;
+                callback(new Error("Database error")); 
+                return {} as Database;
             });
             await expect(userDAO.deleteUser("userToDelete")).rejects.toThrow("Database error");
             mockDbRun.mockRestore();
         });
     });
+    
 
     describe("deleteAll", () => {
         test("It should resolve with true when all non-Admin users are deleted", async () => {
@@ -233,28 +237,32 @@ describe("UserDAO", () => {
     describe("updateUserInfo", () => {
         test("It should resolve with true when user info is updated successfully", async () => {
             const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
-                callback(null, { changes: 1 }); return {} as Database;
+                callback.call({ changes: 1 }, null); 
+                return {} as Database;
             });
             const result = await userDAO.updateUserInfo("John", "Doe", "123 Main St", "1990-01-01", "john.doe");
             expect(result).toBe(true);
             mockDbRun.mockRestore();
         });
-
+    
         test("It should reject with UserNotFoundError when user does not exist", async () => {
             const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
-                callback(null, { changes: 0 }); return {} as Database;
+                callback.call({ changes: 0 }, null); 
+                return {} as Database;
             });
             await expect(userDAO.updateUserInfo("John", "Doe", "123 Main St", "1990-01-01", "nonexistentUser")).rejects.toThrow(UserNotFoundError);
             mockDbRun.mockRestore();
         });
-
+    
         test("It should reject with error when database operation fails", async () => {
             const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
-                callback(new Error("Database error")); return {} as Database;
+                callback(new Error("Database error")); 
+                return {} as Database;
             });
             await expect(userDAO.updateUserInfo("John", "Doe", "123 Main St", "1990-01-01", "john.doe")).rejects.toThrow("Database error");
             mockDbRun.mockRestore();
         });
     });
+    
 
 });

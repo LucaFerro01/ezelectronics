@@ -155,26 +155,27 @@ class UserDAO {
      * @param username - The username of the user to delete. The user must exist.
      * @returns A Promise that resolves to true if the user has been deleted.
      */
-    deleteUser(username: string): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-            try {
-                const sql = "DELETE FROM users WHERE username = ?"
-                db.run(sql, [username], (err: Error | null, result: any) => {
-                    if (err) {
-                        reject(err)
-                        return
-                    }   
-                    if (result.changes === 0) {
-                        reject(new UserNotFoundError());
-                        return;
-                    }
-                    resolve(true)
-                })
-            } catch (error) {
-                reject(error)
-            }
-        })
-    }
+        deleteUser(username: string): Promise<boolean> {
+            return new Promise<boolean>((resolve, reject) => {
+                try {
+                    const sql = "DELETE FROM users WHERE username = ?"
+                    db.run(sql, [username], function (err: Error | null) {
+                        if (err) {
+                            reject(err)
+                            return
+                        }
+                        if (this.changes === 0) {
+                            reject(new UserNotFoundError());
+                            return;
+                        }
+                        resolve(true)
+                    })
+                } catch (error) {
+                    reject(error)
+                }
+            })
+        }
+    
 
     /**
      * Deletes all non-Admin users
@@ -207,27 +208,27 @@ class UserDAO {
      * @param username The username of the user to update. It must be equal to the username of the user parameter.
      * @returns A Promise that resolves to the updated user
      */
-    updateUserInfo(name: string, surname: string, address: string, birthdate: string, username: string): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            try {
-                const sql = "UPDATE users SET name = ?, surname = ?, address = ?, birthdate = ? WHERE username = ?;";
-                const params = [name, surname, address, birthdate, username];
-                db.run(sql, params, (err: Error | null, result: any) => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    if (result.changes === 0) {
-                        reject(new UserNotFoundError());
-                        return;
-                    }
-                    resolve(true);
-                });
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
+        updateUserInfo(name: string, surname: string, address: string, birthdate: string, username: string): Promise<boolean> {
+            return new Promise<boolean>((resolve, reject) => {
+                try {
+                    const sql = "UPDATE users SET name = ?, surname = ?, address = ?, birthdate = ? WHERE username = ?;";
+                    const params = [name, surname, address, birthdate, username];
+                    db.run(sql, params, function (err: Error | null) {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        if (this.changes === 0) {
+                            reject(new UserNotFoundError());
+                            return;
+                        }
+                        resolve(true);
+                    });
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        }
     
 
 }
