@@ -120,4 +120,52 @@ describe("Integration test, with no error", () => {
         const products = await request(app).get(baseURL + "/products/").set("Cookie", managerCookie).send().expect(200);
         expect(JSON.parse(products.text)).toEqual([testProduct1, testProduct2]);
     })
+
+    test("Return 200 status code and the available products", async () => {
+        await cleanup();
+
+        const testSold = {
+            quantity : 1,
+            sellingDate : "2024-06-14"
+        }
+        // Create user
+        await postUser(customer);
+        await postUser(manager);
+        customerCookie = await login({username : customer.username, password : customer.password});
+        managerCookie = await login({username : manager.username, password : manager.password});
+        // Insert product
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(product1Mock).expect(200);
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(product2Mock).expect(200);
+        // Sold product to have in the stock a 0 quantity product
+        await request(app).patch(baseURL + "/products/" + testProduct2.model + "/sell").set("Cookie", managerCookie).send(testSold).expect(200);
+
+        const availableProducts = await request(app).get(baseURL + "/products/available").set("Cookie", customerCookie).send().expect(200);
+        expect(JSON.parse(availableProducts.text)).toEqual([testProduct1]);
+    })
+
+    test("Return 200 status code if all the product are correctly delete", async () => {
+        await cleanup();
+        await postUser(manager);
+        managerCookie = await login({username : manager.username, password : manager.password});
+        // Insert product
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(product1Mock).expect(200);
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(product2Mock).expect(200);
+
+        await request(app).delete(baseURL + "/products").set("Cookie", managerCookie).send().expect(200);
+        const products = await request(app).get(baseURL + "/products/").set("Cookie", managerCookie).send().expect(200);
+        expect(JSON.parse(products.text)).toHaveLength(0);
+    })
+
+    test("Return 200 status code if the selected product was deleted", async () => {
+        await cleanup();
+        await postUser(manager);
+        managerCookie = await login({username : manager.username, password : manager.password});
+        // Insert product
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(product1Mock).expect(200);
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(product2Mock).expect(200);
+
+        await request(app).delete(baseURL + "/products/" + testProduct1.model).set("Cookie", managerCookie).send().expect(200);
+        const products = await request(app).get(baseURL + "/products/").set("Cookie", managerCookie).send().expect(200);
+        expect(JSON.parse(products.text)).toEqual([testProduct2]);
+    })
 })
