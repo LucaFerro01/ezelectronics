@@ -22,7 +22,7 @@ let managerCookie : string
 
 // Product for testing the API
 const testProduct1 = new Product(1000, "LG Gram", Category.LAPTOP, "2024-06-13", "Light PC", 2);
-const testProduct2 = new Product(50, "IDK", Category.APPLIANCE, null, "Idk what is it an appliance", 0);
+const testProduct2 = new Product(50, "IDK", Category.APPLIANCE, null, "Idk what is it an appliance", 1);
 const testProduct3 = new Product(300, "Asus ROG 1", Category.SMARTPHONE, null, "Gaming phone", 1)
 
 // Function to create new user -> is a inBound test
@@ -62,6 +62,14 @@ describe("Integration test, with no error", () => {
     test("Return 200 status code if the product is correctly register", async () => {
         // check the return status code for the product registration
         await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(testProduct1).expect(200);
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(testProduct2).expect(200);
+    })
 
+    test("Return 200 status code and the new quantity of the model", async () => {
+        const testAdd = {
+            quantity : 1,
+            changeDate : ""
+        }
+        await request(app).patch(baseURL + "/products/" + testProduct2.model).set("Cookie", managerCookie).send(testAdd).expect(200);
     })
 })

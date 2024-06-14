@@ -75,7 +75,7 @@ class ProductRoutes {
             body("category").isString().isIn(["Smartphone", "Laptop", "Appliance"]).withMessage("Category need to be in: Smartphone, Laptop, Appliance"),
             body("quantity").isInt({min: 1}).isInt().withMessage("Quantity need to be numeric greather than 0"),
             body("details").isString().isLength({min: 1}).withMessage("Details need to be a string"),
-            body("sellingPrice").isFloat({min: 1}).withMessage("Selling price need to be a number greather than 0"),
+            body("sellingPrice").isInt({min: 1}).withMessage("Selling price need to be a number greather than 0"),
             body("arrivalDate").optional().if((value: string) => value !== null).isDate({ format: "YYYY-MM-DD", strictMode: true }),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.registerProducts(req.body.model, req.body.category, req.body.quantity, req.body.details, req.body.sellingPrice, req.body.arrivalDate)
@@ -97,8 +97,8 @@ class ProductRoutes {
             this.authenticator.isLoggedIn,
             this.authenticator.isManager,
             param("model").isString().isLength({min: 1}),
-            body("quantity").isFloat({min: 1}),
-            body("changeDate").optional().if((value: string) => (value !== null || value !== "")).isDate({ format: "YYYY-MM-DD", strictMode: true }),
+            body("quantity").isInt({min: 1}),
+            body("changeDate").optional().if((value: string) => (value !== null && (value !== ""))).isDate({ format: "YYYY-MM-DD", strictMode: true }),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.changeProductQuantity(req.params.model, req.body.quantity, req.body.changeDate)
                 .then((quantity: any /**number */) => res.status(200).json({ quantity: quantity }))
