@@ -1,7 +1,7 @@
 import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 import request from "supertest";
-import { app } from "../../index";
-import { cleanup } from "../../src/db/cleanup";
+import { app } from "../index";
+import { cleanup } from "../src/db/cleanup";
 
 const basePath = "/ezelectronics";
 const cartPath = basePath + "/carts";
