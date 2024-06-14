@@ -143,9 +143,9 @@ class ProductRoutes {
             "/",
             this.authenticator.isLoggedIn,
             this.authenticator.isAdminOrManager,
-            body("grouping").if(body("grouping").exists({checkNull: true})).isString().isIn(["category", "model", ""]),
-            body("category").if(body("grouping").equals("category")).isString().notEmpty(),
-            body("model").if(body("grouping").equals("model")).isString().notEmpty(),
+            query("grouping").if(query("grouping").exists({checkNull: true})).isString().isIn(["category", "model", ""]),
+            query("category").if(query("grouping").equals("category")).isString().notEmpty(),
+            query("model").if(query("grouping").equals("model")).isString().notEmpty(),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getProducts(req.query.grouping, req.query.category, req.query.model)
                 .then((products: any /*Product[]*/) => res.status(200).json(products))
@@ -168,9 +168,9 @@ class ProductRoutes {
             "/available",
             this.authenticator.isLoggedIn,
             this.authenticator.isCustomer,
-            body("grouping").if(body("grouping").exists({checkNull: true})).isString().isIn(["category", "model", ""]),
-            body("category").if(body("grouping").equals("category")).isString().notEmpty(),
-            body("model").if(body("grouping").equals("model")).isString().notEmpty(),
+            query("grouping").if(query("grouping").exists({checkNull: true})).isString().isIn(["category", "model", ""]),
+            query("category").if(query("grouping").equals("category")).isString().notEmpty(),
+            query("model").if(query("grouping").equals("model")).isString().notEmpty(),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getAvailableProducts(req.query.grouping, req.query.category, req.query.model)
                 .then((products: any/*Product[]*/) => res.status(200).json(products))

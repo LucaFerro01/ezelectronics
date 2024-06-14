@@ -65,11 +65,43 @@ describe("Integration test, with no error", () => {
         await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(testProduct2).expect(200);
     })
 
-    test("Return 200 status code and the new quantity of the model", async () => {
+    test("Return 200 status code and the new add quantity of the model", async () => {
         const testAdd = {
             quantity : 1,
             changeDate : ""
         }
-        await request(app).patch(baseURL + "/products/" + testProduct2.model).set("Cookie", managerCookie).send(testAdd).expect(200);
+        const newQty = await request(app).patch(baseURL + "/products/" + testProduct2.model).set("Cookie", managerCookie).send(testAdd).expect(200);
+        expect(JSON.parse(newQty.text)["quantity"]).toBe(testProduct2.quantity + testAdd.quantity);
+    })
+
+    test("Return 200 status code and the new sold quantity of the model", async () => {
+        const testSold = {
+            quantity : 1,
+            sellingDate : "2024-06-14"
+        }
+        const soldQty = await request(app).patch(baseURL + "/products/" + testProduct1.model + "/sell").set("Cookie", managerCookie).send(testSold).expect(200);
+        expect(JSON.parse(soldQty.text)["quantity"]).toBe(testProduct1.quantity - testSold.quantity);
+    })
+
+    test("Return 200 status code and the array of all the products", async () => {
+        await cleanup();
+        await postUser(manager);
+        managerCookie = await login({username : manager.username, password : manager.password});
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(testProduct1).expect(200);
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(testProduct2).expect(200);
+        const products = await request(app).get(baseURL + "/products/").set("Cookie", managerCookie).send().expect(200);
+        expect(JSON.parse(products.text)[0]["model"]).toBe(testProduct1.model);
+        expect(JSON.parse(products.text)[0]["category"]).toBe(testProduct1.category);
+        expect(JSON.parse(products.text)[0]["sellingPrice"]).toBe(testProduct1.sellingPrice);
+        expect(JSON.parse(products.text)[0]["arrivalDate"]).toBe(testProduct1.arrivalDate);
+        expect(JSON.parse(products.text)[0]["details"]).toBe(testProduct1.details);
+        expect(JSON.parse(products.text)[0]["quantity"]).toBe(testProduct1.quantity);
+        expect(JSON.parse(products.text)[1]["model"]).toBe(testProduct2.model);
+        expect(JSON.parse(products.text)[1]["category"]).toBe(testProduct2.category);
+        expect(JSON.parse(products.text)[1]["sellingPrice"]).toBe(testProduct2.sellingPrice);
+        expect(JSON.parse(products.text)[1]["arrivalDate"]).toBe(testProduct2.arrivalDate);
+        expect(JSON.parse(products.text)[1]["details"]).toBe(testProduct2.details);
+        expect(JSON.parse(products.text)[1]["quantity"]).toBe(testProduct2.quantity);
+        //expect(JSON.parse(products.text)).toEqual(JSON.stringify([testProduct1, testProduct2]));
     })
 })
