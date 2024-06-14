@@ -22,8 +22,36 @@ let managerCookie : string
 
 // Product for testing the API
 const testProduct1 = new Product(1000, "LG Gram", Category.LAPTOP, "2024-06-13", "Light PC", 2);
-const testProduct2 = new Product(50, "IDK", Category.APPLIANCE, null, "Idk what is it an appliance", 1);
-const testProduct3 = new Product(300, "Asus ROG 1", Category.SMARTPHONE, null, "Gaming phone", 1)
+const testProduct2 = new Product(50, "IDK", Category.APPLIANCE, "", "Idk what is it an appliance", 1);
+const testProduct3 = new Product(300, "Asus ROG 1", Category.SMARTPHONE, "", "Gaming phone", 1);
+
+// Mock product for testing API
+const product1Mock = {
+    "sellingPrice" : 1000,
+    "model" : "LG Gram",
+    "category" : Category.LAPTOP,
+    "arrivalDate" : "2024-06-13",
+    "details" : "Light PC",
+    "quantity" : 2
+};
+
+const product2Mock = {
+    "sellingPrice" : 50,
+    "model" : "IDK",
+    "category" : Category.APPLIANCE,
+    "arrivalDate" : "",
+    "details" : "Idk what is it an appliance",
+    "quantity" : 1
+}
+
+const product3Mock = {
+    "price" : 300,
+    "model" : "Asus ROG 1",
+    "category" : Category.SMARTPHONE,
+    "arrivalDate" : "",
+    "details" : "Gaming phone",
+    "quantity" : 1
+}
 
 // Function to create new user -> is a inBound test
 const postUser = async (userInfo: any) => {
@@ -87,21 +115,9 @@ describe("Integration test, with no error", () => {
         await cleanup();
         await postUser(manager);
         managerCookie = await login({username : manager.username, password : manager.password});
-        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(testProduct1).expect(200);
-        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(testProduct2).expect(200);
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(product1Mock).expect(200);
+        await request(app).post(baseURL + "/products").set("Cookie", managerCookie).send(product2Mock).expect(200);
         const products = await request(app).get(baseURL + "/products/").set("Cookie", managerCookie).send().expect(200);
-        expect(JSON.parse(products.text)[0]["model"]).toBe(testProduct1.model);
-        expect(JSON.parse(products.text)[0]["category"]).toBe(testProduct1.category);
-        expect(JSON.parse(products.text)[0]["sellingPrice"]).toBe(testProduct1.sellingPrice);
-        expect(JSON.parse(products.text)[0]["arrivalDate"]).toBe(testProduct1.arrivalDate);
-        expect(JSON.parse(products.text)[0]["details"]).toBe(testProduct1.details);
-        expect(JSON.parse(products.text)[0]["quantity"]).toBe(testProduct1.quantity);
-        expect(JSON.parse(products.text)[1]["model"]).toBe(testProduct2.model);
-        expect(JSON.parse(products.text)[1]["category"]).toBe(testProduct2.category);
-        expect(JSON.parse(products.text)[1]["sellingPrice"]).toBe(testProduct2.sellingPrice);
-        expect(JSON.parse(products.text)[1]["arrivalDate"]).toBe(testProduct2.arrivalDate);
-        expect(JSON.parse(products.text)[1]["details"]).toBe(testProduct2.details);
-        expect(JSON.parse(products.text)[1]["quantity"]).toBe(testProduct2.quantity);
-        //expect(JSON.parse(products.text)).toEqual(JSON.stringify([testProduct1, testProduct2]));
+        expect(JSON.parse(products.text)).toEqual([testProduct1, testProduct2]);
     })
 })
