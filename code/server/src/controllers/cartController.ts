@@ -37,25 +37,25 @@ class CartController {
                 throw new EmptyProductStockError();
             }
 
-            const cart = await this.cartDAO.getCurrentCart(user.username);
-            if (!cart) {
+            const dbCart = await this.cartDAO.getCurrentCart(user.username);
+            if (!dbCart) {
                 await this.cartDAO.createCart(user.username);
-                await this.cartDAO.addCartProduct(user.username, model, product.sellingPrice, product.category);
+                await this.cartDAO.addCartProduct(0, model, product.sellingPrice, product.category, user.username);
                 return true;
             }
 
             let foundProduct = false;
-            for (let i = 0; i < cart.products.length; i++) {
-                if (cart.products[i].model == model) {
+            for (let i = 0; i < dbCart.cart.products.length; i++) {
+                if (dbCart.cart.products[i].model == model) {
                     foundProduct = true;
                     break;
                 }
             }
 
             if (foundProduct) {
-                await this.cartDAO.incrementProductQty(user.username, model);
+                await this.cartDAO.incrementProductQty(dbCart.cartId, model);
             } else {
-                await this.cartDAO.addCartProduct(user.username, model, product.sellingPrice, product.category);
+                await this.cartDAO.addCartProduct(dbCart.cartId, model, product.sellingPrice, product.category);
             }
 
             return true;
@@ -69,13 +69,13 @@ class CartController {
      * @param user - The user for whom to retrieve the cart.
      * @returns A Promise that resolves to the user's cart or an empty one if there is no current cart.
      */
-    async getCart(user: User) /*: Cart*/ {
+    async getCart(user: User): Promise<Cart> {
         try {
-            const cart = await this.cartDAO.getCurrentCart(user.username);
-            if (!cart) {
+            const dbCart = await this.cartDAO.getCurrentCart(user.username);
+            if (!dbCart) {
                 return new Cart(user.username, false, null, 0, []);
             }
-            return cart;
+            return dbCart.cart;
         } catch (error) {
             throw error;
         }
@@ -89,11 +89,12 @@ class CartController {
      */
     async checkoutCart(user: User) /**Promise<Boolean> */ {
         try {
-            const cart = await this.cartDAO.getCurrentCart(user.username);
-            if (!cart) {
+            const dbCart = await this.cartDAO.getCurrentCart(user.username);
+            if (!dbCart) {
                 throw new CartNotFoundError();
             }
 
+            const { cart } = dbCart;
             if (cart.products.length == 0) {
                 throw new EmptyCartError();
             }
@@ -108,7 +109,9 @@ class CartController {
                 const tmpP = tmpProds[0];
                 if (tmpP.quantity == 0) {
                     throw new EmptyProductStockError();
-                } else if (tmpP.quantity < p.quantity) {
+                }
+
+                if (tmpP.quantity < p.quantity) {
                     throw new LowProductStockError();
                 }
             }
@@ -127,9 +130,15 @@ class CartController {
      * @returns A Promise that resolves to an array of carts belonging to the customer.
      * Only the carts that have been checked out should be returned, the current cart should not be included in the result.
      */
-    async getCustomerCarts(user: User) /**Promise<Cart[]> */ {
+    async getCustomerCarts(user: User): Promise<Cart[]> {
         try {
-            const carts = await this.cartDAO.getPaidCarts(user.username);
+            const dbCarts = await this.cartDAO.getPaidCarts(user.username);
+
+            const carts: Cart[] = [];
+            for (let i = 0; i < dbCarts.length; i++) {
+                carts.push(dbCarts[i].cart);
+            }
+
             return carts;
         } catch (error) {
             throw error;
@@ -144,11 +153,12 @@ class CartController {
      */
     async removeProductFromCart(user: User, model: string) /**Promise<Boolean> */ {
         try {
-            const cart = await this.cartDAO.getCurrentCart(user.username);
-            if (!cart) {
+            const dbCart = await this.cartDAO.getCurrentCart(user.username);
+            if (!dbCart) {
                 throw new CartNotFoundError();
             }
 
+            const { cart } = dbCart;
             let foundProduct = false;
             for (let i = 0; i < cart.products.length; i++) {
                 if (cart.products[i].model == model) {
@@ -165,7 +175,7 @@ class CartController {
                 throw new ProductNotFoundError();
             }
 
-            await this.cartDAO.decrementProductQty(user.username, model);
+            await this.cartDAO.decrementProductQty(dbCart.cartId, model);
 
             return true;
         } catch (error) {
@@ -204,9 +214,15 @@ class CartController {
      * Retrieves all carts in the database.
      * @returns A Promise that resolves to an array of carts.
      */
-    async getAllCarts() /*:Promise<Cart[]> */ {
+    async getAllCarts(): Promise<Cart[]> {
         try {
-            const carts = await this.cartDAO.getAllCarts();
+            const dbCarts = await this.cartDAO.getAllCarts();
+
+            const carts: Cart[] = [];
+            for (let i = 0; i < dbCarts.length; i++) {
+                carts.push(dbCarts[i].cart);
+            }
+
             return carts;
         } catch (error) {
             throw error;
