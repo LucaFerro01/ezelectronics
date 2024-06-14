@@ -32,7 +32,7 @@ async function createProducts() {
 
 // Aggiungi prodotti al carrello
 async function addCartProducts(sessionID: any) {
-    await cartDao.addCartProduct("customer1", "model1", 100, "Smartphone");
+    await cartDao.addCartProduct(1, "model1", 100, "Smartphone");
 }
 
 async function createReviews() {
