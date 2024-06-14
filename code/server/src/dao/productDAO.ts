@@ -61,7 +61,7 @@ class ProductDAO {
                     if(err){
                         reject(err);
                     } else {
-                        const products = rows.map(pr => new Product(pr.sellingPrice, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
+                        const products = rows.map(pr => new Product(pr.price, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
                         resolve(products);
                     }
                 })
@@ -114,7 +114,7 @@ class ProductDAO {
                     if(err !== null){
                         reject(err);
                     } else {
-                        const availableProducts = rows.map(pr => new Product(pr.sellingPrice, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
+                        const availableProducts = rows.map(pr => new Product(pr.price, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
                         resolve(availableProducts);
                     }
                     

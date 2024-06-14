@@ -6,6 +6,7 @@ import { Database } from "sqlite3";
 import { Category, Product } from "../../src/components/product";
 import { beforeEach } from "node:test";
 import { EmptyProductStockError, LowProductStockError, ProductAlreadyExistsError, ProductNotFoundError } from "../../src/errors/productError";
+import { get } from "http";
 
 jest.mock("../../src/db/db.ts");
 
@@ -13,12 +14,32 @@ describe("ProductDAO", () => {
     let dao : ProductDAO;
     let product1 : Product;
     let product2 : Product;
+    let product1Mock : Object;
+    let product2Mock : Object;
 
     beforeAll(() => {
         jest.clearAllMocks;
         dao = new ProductDAO;
         product1 = new Product(200, "Motorola g84", Category.SMARTPHONE, "04/06/2024", "Best buy phone", 4);
         product2 = new Product(500, "Samsung galaxy s24", Category.SMARTPHONE, "11/06/2025", "Explode", 0);
+
+        product1Mock = {
+            "price" : 200,
+            "model" : "Motorola g84",
+            "category" : Category.SMARTPHONE,
+            "arrivalDate" : "04/06/2024",
+            "details" : "Best buy phone",
+            "quantity" : 4
+        };
+
+        product2Mock = {
+            "price" : 500,
+            "model" : "Samsung galaxy s24",
+            "category" : Category.SMARTPHONE,
+            "arrivalDate" : "11/06/2025",
+            "details" : "Explode",
+            "quantity" : 0
+        }
     })
 
 
@@ -46,10 +67,9 @@ describe("ProductDAO", () => {
 
     test("Get Product", async () => {
         const mockDBAll = jest.spyOn(db, "all").mockImplementation((sql, callback) => {
-            callback(null, [product1])
+            callback(null, [product1Mock])
             return {} as Database
         })
-
         const getProducts = await dao.getAllProducts("model", null, "Motorola g84");
         expect(getProducts).toContainEqual(product1);
     })
@@ -71,11 +91,11 @@ describe("ProductDAO", () => {
 
     test("Available products", async () => {
         const mockDBAll = jest.spyOn(db, "all").mockImplementation((sql, callback) => {
-            callback(null, [product1, product2].filter(p => p.quantity > 0))
+            callback(null, [product1Mock, product2Mock].slice(0, 1))
             return {} as Database
         })
-
         const availableProducts = await dao.availableProducts("category", "smartphone", null);
+        console.log(availableProducts)
         expect(availableProducts).toContainEqual(product1);
     })
 
