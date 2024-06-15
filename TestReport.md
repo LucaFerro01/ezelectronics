@@ -12,21 +12,18 @@
     -[Review Controller Unit Tests](#review-controller-unit-tests)
     -[Review DAO Unit Tests](#review-dao-unit-tests)
     -[Review Routes Unit Tests](#review-routes-unit-tests)
-    -[Review Unit
-   Unit Tests](#review-Unit
-  -tests)
+    -[Review Integration Tests](#review-integration-tests)
 - [Coverage](#coverage)
   - [Coverage of FR](#coverage-of-fr)
   - [Coverage white box](#coverage-white-box)
 
 # Dependency graph
 
-     <report the here the dependency graph of EzElectronics>
+  ![alt text](image.png)
 
 # Unit approach
 
-    <Write here the Unit
-   sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
+    <Write here the Unit sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
 
     (ex: step1: unit A, step 2: unit A+B, step 3: unit A+B+C, etc)>
 
@@ -79,24 +76,24 @@
 | Test Case Name                                        | Object(s) tested                               | Test Level | Technique Used              |
 |-------------------------------------------------------|-------------------------------------------------|------------|-----------------------------|
 | Review tests                                          | ReviewController                               | Unit | WB/ statement coverage       |
-|   It should return a 200 success code if a review...  | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 422 error code if the score ...  | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 422 error code if the model...   | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 422 error code if the comme...   | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 200 success code if all rev...   | getProductReviews                               | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | getProductReviews                               | Unit | WB/ statement coverage       |
-|   It should return a 200 success code if a revie...   | deleteReview                                    | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteReview                                    | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteReview                                    | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteReview                                    | Unit | WB/ statement coverage       |
-|   It should return a 200 success code if all rev...   | deleteReviewsOfProduct                          | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteReviewsOfProduct                          | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteReviewsOfProduct                          | Unit | WB/ statement coverage       |
-|   It should return a 200 success code if all rev...   | deleteAllReviews                                | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteAllReviews                                | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteAllReviews                                | Unit | WB/ statement coverage       |
+|   It should return a 200 success code if a review to a product is added  | addReview                                       | Unit | WB/ statement coverage       |
+|   It should return a 422 error code if the score is not between 1 and 5  | addReview                                       | Unit | WB/ statement coverage       |
+|   It should return a 422 error code if the model is an empty string   | addReview                                       | Unit | WB/ statement coverage       |
+|   It should return a 422 error code if the comment is an empty string   | addReview                                       | Unit | WB/ statement coverage       |
+|   It should return a 401 error code if the user is authenticated as manager   | addReview                                       | Unit | WB/ statement coverage       |
+|   It should return a 401 error code if the user is authenticated as admin   | addReview                                       | Unit | WB/ statement coverage       |
+|   It should return a 200 success code if all reviews of a product are returned   | getProductReviews                               | Unit | WB/ statement coverage       |
+|   It should return a 401 error code if the user is not authenticated   | getProductReviews                               | Unit | WB/ statement coverage       |
+|   It should return a 200 success code if a review is deleted   | deleteReview                                    | Unit | WB/ statement coverage       |
+|   It should return a 401 error code if the user is not authenticated  | deleteReview                                    | Unit | WB/ statement coverage       |
+|   It should return a 401 error code if the user is authenticated as admin  | deleteReview                                    | Unit | WB/ statement coverage       |
+|   It should return a 401 error code if the user is authenticated as manager  | deleteReview                                    | Unit | WB/ statement coverage       |
+|   It should return a 200 success code if all reviews of a product are deleted   | deleteReviewsOfProduct                          | Unit | WB/ statement coverage       |
+|   It should return a 401 error code if the user is not authenticated  | deleteReviewsOfProduct                          | Unit | WB/ statement coverage       |
+|   It should return a 401 error code if the user is authenticated as customer   | deleteReviewsOfProduct                          | Unit | WB/ statement coverage       |
+|   It should return a 200 success code if all reviews are deleted   | deleteAllReviews                                | Unit | WB/ statement coverage       |
+|   It should return a 401 error code if the user is not authenticateed  | deleteAllReviews                                | Unit | WB/ statement coverage       |
+|   It should return a 401 error code if the user is authenticated as customer  | deleteAllReviews                                | Unit | WB/ statement coverage       |
 
 ### Review Integration Tests
 | Test Case Name                   | Object(s) tested      | Test Level        | Technique Used       |
@@ -120,7 +117,12 @@
 
 | Functional Requirement or scenario | Test(s) |
 | :--------------------------------: | :-----: |
-|                FRx                 |         |
+|                **Manage reviews**                |         
+|  FR4.1  -      Add a new review to a product   | newReview - should add a review to the database<br>newReview should reject with an error if the product does not exist<br>newReview should reject with an error if the user has already reviewed the product<br>newReview should reject with an error if there is an error checking the product<br>newReview should reject with an error if there is an error checking existing reviews<br>newReview should reject with an error if there is an error inserting the review|
+|  FR4.2  -   Get the list of all reviews assigned to a product | returnReviews should return all reviews for a product from the database<br>returnReviews should reject with an error if the product does not exist<br>returnReviews should reject with an error if there is an error checking the product<br>returnReviews should reject with an error if there is an error fetching reviews |
+|  FR4.3  -          Delete a review given to a product    | deleteReview should delete a review from the database<br>deleteReview should reject with an error if the product does not exist<br>deleteReview should reject with an error if the user has not reviewed the product<br>deleteReview should reject with an error if there is an error checking the product<br>deleteReview should reject with an error if there is an error checking the review<br>deleteReview should reject with an error if there is an error deleting the review|
+|  FR4.4 -          Delete all reviews of a product    |deleteAllReviewsProduct should delete all reviews for a product from the database<br>deleteAllReviewsProduct should reject with an error if the product does not exist<br>deleteAllReviewsProduct should reject with an error if there is an error checking the product<br>deleteAllReviewsProduct should reject with an error if there is an error deleting reviews |
+|  FR4.5 -       Delete all reviews of all products    | deleteAllReviews should delete all reviews from the database<br>deleteAllReviews should reject with an error if there is an error deleting reviews|
 |                FRy                 |         |
 |                ...                 |         |
 
