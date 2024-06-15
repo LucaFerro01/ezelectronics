@@ -49,18 +49,21 @@ const login = async (userInfo: any) => {
 
 
 test("Route for retrieving all users", async () => {
+    const customer1 = { username: "customer1", name: "customer1", surname: "customer1", password: "customer1", role: "Customer" }
     const admin1 = { username: "admin1", name: "admin1", surname: "admin1", password: "admin1", role: "Admin" }
 
     await postUser(admin1);
-    const admin1Cookie = await login(admin1);
-    
+    await postUser(customer1);
+    const adminCookie = await login(admin1);
+
     // call
-    let response = await request(app).get(`${routePath}/users`).set("Cookie", admin1Cookie);
+    let response = await request(app).get(`${routePath}/users`).set("Cookie", adminCookie);
 
     // expect statements
     expect(response.status).toBe(200);
-    expect(response.body).toHaveLength(1);
-    expect((response.body[0]).username).toEqual(admin1.username);
+    expect(response.body).toHaveLength(2);
+    expect(response.body[0].username).toEqual("admin1");
+    expect(response.body[1].username).toEqual("customer1");
     await cleanup();
 });
 
