@@ -4,20 +4,16 @@
 
 # Contents
 
-- [Test Report](#test-report)
-- [Contents](#contents)
-- [Dependency graph](#dependency-graph)
-- [Unit approach](#Unit-approach)
-- [Tests](#tests)
-    -[Review Controller Unit Tests](#review-controller-unit-tests)
-    -[Review DAO Unit Tests](#review-dao-unit-tests)
-    -[Review Routes Unit Tests](#review-routes-unit-tests)
-    -[Review Unit
-   Unit Tests](#review-Unit
-  -tests)
-- [Coverage](#coverage)
-  - [Coverage of FR](#coverage-of-fr)
-  - [Coverage white box](#coverage-white-box)
+-   [Test Report](#test-report)
+-   [Contents](#contents)
+-   [Dependency graph](#dependency-graph)
+-   [Unit approach](#Unit-approach)
+-   [Tests](#tests) -[Review Controller Unit Tests](#review-controller-unit-tests) -[Review DAO Unit Tests](#review-dao-unit-tests) -[Review Routes Unit Tests](#review-routes-unit-tests) -[Review Unit
+    Unit Tests](#review-Unit
+    -tests)
+-   [Coverage](#coverage)
+    -   [Coverage of FR](#coverage-of-fr)
+    -   [Coverage white box](#coverage-white-box)
 
 # Dependency graph
 
@@ -26,7 +22,8 @@
 # Unit approach
 
     <Write here the Unit
-   sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
+
+sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
 
     (ex: step1: unit A, step 2: unit A+B, step 3: unit A+B+C, etc)>
 
@@ -39,78 +36,179 @@
 <in the table below list the test cases defined For each test report the object tested, the test level (API, Unit, unit) and the technique used to define the test case (BB/ eq partitioning, BB/ boundary, WB/ statement coverage, etc)> <split the table if needed>
 
 ### Review Controller Unit Tests
-| Test case name | Object(s) tested | Test level | Technique used |
-| :------------: | :--------------: | :--------: | :------------: |       
-| addReview should call newReview on DAO   | ReviewController| Unit         | WB/ statement coverage    |
-| getProductReviews should call returnReviews on DAO | ReviewController| Unit         | WB/ statement coverage    |
-| deleteReview should call deleteReview on DAO | ReviewController| Unit         | WB/ statement coverage    |
-| deleteReviewsOfProduct should call deleteAllReviewsProduct on DAO | ReviewController| Unit   | WB/ statement coverage    |
-| deleteAllReviews should call deleteAllReviews on DAO | ReviewController| Unit      | WB/ statement coverage    |
 
+|                          Test case name                           | Object(s) tested | Test level |     Technique used     |
+| :---------------------------------------------------------------: | :--------------: | :--------: | :--------------------: |
+|              addReview should call newReview on DAO               | ReviewController |    Unit    | WB/ statement coverage |
+|        getProductReviews should call returnReviews on DAO         | ReviewController |    Unit    | WB/ statement coverage |
+|           deleteReview should call deleteReview on DAO            | ReviewController |    Unit    | WB/ statement coverage |
+| deleteReviewsOfProduct should call deleteAllReviewsProduct on DAO | ReviewController |    Unit    | WB/ statement coverage |
+|       deleteAllReviews should call deleteAllReviews on DAO        | ReviewController |    Unit    | WB/ statement coverage |
 
 ### Review DAO Unit Tests
-| Test case name | Object(s) tested | Test level | Technique used |
-| :------------: | :--------------: | :--------: | :------------: |
-| newReview should add a review to the database | ReviewDAO         | Unit  | WB/ statement coverage    |
-| newReview should reject with an error if the product does not exist | ReviewDAO  | Unit  | WB/ statement coverage    |
-| newReview should reject with an error if the user has already reviewed the product | ReviewDAO | Unit  | WB/ statement coverage    |
-| newReview should reject with an error if there is an error checking the product | ReviewDAO  | Unit  | WB/ statement coverage    |
-| newReview should reject with an error if there is an error checking existing reviews | ReviewDAO| Unit  | WB/ statement coverage    |
-| newReview should reject with an error if there is an error inserting the review | ReviewDAO | Unit  | WB/ statement coverage    |
-| returnReviews should return all reviews for a product from the database | ReviewDAO  | Unit  | WB/ statement coverage    |
-| returnReviews should reject with an error if the product does not exist | ReviewDAO | Unit  | WB/ statement coverage    |
-| returnReviews should reject with an error if there is an error checking the product | ReviewDAO| Unit  | WB/ statement coverage    |
-| returnReviews should reject with an error if there is an error fetching reviews | ReviewDAO| Unit  | WB/ statement coverage    |
-| deleteReview should delete a review from the database | ReviewDAO    | Unit  | WB/ statement coverage    |
-| deleteReview should reject with an error if the product does not exist | ReviewDAO | Unit  | WB/ statement coverage    |
-| deleteReview should reject with an error if the user has not reviewed the product | ReviewDAO| Unit  | WB/ statement coverage    |
-| deleteReview should reject with an error if there is an error checking the product | ReviewDAO | Unit  | WB/ statement coverage    |
-| deleteReview should reject with an error if there is an error checking the review | ReviewDAO | Unit  | WB/ statement coverage    |
-| deleteReview should reject with an error if there is an error deleting the review | ReviewDAO| Unit  | WB/ statement coverage    |
-| deleteAllReviewsProduct should delete all reviews for a product from the database | ReviewDAO | Unit  | WB/ statement coverage    |
-| deleteAllReviewsProduct should reject with an error if the product does not exist | ReviewDAO | Unit  | WB/ statement coverage    |
-| deleteAllReviewsProduct should reject with an error if there is an error checking the product | ReviewDAO | Unit  | WB/ statement coverage    |
-| deleteAllReviewsProduct should reject with an error if there is an error deleting reviews | ReviewDAO | Unit  | WB/ statement coverage    |
-| deleteAllReviews should delete all reviews from the database | ReviewDAO  | Unit  | WB/ statement coverage    |
-| deleteAllReviews should reject with an error if there is an error deleting reviews | ReviewDAO | Unit  | WB/ statement coverage    |
 
+|                                        Test case name                                         | Object(s) tested | Test level |     Technique used     |
+| :-------------------------------------------------------------------------------------------: | :--------------: | :--------: | :--------------------: |
+|                         newReview should add a review to the database                         |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|              newReview should reject with an error if the product does not exist              |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|      newReview should reject with an error if the user has already reviewed the product       |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|        newReview should reject with an error if there is an error checking the product        |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|     newReview should reject with an error if there is an error checking existing reviews      |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|        newReview should reject with an error if there is an error inserting the review        |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|            returnReviews should return all reviews for a product from the database            |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|            returnReviews should reject with an error if the product does not exist            |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|      returnReviews should reject with an error if there is an error checking the product      |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|        returnReviews should reject with an error if there is an error fetching reviews        |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|                     deleteReview should delete a review from the database                     |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|            deleteReview should reject with an error if the product does not exist             |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|       deleteReview should reject with an error if the user has not reviewed the product       |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|      deleteReview should reject with an error if there is an error checking the product       |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|       deleteReview should reject with an error if there is an error checking the review       |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|       deleteReview should reject with an error if there is an error deleting the review       |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|       deleteAllReviewsProduct should delete all reviews for a product from the database       |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|       deleteAllReviewsProduct should reject with an error if the product does not exist       |    ReviewDAO     |    Unit    | WB/ statement coverage |
+| deleteAllReviewsProduct should reject with an error if there is an error checking the product |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|   deleteAllReviewsProduct should reject with an error if there is an error deleting reviews   |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|                 deleteAllReviews should delete all reviews from the database                  |    ReviewDAO     |    Unit    | WB/ statement coverage |
+|      deleteAllReviews should reject with an error if there is an error deleting reviews       |    ReviewDAO     |    Unit    | WB/ statement coverage |
 
 ### Review Routes Unit Tests
-| Test Case Name                                        | Object(s) tested                               | Test Level | Technique Used              |
-|-------------------------------------------------------|-------------------------------------------------|------------|-----------------------------|
-| Review tests                                          | ReviewController                               | Unit | WB/ statement coverage       |
-|   It should return a 200 success code if a review...  | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 422 error code if the score ...  | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 422 error code if the model...   | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 422 error code if the comme...   | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | addReview                                       | Unit | WB/ statement coverage       |
-|   It should return a 200 success code if all rev...   | getProductReviews                               | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | getProductReviews                               | Unit | WB/ statement coverage       |
-|   It should return a 200 success code if a revie...   | deleteReview                                    | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteReview                                    | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteReview                                    | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteReview                                    | Unit | WB/ statement coverage       |
-|   It should return a 200 success code if all rev...   | deleteReviewsOfProduct                          | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteReviewsOfProduct                          | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteReviewsOfProduct                          | Unit | WB/ statement coverage       |
-|   It should return a 200 success code if all rev...   | deleteAllReviews                                | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteAllReviews                                | Unit | WB/ statement coverage       |
-|   It should return a 401 error code if the user ...   | deleteAllReviews                                | Unit | WB/ statement coverage       |
+
+| Test Case Name                                     | Object(s) tested       | Test Level | Technique Used         |
+| -------------------------------------------------- | ---------------------- | ---------- | ---------------------- |
+| Review tests                                       | ReviewController       | Unit       | WB/ statement coverage |
+| It should return a 200 success code if a review... | addReview              | Unit       | WB/ statement coverage |
+| It should return a 422 error code if the score ... | addReview              | Unit       | WB/ statement coverage |
+| It should return a 422 error code if the model...  | addReview              | Unit       | WB/ statement coverage |
+| It should return a 422 error code if the comme...  | addReview              | Unit       | WB/ statement coverage |
+| It should return a 401 error code if the user ...  | addReview              | Unit       | WB/ statement coverage |
+| It should return a 401 error code if the user ...  | addReview              | Unit       | WB/ statement coverage |
+| It should return a 200 success code if all rev...  | getProductReviews      | Unit       | WB/ statement coverage |
+| It should return a 401 error code if the user ...  | getProductReviews      | Unit       | WB/ statement coverage |
+| It should return a 200 success code if a revie...  | deleteReview           | Unit       | WB/ statement coverage |
+| It should return a 401 error code if the user ...  | deleteReview           | Unit       | WB/ statement coverage |
+| It should return a 401 error code if the user ...  | deleteReview           | Unit       | WB/ statement coverage |
+| It should return a 401 error code if the user ...  | deleteReview           | Unit       | WB/ statement coverage |
+| It should return a 200 success code if all rev...  | deleteReviewsOfProduct | Unit       | WB/ statement coverage |
+| It should return a 401 error code if the user ...  | deleteReviewsOfProduct | Unit       | WB/ statement coverage |
+| It should return a 401 error code if the user ...  | deleteReviewsOfProduct | Unit       | WB/ statement coverage |
+| It should return a 200 success code if all rev...  | deleteAllReviews       | Unit       | WB/ statement coverage |
+| It should return a 401 error code if the user ...  | deleteAllReviews       | Unit       | WB/ statement coverage |
+| It should return a 401 error code if the user ...  | deleteAllReviews       | Unit       | WB/ statement coverage |
 
 ### Review Integration Tests
-| Test Case Name                   | Object(s) tested      | Test Level        | Technique Used       |
-|----------------------------------|-----------------------|-------------------|----------------------|
-| add Review - OK                  | Review routes         | Integration      | BB/ eq partitioning  |
-| add review - already existing review (409) | Review routes         | Integration     | BB/ boundary   |
-| add review - insert an error of score (422) | Review routes         | Integration     | BB/ boundary   |
-| get reviews - OK                 | Review routes         | Integration      | BB/ eq partitioning   |
-| delete review - OK               | Review routes         | Integration     | Black Box Testing    |
-| delete review - review not found (404) | Review routes         | Integration      | BB/ boundary   |
-| delete review - unauthorized (401) | Review routes         | Integration   | BB/ boundary   |
-| delete all reviews for a product - OK | Review routes         | Integration      | BB/ eq partitioning    |
-| delete all reviews for a product - unauthorized (401) | Review routes         | Integration     | BB/ boundary   |
-| delete all reviews - ok           | Review routes         | Integration      | BB/ boundary   |
+
+| Test Case Name                                        | Object(s) tested | Test Level  | Technique Used      |
+| ----------------------------------------------------- | ---------------- | ----------- | ------------------- |
+| add Review - OK                                       | Review routes    | Integration | BB/ eq partitioning |
+| add review - already existing review (409)            | Review routes    | Integration | BB/ boundary        |
+| add review - insert an error of score (422)           | Review routes    | Integration | BB/ boundary        |
+| get reviews - OK                                      | Review routes    | Integration | BB/ eq partitioning |
+| delete review - OK                                    | Review routes    | Integration | Black Box Testing   |
+| delete review - review not found (404)                | Review routes    | Integration | BB/ boundary        |
+| delete review - unauthorized (401)                    | Review routes    | Integration | BB/ boundary        |
+| delete all reviews for a product - OK                 | Review routes    | Integration | BB/ eq partitioning |
+| delete all reviews for a product - unauthorized (401) | Review routes    | Integration | BB/ boundary        |
+| delete all reviews - ok                               | Review routes    | Integration | BB/ boundary        |
+
+---
+
+### Cart DAO Unit Tests
+
+| Test case name                                                                                   | Object(s) tested | Test level |     Technique used     |
+| ------------------------------------------------------------------------------------------------ | :--------------: | :--------: | :--------------------: |
+| createCart - It should return true                                                               |     CartDAO      |    Unit    | WB/ statement coverage |
+| createCart - It should reject                                                                    |     CartDAO      |    Unit    | WB/ statement coverage |
+| getCurrentCart - It should return a cart                                                         |     CartDAO      |    Unit    | WB/ statement coverage |
+| getCurrentCart - It should return null                                                           |     CartDAO      |    Unit    | WB/ statement coverage |
+| getCurrentCart - It should reject                                                                |     CartDAO      |    Unit    | WB/ statement coverage |
+| getPaidCarts - It should return a list of carts                                                  |     CartDAO      |    Unit    | WB/ statement coverage |
+| getPaidCarts - It should return an empty list                                                    |     CartDAO      |    Unit    | WB/ statement coverage |
+| getPaidCarts - It should reject                                                                  |     CartDAO      |    Unit    | WB/ statement coverage |
+| getAllCarts - It should return a list of carts                                                   |     CartDAO      |    Unit    | WB/ statement coverage |
+| getAllCarts - It should return an empty list                                                     |     CartDAO      |    Unit    | WB/ statement coverage |
+| getAllCarts - It should reject                                                                   |     CartDAO      |    Unit    | WB/ statement coverage |
+| addCartProduct - It should only use db.run because username is not passed and return true        |     CartDAO      |    Unit    | WB/ statement coverage |
+| addCartProduct - It should use db.get before db.run because username is provided and return true |     CartDAO      |    Unit    | WB/ statement coverage |
+| addCartProduct - It should reject                                                                |     CartDAO      |    Unit    | WB/ statement coverage |
+| updateCartToPaid - It should return true                                                         |     CartDAO      |    Unit    | WB/ statement coverage |
+| updateCartToPaid - It should reject                                                              |     CartDAO      |    Unit    | WB/ statement coverage |
+| incrementProductQty - It should return true                                                      |     CartDAO      |    Unit    | WB/ statement coverage |
+| incrementProductQty - It should reject                                                           |     CartDAO      |    Unit    | WB/ statement coverage |
+| decrementProductQty - It should return true                                                      |     CartDAO      |    Unit    | WB/ statement coverage |
+| decrementProductQty - It should reject                                                           |     CartDAO      |    Unit    | WB/ statement coverage |
+| deleteAllCartProducts - It should return true                                                    |     CartDAO      |    Unit    | WB/ statement coverage |
+| deleteAllCartProducts - It should reject                                                         |     CartDAO      |    Unit    | WB/ statement coverage |
+| deleteAllCarts - It should return true                                                           |     CartDAO      |    Unit    | WB/ statement coverage |
+| getCustomerCarts - It should return the paid carts of the user                                   |     CartDAO      |    Unit    | WB/ statement coverage |
+| removeProductFromCart - It should return true                                                    |     CartDAO      |    Unit    | WB/ statement coverage |
+| removeProductFromCart - It should throw ProductNotInCartError                                    |     CartDAO      |    Unit    | WB/ statement coverage |
+| removeProductFromCart - It should throw ProductNotFoundError                                     |     CartDAO      |    Unit    | WB/ statement coverage |
+| removeProductFromCart - It should throw CartNotFoundError                                        |     CartDAO      |    Unit    | WB/ statement coverage |
+| clearCart - It should return true                                                                |     CartDAO      |    Unit    | WB/ statement coverage |
+| getAllCarts - It should return all carts                                                         |     CartDAO      |    Unit    | WB/ statement coverage |
+
+### Cart Controller Unit Tests
+
+| Test case name                                                                  | Object(s) tested | Test level |     Technique used     |
+| ------------------------------------------------------------------------------- | :--------------: | :--------: | :--------------------: |
+| addToCart - It should create a new cart, add the product to it, and return true |  CartController  |    Unit    | WB/ statement coverage |
+| addToCart - It should add the product to the existing cart and return true      |  CartController  |    Unit    | WB/ statement coverage |
+| addToCart - It should increment the quantity of the product and return true     |  CartController  |    Unit    | WB/ statement coverage |
+| addToCart - It should throw ProductNotFoundError                                |  CartController  |    Unit    | WB/ statement coverage |
+| addToCart - It should throw EmptyProductStockError                              |  CartController  |    Unit    | WB/ statement coverage |
+| getCart - It should return the cart of the user                                 |  CartController  |    Unit    | WB/ statement coverage |
+| getCart - It should return the default cart                                     |  CartController  |    Unit    | WB/ statement coverage |
+| checkoutCart - It should return true                                            |  CartController  |    Unit    | WB/ statement coverage |
+| checkoutCart - It should throw CartNotFoundError                                |  CartController  |    Unit    | WB/ statement coverage |
+| checkoutCart - It should throw EmptyCartError                                   |  CartController  |    Unit    | WB/ statement coverage |
+| checkoutCart - It should throw EmptyProductStockError                           |  CartController  |    Unit    | WB/ statement coverage |
+| checkoutCart - It should throw LowProductStockError                             |  CartController  |    Unit    | WB/ statement coverage |
+| checkoutCart - It should throw LowProductStockError                             |  CartController  |    Unit    | WB/ statement coverage |
+
+### Cart Routes Unit Tests
+
+| Test Case Name                                                   | Object(s) tested | Test Level |     Technique Used     |
+| ---------------------------------------------------------------- | :--------------: | :--------: | :--------------------: |
+| GET / - It should return 200                                     |    CartRouter    |    Unit    | WB/ statement coverage |
+| GET / - It should return 401 if not a customer                   |    CartRouter    |    Unit    | WB/ statement coverage |
+| POST / - It should return 200                                    |    CartRouter    |    Unit    | WB/ statement coverage |
+| POST / - It should return 401 if not a customer                  |    CartRouter    |    Unit    | WB/ statement coverage |
+| PATCH / - It should return 200                                   |    CartRouter    |    Unit    | WB/ statement coverage |
+| PATCH / - It should return 401 if not a customer                 |    CartRouter    |    Unit    | WB/ statement coverage |
+| GET /history - It should return 200                              |    CartRouter    |    Unit    | WB/ statement coverage |
+| GET /history - It should return 401 if not a customer            |    CartRouter    |    Unit    | WB/ statement coverage |
+| DELETE /products/:model - It should return 200                   |    CartRouter    |    Unit    | WB/ statement coverage |
+| DELETE /products/:model - It should return 401 if not a customer |    CartRouter    |    Unit    | WB/ statement coverage |
+| DELETE /current - It should return 200                           |    CartRouter    |    Unit    | WB/ statement coverage |
+| DELETE /current - It should return 401 if not a customer         |    CartRouter    |    Unit    | WB/ statement coverage |
+| DELETE / - It should return 200                                  |    CartRouter    |    Unit    | WB/ statement coverage |
+| DELETE / - It should return 401 if an admin or manager           |    CartRouter    |    Unit    | WB/ statement coverage |
+| GET /all - It should return 200                                  |    CartRouter    |    Unit    | WB/ statement coverage |
+| GET /all - It should return 401 if not an admin or manager       |    CartRouter    |    Unit    | WB/ statement coverage |
+
+### Cart Integration Tests
+
+| Test Case Name                                                                                         |          Object(s) tested           | Test Level  |   Technique Used    |
+| ------------------------------------------------------------------------------------------------------ | :---------------------------------: | :---------: | :-----------------: |
+| GET / - It should return 200 and an empty cart                                                         | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
+| GET / - It should return 200 and a cart                                                                | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
+| POST / - It should return 200 and add a product to the cart                                            | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
+| POST / - It should return 200 and increment the first product to 2                                     | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
+| POST / - It should return 404 because the product does not exist                                       | CartRouter, CartController, CartDAO | Integration |    BB/ boundary     |
+| PATCH / - It should return 200 and set the cart to paid                                                | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
+| PATCH / - It should return 404 because there is no current cart                                        | CartRouter, CartController, CartDAO | Integration |    BB/ boundary     |
+| PATCH / - It should return 400 because the current cart has no products                                | CartRouter, CartController, CartDAO | Integration |    BB/ boundary     |
+| PATCH / - It should return 409 because the quantity in stock of the product is lower then the required | CartRouter, CartController, CartDAO | Integration |    BB/ boundary     |
+| GET /history - It should return 200 and return the history of the customer                             | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
+| DELETE /products/:model - It should return 200 and remove the product from the cart                    | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
+| DELETE /products/:model - It should return 404 because product is not in cart                          | CartRouter, CartController, CartDAO | Integration |    BB/ boundary     |
+| DELETE /products/:model - It should return 404 because the product does not exist                      | CartRouter, CartController, CartDAO | Integration |    BB/ boundary     |
+| DELETE /current - It should return 200 and remove the current cart                                     | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
+| GET /all - It should return 200 and return all carts                                                   | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
+| GET /all - It should return 401 because is not manager or admin                                        | CartRouter, CartController, CartDAO | Integration |    BB/ boundary     |
+| DELETE / - It should return 200 and remove all carts                                                   | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
+| DELETE / - It should return 401 because is not manager or admin                                        | CartRouter, CartController, CartDAO | Integration |    BB/ boundary     |
 
 # Coverage
 
