@@ -1,4 +1,4 @@
-import { describe, test, expect, jest } from "@jest/globals";
+import { describe, test, expect, jest, beforeAll } from "@jest/globals";
 import UserDAO from "../../src/dao/userDAO"
 import db from "../../src/db/db"
 import crypto from "crypto";
@@ -14,6 +14,7 @@ import {
     UnauthorizedEditError
 } from "../../src/errors/userError";
 import { Database } from "sqlite3";
+import { User } from "../../src/components/user";
 
 jest.mock("crypto")
 jest.mock("../../src/db/db.ts")
@@ -235,34 +236,95 @@ describe("UserDAO", () => {
     });
 
     describe("updateUserInfo", () => {
-        test("It should resolve with true when user info is updated successfully", async () => {
-            const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
-                callback.call({ changes: 1 }, null); 
+        test("It should resolve with the updated user when user information is updated", async () => {
+            const mockDbGet = jest.spyOn(db, "get").mockImplementation((sql, params, callback) => {
+                if (sql.includes("SELECT")) {
+                    callback(null, {
+                        username: "userToUpdate",
+                        name: "updatedName",
+                        surname: "updatedSurname",
+                        role: "CUSTOMER",
+                        address: "updatedAddress",
+                        birthdate: "updatedBirthdate"
+                    });
+                }
                 return {} as Database;
             });
-            const result = await userDAO.updateUserInfo("John", "Doe", "123 Main St", "1990-01-01", "john.doe");
-            expect(result).toBe(true);
+            
+            const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
+                callback(null);
+                return {} as Database;
+            });
+    
+            const result = await userDAO.updateUserInfo("updatedName", "updatedSurname", "updatedAddress", "updatedBirthdate", "userToUpdate");
+            
+            expect(result).toBeInstanceOf(User);
+            expect(result.username).toBe("userToUpdate");
+            expect(result.name).toBe("updatedName");
+            expect(result.surname).toBe("updatedSurname");
+            expect(result.address).toBe("updatedAddress");
+            expect(result.birthdate).toBe("updatedBirthdate");
+            
+            mockDbGet.mockRestore();
             mockDbRun.mockRestore();
         });
     
         test("It should reject with UserNotFoundError when user does not exist", async () => {
-            const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
-                callback.call({ changes: 0 }, null); 
+            const mockDbGet = jest.spyOn(db, "get").mockImplementation((sql, params, callback) => {
+                if (sql.includes("SELECT")) {
+                    callback(null, null);
+                }
                 return {} as Database;
             });
-            await expect(userDAO.updateUserInfo("John", "Doe", "123 Main St", "1990-01-01", "nonexistentUser")).rejects.toThrow(UserNotFoundError);
+    
+            await expect(userDAO.updateUserInfo("name", "surname", "address", "birthdate", "nonexistentUser"))
+                .rejects.toThrow(UserNotFoundError);
+    
+            mockDbGet.mockRestore();
+        });
+    
+        test("It should reject with error when database operation fails during selection", async () => {
+            const mockDbGet = jest.spyOn(db, "get").mockImplementation((sql, params, callback) => {
+                if (sql.includes("SELECT")) {
+                    callback(new Error("Database selection error"), null);
+                }
+                return {} as Database;
+            });
+    
+            await expect(userDAO.updateUserInfo("name", "surname", "address", "birthdate", "userToUpdate"))
+                .rejects.toThrow("Database selection error");
+    
+            mockDbGet.mockRestore();
+        });
+    
+        test("It should reject with error when database operation fails during update", async () => {
+            const mockDbGet = jest.spyOn(db, "get").mockImplementation((sql, params, callback) => {
+                if (sql.includes("SELECT")) {
+                    callback(null, {
+                        username: "userToUpdate",
+                        name: "name",
+                        surname: "surname",
+                        role: "CUSTOMER",
+                        address: "address",
+                        birthdate: "birthdate"
+                    });
+                }
+                return {} as Database;
+            });
+    
+            const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
+                callback(new Error("Database update error"));
+                return {} as Database;
+            });
+    
+            await expect(userDAO.updateUserInfo("name", "surname", "address", "birthdate", "userToUpdate"))
+                .rejects.toThrow("Database update error");
+    
+            mockDbGet.mockRestore();
             mockDbRun.mockRestore();
         });
     
-        test("It should reject with error when database operation fails", async () => {
-            const mockDbRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
-                callback(new Error("Database error")); 
-                return {} as Database;
-            });
-            await expect(userDAO.updateUserInfo("John", "Doe", "123 Main St", "1990-01-01", "john.doe")).rejects.toThrow("Database error");
-            mockDbRun.mockRestore();
-        });
+        
     });
-    
 
 });

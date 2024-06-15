@@ -83,8 +83,6 @@ class UserController {
                 throw new UnauthorizedEditError();
             }
     
-            
-    
             // Check if the user to be deleted is an admin
             if (userToDelete.role === "Admin") {
                 throw new UserIsAdminError();
@@ -124,7 +122,6 @@ class UserController {
                 throw new InvalidBirthdateError();
             }
 
-
             if (user.role !== "Admin" && user.username !== username) {
                 throw new UnauthorizedEditError();
             }
@@ -134,8 +131,6 @@ class UserController {
             if (userToEdit.role === "Admin" && user.username !== username) {
                 throw new UnauthorizedEditError();
             }
-
-            
 
             return this.dao.updateUserInfo(name, surname, address, birthdate, username)
 
