@@ -64,7 +64,36 @@ mockUserDAO.deleteUser.mockImplementation((username: string) => {
 
 
 mockUserDAO.deleteAll.mockResolvedValue(true);
-mockUserDAO.updateUserInfo.mockResolvedValue(true);
+
+
+// Mocka il metodo updateUserInfo per restituire un oggetto User invece di true
+jest.spyOn(UserDAO.prototype, "updateUserInfo").mockImplementationOnce(
+    async (name, surname, address, birthdate, username) => {
+        // Simula una query o un'operazione di aggiornamento
+        // Qui puoi inserire la logica che simula l'aggiornamento nel tuo mock
+        const updatedUser = {
+            username: username,
+            name: name,
+            surname: surname,
+            role: Role.MANAGER, // Aggiungi il ruolo appropriato
+            address: address,
+            birthdate: birthdate
+        };
+
+        // Qui puoi fare altri controlli o simulare altri comportamenti necessari
+
+        return updatedUser; // Restituisci l'oggetto User aggiornato
+    }
+);
+
+
+
+
+
+
+
+
+
 
 //---
 
@@ -147,9 +176,25 @@ describe("UserController", () => {
 
     describe("updateUserInfo", () => {
         test("should update user information", async () => {
-            const result = await userController.updateUserInfo(testUserManager, "Updated", "Admin", "Address", "2000-01-01", "usernamemanager");
-            expect(result).toBe(true);
+            const updatedUser = await userController.updateUserInfo(testUserManager, "Updated", "Admin", "Address", "2000-01-01", "usernamemanager");
+            
+            // Verifica che l'oggetto restituito abbia i dati corretti
+            expect(updatedUser.username).toBe("usernamemanager");
+            expect(updatedUser.name).toBe("Updated");
+            expect(updatedUser.surname).toBe("Admin");
+            expect(updatedUser.address).toBe("Address");
+            expect(updatedUser.birthdate).toBe("2000-01-01");
+            expect(updatedUser.role).toBe("Manager"); // Assicurati che il ruolo sia corretto
+        
+            // Puoi anche verificare che il metodo sia stato chiamato con i parametri corretti
+            expect(UserDAO.prototype.updateUserInfo).toHaveBeenCalledTimes(1);
+            expect(UserDAO.prototype.updateUserInfo).toHaveBeenCalledWith("Updated", "Admin", "Address", "2000-01-01", "usernamemanager");
+        
+            // Non è necessario verificare direttamente con `true` perché ci si aspetta un oggetto `User`
+            // Se vuoi verificare che l'operazione sia stata eseguita correttamente, potresti controllare se `updatedUser` è definito
+            expect(updatedUser).toBeDefined();
         });
+        
 
         
 

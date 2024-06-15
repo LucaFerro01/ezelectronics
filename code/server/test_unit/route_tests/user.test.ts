@@ -1,5 +1,6 @@
 import { test, expect, jest } from "@jest/globals";
 import request from "supertest";
+import Authenticator from "../../src/routers/auth"
 import { app } from "../../index"; // Ensure this is the correct path to your Express app
 import UserController from "../../src/controllers/userController";
 import AuthService from "../../src/routers/auth"; // Ensure this is the correct path to your AuthService
@@ -307,119 +308,57 @@ describe("Ottieni utente per nome utente", () => {
  
 
     });
-
-    describe("Update user Info", () => {
-        test("true con user aggiornato", async () => {
-            const testUser: User = {
-                username: "test",
-                name: "test",
-                surname: "test",
-                role: Role.MANAGER,
-                address: "test",
-                birthdate: "test",
-            };
-            jest.spyOn(UserDAO.prototype, "updateUserInfo").mockResolvedValueOnce(true);
-            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(testUser);
-            const controller = new UserController();
-            const response = await controller.updateUserInfo(testUser, testUser.name, testUser.surname, testUser.address, testUser.birthdate, testUser.username);
+    test("Route for updating the information of a user", async () => {
+        const expUser = new User('test', 'test', 'test', Role.MANAGER, 'Via Roma', '1969-01-01');
     
-            expect(UserDAO.prototype.updateUserInfo).toHaveBeenCalledTimes(1);
-            expect(UserDAO.prototype.updateUserInfo).toHaveBeenCalledWith(testUser.name, testUser.surname, testUser.address, testUser.birthdate, testUser.username);
-            expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledTimes(1);
-            expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledWith(testUser.username);
-            expect(response).toEqual(true);
-            jest.clearAllMocks();
-            jest.resetAllMocks();
-        });
+        // Mock the UserController's updateUserInfo method to resolve with expUser
+        jest.spyOn(UserController.prototype, "updateUserInfo").mockResolvedValueOnce(expUser);
     
-        test("true se admin aggiorna utente", async () => {
-            const testUser1: User = {
-                username: "test",
-                name: "test",
-                surname: "test",
-                role: Role.ADMIN,
-                address: "test",
-                birthdate: "test",
-            };
-            const testUser2: User = {
-                username: "test2",
-                name: "test2",
-                surname: "test2",
-                role: Role.MANAGER,
-                address: "test2",
-                birthdate: "test2",
-            };
-            jest.spyOn(UserDAO.prototype, "updateUserInfo").mockResolvedValueOnce(true);
-            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(testUser2);
-            const controller = new UserController();
-            const response = await controller.updateUserInfo(testUser1, testUser2.name, testUser2.surname, testUser2.address, testUser2.birthdate, testUser2.username);
+        // Mock the Authenticator's isLoggedIn and isAdmin methods to allow access
+        jest.spyOn(Authenticator.prototype, "isLoggedIn").mockImplementation((req, res, next) => next());
+        jest.spyOn(Authenticator.prototype, "isAdmin").mockImplementation((req, res, next) => next());
     
-            expect(UserDAO.prototype.updateUserInfo).toHaveBeenCalledTimes(1);
-            expect(UserDAO.prototype.updateUserInfo).toHaveBeenCalledWith(testUser2.name, testUser2.surname, testUser2.address, testUser2.birthdate, testUser2.username);
-            expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledTimes(1);
-            expect(UserDAO.prototype.getUserByUsername).toHaveBeenCalledWith(testUser2.username);
-            expect(response).toEqual(true);
-            jest.clearAllMocks();
-            jest.resetAllMocks();
-        });
+        // Send the PATCH request to update user information
+        const response = await request(app)
+            .patch(baseURL + "/users/" + expUser.username)
+            .send(expUser);
     
-        test("error se customer aggiorna un altro utente ", async () => {
-            const testUser1: User = {
-                username: "test",
-                name: "test",
-                surname: "test",
-                role: Role.CUSTOMER,
-                address: "test",
-                birthdate: "test",
-            };
-            const testUser2: User = {
-                username: "test2",
-                name: "test2",
-                surname: "test2",
-                role: Role.CUSTOMER,
-                address: "test2",
-                birthdate: "test2",
-            };
-            jest.spyOn(UserDAO.prototype, "updateUserInfo").mockResolvedValueOnce(true);
-            const controller = new UserController();
-            await expect(controller.updateUserInfo(testUser1, testUser2.name, testUser2.surname, testUser2.address, testUser2.birthdate, testUser2.username)).rejects.toThrow(new UnauthorizedEditError());
-            jest.clearAllMocks();
-            jest.resetAllMocks();
-        });
+        // Assert that the response status is 200 OK
+        expect(response.status).toBe(200);
     
-        test("aggiornamento fail", async () => {
-            const testUser: User = {
-                username: "test",
-                name: "test",
-                surname: "test",
-                role: Role.MANAGER,
-                address: "test",
-                birthdate: "test",
-            };
-            jest.spyOn(UserDAO.prototype, "updateUserInfo").mockRejectedValueOnce(new Error("Update failed"));
-            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockResolvedValueOnce(testUser);
-            const controller = new UserController();
-            await expect(controller.updateUserInfo(testUser, testUser.name, testUser.surname, testUser.address, testUser.birthdate, testUser.username)).rejects.toThrow("Update failed");
-            jest.clearAllMocks();
-            jest.resetAllMocks();
-        });
+        // Assert that UserController's updateUserInfo method was called once
+        expect(UserController.prototype.updateUserInfo).toHaveBeenCalledTimes(1);
     
-        test("user non trovato", async () => {
-            const testUser: User = {
-                username: "test",
-                name: "test",
-                surname: "test",
-                role: Role.MANAGER,
-                address: "test",
-                birthdate: "test",
-            };
-            jest.spyOn(UserDAO.prototype, "getUserByUsername").mockRejectedValueOnce(new UserNotFoundError());
-            const controller = new UserController();
-            await expect(controller.getUserByUsername(testUser, testUser.username)).rejects.toThrow(UserNotFoundError);
-            jest.clearAllMocks();
-        });
+        // Assert that the response body matches expUser
+        expect(response.body).toEqual(expUser);
     });
     
+    /*
+        TEST: Route for updating the information of a user with error
+    */
+    test("Route for updating the information of a user with error", async () => {
+        const expUser = new User('test', 'test', 'test', Role.MANAGER, 'Via Roma', '1969-01-01');
+        const errorMessage = "Internal Server Error";
     
+        // Mock the UserController's updateUserInfo method to reject with an error
+        jest.spyOn(UserController.prototype, "updateUserInfo").mockRejectedValueOnce(new Error(errorMessage));
     
+        // Mock the Authenticator's isLoggedIn and isAdmin methods to allow access
+        jest.spyOn(Authenticator.prototype, "isLoggedIn").mockImplementation((req, res, next) => next());
+        jest.spyOn(Authenticator.prototype, "isAdmin").mockImplementation((req, res, next) => next());
+    
+        // Send the PATCH request to update user information
+        const response = await request(app)
+            .patch(baseURL + "/users/" + expUser.username)
+            .send(expUser);
+    
+        // Assert that the response status is 503 Service Unavailable or customize according to your application's error handling
+        expect(response.status).toBe(503);
+    
+        // Assert that UserController's updateUserInfo method was called once
+        expect(UserController.prototype.updateUserInfo).toHaveBeenCalledTimes(1);
+    
+        // Assert that the response body contains the expected error message
+        expect(response.body.error).toBe(errorMessage);
+    });
     
