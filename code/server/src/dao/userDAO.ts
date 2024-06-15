@@ -1,5 +1,5 @@
 import db from "../db/db"
-import { User,Role } from "../components/user"
+import { User, Role } from "../components/user"
 import crypto from "crypto"
 import { UserAlreadyExistsError, UserNotFoundError } from "../errors/userError";
 
@@ -58,7 +58,7 @@ class UserDAO {
             try {
                 const salt = crypto.randomBytes(16)
                 const hashedPassword = crypto.scryptSync(password, salt, 16)
-                
+
                 const sql = "INSERT INTO users(username, name, surname, role, password, salt) VALUES(?, ?, ?, ?, ?, ?)"
                 db.run(sql, [username, name, surname, role, hashedPassword, salt], (err: Error | null) => {
                     if (err) {
@@ -71,8 +71,8 @@ class UserDAO {
                 reject(error)
             }
 
-        })
-    }
+        })
+    }
 
     /**
      * Returns all users.
@@ -93,7 +93,7 @@ class UserDAO {
             } catch (error) {
                 reject(error)
             }
-        
+
         })
     }
 
@@ -145,7 +145,7 @@ class UserDAO {
             });
         });
     }
-    
+
 
     /**
      * Deletes a specific user
@@ -155,27 +155,27 @@ class UserDAO {
      * @param username - The username of the user to delete. The user must exist.
      * @returns A Promise that resolves to true if the user has been deleted.
      */
-        deleteUser(username: string): Promise<boolean> {
-            return new Promise<boolean>((resolve, reject) => {
-                try {
-                    const sql = "DELETE FROM users WHERE username = ?"
-                    db.run(sql, [username], function (err: Error | null) {
-                        if (err) {
-                            reject(err)
-                            return
-                        }
-                        if (this.changes === 0) {
-                            reject(new UserNotFoundError());
-                            return;
-                        }
-                        resolve(true)
-                    })
-                } catch (error) {
-                    reject(error)
-                }
-            })
-        }
-    
+    deleteUser(username: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            try {
+                const sql = "DELETE FROM users WHERE username = ?"
+                db.run(sql, [username], function (err: Error | null) {
+                    if (err) {
+                        reject(err)
+                        return
+                    }
+                    if (this.changes === 0) {
+                        reject(new UserNotFoundError());
+                        return;
+                    }
+                    resolve(true)
+                })
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
 
     /**
      * Deletes all non-Admin users
@@ -208,28 +208,41 @@ class UserDAO {
      * @param username The username of the user to update. It must be equal to the username of the user parameter.
      * @returns A Promise that resolves to the updated user
      */
-        updateUserInfo(name: string, surname: string, address: string, birthdate: string, username: string): Promise<boolean> {
-            return new Promise<boolean>((resolve, reject) => {
-                try {
-                    const sql = "UPDATE users SET name = ?, surname = ?, address = ?, birthdate = ? WHERE username = ?;";
-                    const params = [name, surname, address, birthdate, username];
-                    db.run(sql, params, function (err: Error | null) {
-                        if (err) {
-                            reject(err);
-                            return;
-                        }
-                        if (this.changes === 0) {
-                            reject(new UserNotFoundError());
-                            return;
-                        }
-                        resolve(true);
-                    });
-                } catch (error) {
-                    reject(error);
-                }
-            });
-        }
-    
+    updateUserInfo(name: string, surname: string, address: string, birthdate: string, username: string): Promise<User> {
+        return new Promise<User>((resolve, reject) => {
+            try {
+                const sqlSelect = "SELECT * FROM users WHERE username = ?";
+                db.get(sqlSelect, [username], (err: Error | null, row: any) => {
+                    if (err) {
+                        reject(err)
+                        return
+                    }
+                    if (!row) {
+                        reject(new UserNotFoundError())
+                        return
+                    }
 
+                    const sqlUpdate = "UPDATE users SET name = ?, surname = ?, address = ?, birthdate = ? WHERE username = ?";
+                    db.run(sqlUpdate, [name, surname, address, birthdate, username], (err: Error | null) => {
+                        if (err) {
+                            reject(err)
+                            return
+                        }
+
+                        db.get(sqlSelect, [username], (err: Error | null, updatedRow: any) => {
+                            if (err) {
+                                reject(err)
+                                return
+                            }
+                            const updatedUser = new User(updatedRow.username, updatedRow.name, updatedRow.surname, updatedRow.role, updatedRow.address, updatedRow.birthdate)
+                            resolve(updatedUser)
+                        })
+                    })
+                })
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
 }
 export default UserDAO
