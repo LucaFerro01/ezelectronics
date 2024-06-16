@@ -36,7 +36,7 @@
 
 # Unit approach
 
-    <Write here the Unit
+    <L'approccio unitario adottato è di tipo bottom-up, in modo da risolvere eventuali problemi a livello di singole unità: si inizia sviluppando e integrando i componenti base come controller, Dao, routes, seguiti dai test unitari per ogni componente e per le funzionalità di route. Si termina con i test di integrazione per verificare il corretto funzionamento dell'intero sistema nel suo complesso. 
 
 sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
 
@@ -396,7 +396,6 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 |  FR4.4 -          Delete all reviews of a product    |deleteAllReviewsProduct should delete all reviews for a product from the database<br>deleteAllReviewsProduct should reject with an error if the product does not exist<br>deleteAllReviewsProduct should reject with an error if there is an error checking the product<br>deleteAllReviewsProduct should reject with an error if there is an error deleting reviews |
 |  FR4.5 -       Delete all reviews of all products    | deleteAllReviews should delete all reviews from the database<br>deleteAllReviews should reject with an error if there is an error deleting reviews|
 
-=======
 |            Functional Requirement or scenario             |                                                                                                                                                                                                                                       Test(s)                                                                                                                                                                                                                                        |
 | :-------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 |                    **Manage reviews**                     |
@@ -428,7 +427,6 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 | 11.2 - Try to delete the current cart when there is none                  | DELETE /current - It should return 200<br>clearCart - It should return true<br>deleteAllCartProducts - It should return true                               |
 | 15.1 - View all carts                                                     | GET /all - It should return 200<br>getAllCarts - It should return all carts<br>getAllCarts - It should return a list of carts                              |
 | 16.1 - Delete all carts                                                   | DELETE / - It should return 200<br>deleteAllCarts - It should return true                                                                                  |
->>>>>>> 4d6fb10a746a8aa3931ab84a88f5a21be9446031
 
 ## Coverage white box
 
