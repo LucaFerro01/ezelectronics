@@ -433,3 +433,4 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 ## Coverage white box
 
 Report here the screenshot of coverage values obtained with jest-- coverage
+![alt text](coverage.png)
