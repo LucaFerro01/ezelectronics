@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
+import { describe, test, jest, expect, beforeAll, afterAll } from "@jest/globals";
 import request from 'supertest';
 import { app } from "../index"; // Assuming app is exported from index.js
 import { cleanup } from "../src/db/cleanup";
@@ -8,6 +8,7 @@ import UserDAO from "../src/dao/userDAO";
 import { User, Role } from "../src/components/user";
 import ReviewDAO from "../src/dao/reviewDAO";
 import { create } from "domain";
+import { beforeEach } from "node:test";
 
 const productDao = new ProductDAO();
 const cartDao = new CartDAO();
@@ -48,13 +49,23 @@ async function payCart() {
 }
 
 describe("Review routes integration tests", () => {
+
+    beforeEach(async () => {
+        await cleanup();
+        jest.resetAllMocks();
+
+    });
     
     beforeAll(async () => {
-        //await cleanup();
+        await cleanup();
+        jest.resetAllMocks();
+
     });
 
     afterAll(async () => {
         await cleanup();
+        jest.resetAllMocks();
+
     });
 
     test("add Review - OK", async () => {
