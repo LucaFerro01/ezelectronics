@@ -4,16 +4,30 @@
 
 # Contents
 
--   [Test Report](#test-report)
--   [Contents](#contents)
--   [Dependency graph](#dependency-graph)
--   [Unit approach](#Unit-approach)
--   [Tests](#tests) -[Review Controller Unit Tests](#review-controller-unit-tests) -[Review DAO Unit Tests](#review-dao-unit-tests) -[Review Routes Unit Tests](#review-routes-unit-tests) -[Review Unit
-    Unit Tests](#review-Unit
-    -tests)
--   [Coverage](#coverage)
-    -   [Coverage of FR](#coverage-of-fr)
-    -   [Coverage white box](#coverage-white-box)
+- [Test Report](#test-report)
+- [Contents](#contents)
+- [Dependency graph](#dependency-graph)
+- [Unit approach](#unit-approach)
+- [Tests](#tests)
+    - [Review Controller Unit Tests](#review-controller-unit-tests)
+    - [Review DAO Unit Tests](#review-dao-unit-tests)
+    - [Review Routes Unit Tests](#review-routes-unit-tests)
+    - [Review Integration Tests](#review-integration-tests)
+    - [Cart DAO Unit Tests](#cart-dao-unit-tests)
+    - [Cart Controller Unit Tests](#cart-controller-unit-tests)
+    - [Cart Routes Unit Tests](#cart-routes-unit-tests)
+    - [Cart Integration Tests](#cart-integration-tests)
+    - [Product DAO Unit Tests](#product-dao-unit-tests)
+    - [Product Controller Unit Test](#product-controller-unit-test)
+    - [Product Routes Unit Tests](#product-routes-unit-tests)
+    - [Product Integration Tests](#product-integration-tests)
+    - [User DAO Unit Tests](#user-dao-unit-tests)
+    - [User Controller Unit Test](#user-controller-unit-test)
+    - [User Routes Unit Tests](#user-routes-unit-tests)
+    - [User Integration Tests](#user-integration-tests)
+- [Coverage](#coverage)
+  - [Coverage of FR](#coverage-of-fr)
+  - [Coverage white box](#coverage-white-box)
 
 # Dependency graph
 
@@ -265,6 +279,100 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 | DELETE /products - It should return 200 and true if all the products are delete                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
 | DELETE /products/:model - It should return 200 and true if the product are delete                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
 
+### User DAO Unit Tests
+|                                Test case name                                | Object(s) tested | Test level | Technique used         |
+| :-------------------------------------------------------------------------: | :--------------: | :--------: | :--------------------: |
+| createUser should resolve true when user is created                         |    UserDAO       |    Unit    | WB/ statement coverage |
+| createUser should reject with UserAlreadyExistsError when username exists   |    UserDAO       |    Unit    | WB/ statement coverage |
+| createUser should reject with error when database operation fails           |    UserDAO       |    Unit    | WB/ statement coverage |
+| getIsUserAuthenticated should resolve true for correct credentials          |    UserDAO       |    Unit    | WB/ statement coverage |
+| getIsUserAuthenticated should resolve false when user is not found          |    UserDAO       |    Unit    | WB/ statement coverage |
+| getIsUserAuthenticated should resolve false when password does not match    |    UserDAO       |    Unit    | WB/ statement coverage |
+| getIsUserAuthenticated should reject with error when database operation fails |    UserDAO       |    Unit    | WB/ statement coverage |
+| getUsers should resolve with user information when users exist               |    UserDAO       |    Unit    | WB/ statement coverage |
+| getUsers should reject with error when database operation fails             |    UserDAO       |    Unit    | WB/ statement coverage |
+| getUsersByRole should resolve with users of specified role                  |    UserDAO       |    Unit    | WB/ statement coverage |
+| getUsersByRole should reject with error when database operation fails       |    UserDAO       |    Unit    | WB/ statement coverage |
+| getUserByUsername should resolve with user information when user exists     |    UserDAO       |    Unit    | WB/ statement coverage |
+| getUserByUsername should reject with UserNotFoundError when user does not exist |    UserDAO       |    Unit    | WB/ statement coverage |
+| getUserByUsername should reject with error when database operation fails    |    UserDAO       |    Unit    | WB/ statement coverage |
+| deleteUser should resolve with true when user is deleted by admin           |    UserDAO       |    Unit    | WB/ statement coverage |
+| deleteUser should reject with UserNotFoundError when user does not exist    |    UserDAO       |    Unit    | WB/ statement coverage |
+| deleteUser should reject with error when database operation fails          |    UserDAO       |    Unit    | WB/ statement coverage |
+| deleteAll should resolve with true when all non-Admin users are deleted     |    UserDAO       |    Unit    | WB/ statement coverage |
+| deleteAll should reject with error when database operation fails            |    UserDAO       |    Unit    | WB/ statement coverage |
+| updateUserInfo should resolve with the updated user when user information is updated |    UserDAO       |    Unit    | WB/ statement coverage |
+| updateUserInfo should reject with UserNotFoundError when user does not exist |    UserDAO       |    Unit    | WB/ statement coverage |
+| updateUserInfo should reject with error when database operation fails during selection |    UserDAO       |    Unit    | WB/ statement coverage |
+| updateUserInfo should reject with error when database operation fails during update |    UserDAO       |    Unit    | WB/ statement coverage |
+
+
+
+### User Controller Unit Test
+
+| Test Case                                           | Object Tested                   | Test Level | Technique Used                    |
+|-----------------------------------------------------|---------------------------------|------------|-----------------------------------|
+| Create a new user                                   | UserController       | Unit       | BB/ equivalence partitioning      |
+| Return all users                                    | UserController         | Unit       | BB/ equivalence partitioning      |
+| Return users by role                                | UserController   | Unit       | BB/ equivalence partitioning      |
+| Return a specific user                              | UserController| Unit       | BB/ equivalence partitioning      |
+| Unauthorized user error for getUserByUsername       | UserController| Unit       | BB/ boundary                      |
+| Unauthorized edit error for deleteUser              | UserController       | Unit       | BB/ boundary                      |
+| User not found error for deleteUser                 | UserController       | Unit       | BB/ boundary                      |
+| Delete a user if authorized                         | UserController       | Unit       | BB/ equivalence partitioning      |
+| Admin user deletion error for deleteUser            | UserController       | Unit       | BB/ boundary                      |
+| Delete all non-admin users                          | UserController        | Unit       | BB/ equivalence partitioning      |
+| Update user information                             | UserController   | Unit       | WB/ statement coverage            |
+| Invalid birthdate error for updateUserInfo          | UserController   | Unit       | BB/ boundary                      |
+| Unauthorized edit error for updateUserInfo          | UserController   | Unit       | BB/ boundary                      |
+
+### User Routes Unit Tests
+
+| Test Case Name                                                               | Object(s) tested | Test Level | Technique Used         |
+|------------------------------------------------------------------------------|------------------|------------|------------------------|
+| POST /users - It should create a user                                        | UserController   | Unit       | WB/ statement coverage |
+| POST /users - It should return 422 if the username is missing                | UserController   | Unit       | WB/ statement coverage |
+| POST /users - It should return 422 if the name is missing                    | UserController   | Unit       | WB/ statement coverage |
+| POST /users - It should return 422 if the surname is missing                 | UserController   | Unit       | WB/ statement coverage |
+| POST /users - It should return 422 if the password is missing                | UserController   | Unit       | WB/ statement coverage |
+| POST /users - It should return 422 if the role is missing                    | UserController   | Unit       | WB/ statement coverage |
+| GET /users - It should return all users                                      | UserController   | Unit       | WB/ statement coverage |
+| GET /users - It should return 401 if the user is not authenticated           | UserController   | Unit       | WB/ statement coverage |
+| GET /users - It should return 401 if the user is not an admin                | UserController   | Unit       | WB/ statement coverage |
+| GET /users/roles - It should return all users with a specific role           | UserController   | Unit       | WB/ statement coverage |
+| GET /users/roles - It should return 401 if the user is not authenticated      | UserController   | Unit       | WB/ statement coverage |
+| GET /users/roles - It should return 401 if the user is not an admin           | UserController   | Unit       | WB/ statement coverage |
+| GET /users/:username - It should return a user                               | UserController   | Unit       | WB/ statement coverage |
+| GET /users/:username - It should return 401 if the user is not authenticated | UserController   | Unit       | WB/ statement coverage |
+| DELETE /users/:username - It should delete a user                            | UserController   | Unit       | WB/ statement coverage |
+| DELETE /users/:username - It should return 401 if the user is not authenticated| UserController  | Unit       | WB/ statement coverage |
+| DELETE /users - It should delete all users                                   | UserController   | Unit       | WB/ statement coverage |
+| DELETE /users - It should return 401 if the user is not authenticated        | UserController   | Unit       | WB/ statement coverage |
+| DELETE /users - It should return 401 if the user is not an admin             | UserController   | Unit       | WB/ statement coverage |
+| PATCH /users/:username - It should update a user                             | UserController   | Unit       | WB/ statement coverage |
+| PATCH /users/:username - It should return 401 if the user is not authenticated| UserController  | Unit       | WB/ statement coverage |
+| PATCH /users/:username - It should return 422 if the name is missing         | UserController   | Unit       | WB/ statement coverage |
+| PATCH /users/:username - It should return 422 if the surname is missing      | UserController   | Unit       | WB/ statement coverage |
+| PATCH /users/:username - It should return 422 if the address is missing      | UserController   | Unit       | WB/ statement coverage |
+
+### User Integration Tests
+
+| Test Case Name                                                                                         |          Object(s) tested           | Test Level  |   Technique Used    |
+| ------------------------------------------------------------------------------------------------------ | :---------------------------------: | :---------: | :-----------------: |
+| GET /users - It should return 200 and a list of users if an admin is logged in.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| GET /users - It should return 401 and an error message if a non-admin is logged in.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| GET /users/roles/:role - It should return 200 and a list of users of a specific role if an admin is logged in.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| GET /users/roles/:role - It should return 401 and an error message if a non-admin is logged in.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| GET /users/:username - It should return 200 if a user retrieves their own information.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| GET /users/:username - It should return 401 and an error message if a user tries to access another user's information.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| DELETE /users/:username - It should return 200 if an admin deletes a user.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| DELETE /users/:username - It should return 404 and an error message if an admin tries to delete a non-existent user.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| DELETE /users/:username - It should return 401 and an error message if a non-admin tries to delete a user.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| DELETE /users/:username - It should return 401 and an error message if an admin tries to delete another admin.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| DELETE /users - It should return 200 if an admin deletes all users.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+| PATCH /users/:username - It should return 401 and an error message if an unauthenticated user tries to update a user's information.                                                         | UserRouter, UserController, UserDAO | Integration | BB/ eq partitioning |
+
+
 # Coverage
 
 ## Coverage of FR
@@ -273,14 +381,21 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 
 | Functional Requirement or scenario | Test(s) |
 | :--------------------------------: | :-----: |
+|                **Manage users**                |         
+
+| FR2.1  -  Show the list of all users                             | getUsers should return all users from the database<br>getUsers should reject with an error if there is a database operation failure         |
+| FR2.2 - Show the list of all users with a specific role        | getUsersByRole should return users filtered by a specific role from the database<br>getUsersByRole should reject with an error on failure   |
+| FR2.3 - Show the information of a single user                  | getUserByUsername should return a specific user by username from the database<br>getUserByUsername should reject with UserNotFoundError when user does not exist <br>  getUserByUsername should reject with an error if there is a database operation failure |
+| FR2.4 - Update the information of a single user                | updateUserInfo should update user information in the database<br>updateUserInfo should reject with UserNotFoundError if user doesn't exist <br> getUserByUsername should reject with error when database operation fails during selection <br> getUserByUsername should reject with error when database operation fails during update|
+| FR2.5 -  Delete a single non Admin user                         | deleteUser should delete a user from the database (non-Admin users only)<br> It should reject with error when database operation fails <br> deleteUser should reject with UserNotFoundError if user doesn't exist |
+| FR2.6 -  Delete all non Admin users                             | deleteAll should delete all non-Admin users from the database<br>deleteAll should reject with an error on database operation failure         |
 |                **Manage reviews**                |         
 |  FR4.1  -      Add a new review to a product   | newReview - should add a review to the database<br>newReview should reject with an error if the product does not exist<br>newReview should reject with an error if the user has already reviewed the product<br>newReview should reject with an error if there is an error checking the product<br>newReview should reject with an error if there is an error checking existing reviews<br>newReview should reject with an error if there is an error inserting the review|
 |  FR4.2  -   Get the list of all reviews assigned to a product | returnReviews should return all reviews for a product from the database<br>returnReviews should reject with an error if the product does not exist<br>returnReviews should reject with an error if there is an error checking the product<br>returnReviews should reject with an error if there is an error fetching reviews |
 |  FR4.3  -          Delete a review given to a product    | deleteReview should delete a review from the database<br>deleteReview should reject with an error if the product does not exist<br>deleteReview should reject with an error if the user has not reviewed the product<br>deleteReview should reject with an error if there is an error checking the product<br>deleteReview should reject with an error if there is an error checking the review<br>deleteReview should reject with an error if there is an error deleting the review|
 |  FR4.4 -          Delete all reviews of a product    |deleteAllReviewsProduct should delete all reviews for a product from the database<br>deleteAllReviewsProduct should reject with an error if the product does not exist<br>deleteAllReviewsProduct should reject with an error if there is an error checking the product<br>deleteAllReviewsProduct should reject with an error if there is an error deleting reviews |
 |  FR4.5 -       Delete all reviews of all products    | deleteAllReviews should delete all reviews from the database<br>deleteAllReviews should reject with an error if there is an error deleting reviews|
-|                FRy                 |         |
-|                ...                 |         |
+
 
 ## Coverage white box
 
