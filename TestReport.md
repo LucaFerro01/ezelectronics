@@ -380,7 +380,6 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 
 <Report in the following table the coverage of functional requirements and scenarios(from official requirements) >
 
-<<<<<<< HEAD
 | Functional Requirement or scenario | Test(s) |
 | :--------------------------------: | :-----: |
 |                **Manage users**                |         
