@@ -17,7 +17,7 @@
 
 # Dependency graph
 
-  ![alt text](image.png)
+![alt text](image.png)
 
 # Unit approach
 
@@ -140,13 +140,6 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 | deleteAllCartProducts - It should return true                                                    |     CartDAO      |    Unit    | WB/ statement coverage |
 | deleteAllCartProducts - It should reject                                                         |     CartDAO      |    Unit    | WB/ statement coverage |
 | deleteAllCarts - It should return true                                                           |     CartDAO      |    Unit    | WB/ statement coverage |
-| getCustomerCarts - It should return the paid carts of the user                                   |     CartDAO      |    Unit    | WB/ statement coverage |
-| removeProductFromCart - It should return true                                                    |     CartDAO      |    Unit    | WB/ statement coverage |
-| removeProductFromCart - It should throw ProductNotInCartError                                    |     CartDAO      |    Unit    | WB/ statement coverage |
-| removeProductFromCart - It should throw ProductNotFoundError                                     |     CartDAO      |    Unit    | WB/ statement coverage |
-| removeProductFromCart - It should throw CartNotFoundError                                        |     CartDAO      |    Unit    | WB/ statement coverage |
-| clearCart - It should return true                                                                |     CartDAO      |    Unit    | WB/ statement coverage |
-| getAllCarts - It should return all carts                                                         |     CartDAO      |    Unit    | WB/ statement coverage |
 
 ### Cart Controller Unit Tests
 
@@ -165,6 +158,13 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 | checkoutCart - It should throw EmptyProductStockError                           |  CartController  |    Unit    | WB/ statement coverage |
 | checkoutCart - It should throw LowProductStockError                             |  CartController  |    Unit    | WB/ statement coverage |
 | checkoutCart - It should throw LowProductStockError                             |  CartController  |    Unit    | WB/ statement coverage |
+| getCustomerCarts - It should return the paid carts of the user                  |  CartController  |    Unit    | WB/ statement coverage |
+| removeProductFromCart - It should return true                                   |  CartController  |    Unit    | WB/ statement coverage |
+| removeProductFromCart - It should throw ProductNotInCartError                   |  CartController  |    Unit    | WB/ statement coverage |
+| removeProductFromCart - It should throw ProductNotFoundError                    |  CartController  |    Unit    | WB/ statement coverage |
+| removeProductFromCart - It should throw CartNotFoundError                       |  CartController  |    Unit    | WB/ statement coverage |
+| clearCart - It should return true                                               |  CartController  |    Unit    | WB/ statement coverage |
+| getAllCarts - It should return all carts                                        |  CartController  |    Unit    | WB/ statement coverage |
 
 ### Cart Routes Unit Tests
 
@@ -212,58 +212,58 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 
 ### Product DAO Unit Tests
 
-| Test case name                                                                                   | Object(s) tested | Test level |     Technique used     |
-| ------------------------------------------------------------------------------------------------ | :--------------: | :--------: | :--------------------: |
-| Create product - It should return undefined                                                               |     ProductDAO      |    Unit    | WB/ statement coverage |
-| Change quantity - It should return the new quatity                                                                    |    ProductDAO      |    Unit    | WB/ statement coverage |
-| Get Products - It should return the all products                                                                    |    ProductDAO      |    Unit    | WB/ statement coverage |
-| Sell Product - It should return the decrease quantity                                                                    |    ProductDAO      |    Unit    | WB/ statement coverage |
-| Available Products - Return the product with quantity greather than 0                                                                    |    ProductDAO      |    Unit    | WB/ statement coverage |
-| Delete all products - It should return true                                                                     |    ProductDAO      |    Unit    | WB/ statement coverage |
-| Delete one product - It should return true                                                                     |    ProductDAO      |    Unit    | WB/ statement coverage |
-| Insert product already exists - It should return error ProductAlreadyExists                                                                     |    ProductDAO      |    Unit    | WB/ statement coverage |
-| Sell not existing product - It should return error ProductNotFoundError                                                                     |    ProductDAO      |    Unit    | WB/ statement coverage |
-| Sell product with no quantity - It should return error EmptyProductStockError                                                                     |    ProductDAO      |    Unit    | WB/ statement coverage |
-| Sell product with not enough quantity - It should return error LowProductStockError                                                                   |    ProductDAO      |    Unit    | WB/ statement coverage |
+| Test case name                                                                      | Object(s) tested | Test level |     Technique used     |
+| ----------------------------------------------------------------------------------- | :--------------: | :--------: | :--------------------: |
+| Create product - It should return undefined                                         |    ProductDAO    |    Unit    | WB/ statement coverage |
+| Change quantity - It should return the new quatity                                  |    ProductDAO    |    Unit    | WB/ statement coverage |
+| Get Products - It should return the all products                                    |    ProductDAO    |    Unit    | WB/ statement coverage |
+| Sell Product - It should return the decrease quantity                               |    ProductDAO    |    Unit    | WB/ statement coverage |
+| Available Products - Return the product with quantity greather than 0               |    ProductDAO    |    Unit    | WB/ statement coverage |
+| Delete all products - It should return true                                         |    ProductDAO    |    Unit    | WB/ statement coverage |
+| Delete one product - It should return true                                          |    ProductDAO    |    Unit    | WB/ statement coverage |
+| Insert product already exists - It should return error ProductAlreadyExists         |    ProductDAO    |    Unit    | WB/ statement coverage |
+| Sell not existing product - It should return error ProductNotFoundError             |    ProductDAO    |    Unit    | WB/ statement coverage |
+| Sell product with no quantity - It should return error EmptyProductStockError       |    ProductDAO    |    Unit    | WB/ statement coverage |
+| Sell product with not enough quantity - It should return error LowProductStockError |    ProductDAO    |    Unit    | WB/ statement coverage |
 
 ### Product Controller Unit Test
 
-| Test case name                                                                  | Object(s) tested | Test level |     Technique used     |
-| ------------------------------------------------------------------------------- | :--------------: | :--------: | :--------------------: |
-| Register Product - It should create a new product and return undefined |  ProductController  |    Unit    | WB/ statement coverage |
-| Change product quantity - It should change the quantity of a product and return the new quantity      |  ProductController  |    Unit    | WB/ statement coverage |
-| Sell product - It should decrese the quantity of the sold product and return the new quantity     |  ProductController  |    Unit    | WB/ statement coverage |
-| Get products - It should return all the products in the stock     |  ProductController  |    Unit    | WB/ statement coverage |
-| Get available product - It should return all the products with quantity grather than 0     |  ProductController  |    Unit    | WB/ statement coverage |
-| Delete all products - It should delete all products from the DB and return true     |  ProductController  |    Unit    | WB/ statement coverage |
-| Delete single product - It should delete the product that match with the given model and return true     |  ProductController  |    Unit    | WB/ statement coverage |
+| Test case name                                                                                       | Object(s) tested  | Test level |     Technique used     |
+| ---------------------------------------------------------------------------------------------------- | :---------------: | :--------: | :--------------------: |
+| Register Product - It should create a new product and return undefined                               | ProductController |    Unit    | WB/ statement coverage |
+| Change product quantity - It should change the quantity of a product and return the new quantity     | ProductController |    Unit    | WB/ statement coverage |
+| Sell product - It should decrese the quantity of the sold product and return the new quantity        | ProductController |    Unit    | WB/ statement coverage |
+| Get products - It should return all the products in the stock                                        | ProductController |    Unit    | WB/ statement coverage |
+| Get available product - It should return all the products with quantity grather than 0               | ProductController |    Unit    | WB/ statement coverage |
+| Delete all products - It should delete all products from the DB and return true                      | ProductController |    Unit    | WB/ statement coverage |
+| Delete single product - It should delete the product that match with the given model and return true | ProductController |    Unit    | WB/ statement coverage |
 
 ### Product Routes Unit Tests
 
-| Test Case Name                                                   | Object(s) tested | Test Level |     Technique Used     |
-| ---------------------------------------------------------------- | :--------------: | :--------: | :--------------------: |
-| POST /products - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
-| POST /products - It should return 401 if user not logged in                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
-| POST /products - It should return 422 for low quantity to sold                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
-| PATCH /products/:model - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
-| PATCH /products/:mode/sell - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
-| GET /products - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
-| GET /products?grouping=category&category=Smartphone - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
-| GET /products/available - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
-| DELETE /products - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
-| DELETE /products/:model - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+| Test Case Name                                                             | Object(s) tested | Test Level |     Technique Used     |
+| -------------------------------------------------------------------------- | :--------------: | :--------: | :--------------------: |
+| POST /products - It should return 200                                      |  ProductRouter   |    Unit    | WB/ statement coverage |
+| POST /products - It should return 401 if user not logged in                |  ProductRouter   |    Unit    | WB/ statement coverage |
+| POST /products - It should return 422 for low quantity to sold             |  ProductRouter   |    Unit    | WB/ statement coverage |
+| PATCH /products/:model - It should return 200                              |  ProductRouter   |    Unit    | WB/ statement coverage |
+| PATCH /products/:mode/sell - It should return 200                          |  ProductRouter   |    Unit    | WB/ statement coverage |
+| GET /products - It should return 200                                       |  ProductRouter   |    Unit    | WB/ statement coverage |
+| GET /products?grouping=category&category=Smartphone - It should return 200 |  ProductRouter   |    Unit    | WB/ statement coverage |
+| GET /products/available - It should return 200                             |  ProductRouter   |    Unit    | WB/ statement coverage |
+| DELETE /products - It should return 200                                    |  ProductRouter   |    Unit    | WB/ statement coverage |
+| DELETE /products/:model - It should return 200                             |  ProductRouter   |    Unit    | WB/ statement coverage |
 
 ### Product Integration Tests
 
-| Test Case Name                                                                                         |          Object(s) tested           | Test Level  |   Technique Used    |
-| ------------------------------------------------------------------------------------------------------ | :---------------------------------: | :---------: | :-----------------: |
-| GET /products - It should return 200 and undefined                                                        | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
-| PATCH /products/:model - It should return 200 and new quantity of the product                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
-| PATCH /products/:model/sell - It should return 200 and new sold quantity of the product                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
-| GET /products - It should return 200 and all the products                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
-| GET /products/available - It should return 200 and all the products with quantity greather than 0                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
-| DELETE /products - It should return 200 and true if all the products are delete                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
-| DELETE /products/:model - It should return 200 and true if the product are delete                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| Test Case Name                                                                                    |               Object(s) tested               | Test Level  |   Technique Used    |
+| ------------------------------------------------------------------------------------------------- | :------------------------------------------: | :---------: | :-----------------: |
+| GET /products - It should return 200 and undefined                                                | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| PATCH /products/:model - It should return 200 and new quantity of the product                     | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| PATCH /products/:model/sell - It should return 200 and new sold quantity of the product           | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| GET /products - It should return 200 and all the products                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| GET /products/available - It should return 200 and all the products with quantity greather than 0 | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| DELETE /products - It should return 200 and true if all the products are delete                   | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| DELETE /products/:model - It should return 200 and true if the product are delete                 | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
 
 # Coverage
 
@@ -271,16 +271,37 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 
 <Report in the following table the coverage of functional requirements and scenarios(from official requirements) >
 
-| Functional Requirement or scenario | Test(s) |
-| :--------------------------------: | :-----: |
-|                **Manage reviews**                |         
-|  FR4.1  -      Add a new review to a product   | newReview - should add a review to the database<br>newReview should reject with an error if the product does not exist<br>newReview should reject with an error if the user has already reviewed the product<br>newReview should reject with an error if there is an error checking the product<br>newReview should reject with an error if there is an error checking existing reviews<br>newReview should reject with an error if there is an error inserting the review|
-|  FR4.2  -   Get the list of all reviews assigned to a product | returnReviews should return all reviews for a product from the database<br>returnReviews should reject with an error if the product does not exist<br>returnReviews should reject with an error if there is an error checking the product<br>returnReviews should reject with an error if there is an error fetching reviews |
-|  FR4.3  -          Delete a review given to a product    | deleteReview should delete a review from the database<br>deleteReview should reject with an error if the product does not exist<br>deleteReview should reject with an error if the user has not reviewed the product<br>deleteReview should reject with an error if there is an error checking the product<br>deleteReview should reject with an error if there is an error checking the review<br>deleteReview should reject with an error if there is an error deleting the review|
-|  FR4.4 -          Delete all reviews of a product    |deleteAllReviewsProduct should delete all reviews for a product from the database<br>deleteAllReviewsProduct should reject with an error if the product does not exist<br>deleteAllReviewsProduct should reject with an error if there is an error checking the product<br>deleteAllReviewsProduct should reject with an error if there is an error deleting reviews |
-|  FR4.5 -       Delete all reviews of all products    | deleteAllReviews should delete all reviews from the database<br>deleteAllReviews should reject with an error if there is an error deleting reviews|
-|                FRy                 |         |
-|                ...                 |         |
+|            Functional Requirement or scenario             |                                                                                                                                                                                                                                       Test(s)                                                                                                                                                                                                                                        |
+| :-------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                    **Manage reviews**                     |
+|           FR4.1 - Add a new review to a product           |      newReview - should add a review to the database<br>newReview should reject with an error if the product does not exist<br>newReview should reject with an error if the user has already reviewed the product<br>newReview should reject with an error if there is an error checking the product<br>newReview should reject with an error if there is an error checking existing reviews<br>newReview should reject with an error if there is an error inserting the review      |
+| FR4.2 - Get the list of all reviews assigned to a product |                                                                             returnReviews should return all reviews for a product from the database<br>returnReviews should reject with an error if the product does not exist<br>returnReviews should reject with an error if there is an error checking the product<br>returnReviews should reject with an error if there is an error fetching reviews                                                                             |
+|        FR4.3 - Delete a review given to a product         | deleteReview should delete a review from the database<br>deleteReview should reject with an error if the product does not exist<br>deleteReview should reject with an error if the user has not reviewed the product<br>deleteReview should reject with an error if there is an error checking the product<br>deleteReview should reject with an error if there is an error checking the review<br>deleteReview should reject with an error if there is an error deleting the review |
+|          FR4.4 - Delete all reviews of a product          |                                                         deleteAllReviewsProduct should delete all reviews for a product from the database<br>deleteAllReviewsProduct should reject with an error if the product does not exist<br>deleteAllReviewsProduct should reject with an error if there is an error checking the product<br>deleteAllReviewsProduct should reject with an error if there is an error deleting reviews                                                         |
+|        FR4.5 - Delete all reviews of all products         |                                                                                                                                                                  deleteAllReviews should delete all reviews from the database<br>deleteAllReviews should reject with an error if there is an error deleting reviews                                                                                                                                                                  |
+|                            FRy                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|                            ...                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+
+### Cart
+
+| Functional Requirement or scenario                                        | Test(s)                                                                                                                                                    |
+| ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 10.1 - View information of the current cart (not paid yet)                | GET / - It should return 200<br>getCart - It should return the cart of the user<br>getCurrentCart - It should return a cart                                |
+| 10.2 - View the history of already paid carts                             | GET /history - It should return 200<br>getCustomerCarts - It should return the paid carts of the user<br>getPaidCarts - It should return a list of carts   |
+| 10.3 - Add a product to the current cart                                  | POST / - It should return 200<br>addToCart - It should add the product to the existing cart and return true<br>incrementProductQty - It should return true |
+| 10.4 - Try to add a product that does not exist to the current cart       | addToCart - It should throw ProductNotFoundError                                                                                                           |
+| 10.5 - Try to add a product that is not available to the current cart     | addToCart - It should throw EmptyProductStockError                                                                                                         |
+| 10.6 - Pay for the current cart                                           | PATCH / - It should return 200<br>checkoutCart - It should return true<br>updateCartToPaid - It should return true                                         |
+| 10.7 - Try to pay for an empty cart                                       | checkoutCart - It should throw EmptyCartError                                                                                                              |
+| 10.8 - Try to pay for a cart that does not exist                          | checkoutCart - It should throw CartNotFoundError                                                                                                           |
+| 10.9 - Remove one product instance product from the current cart          | DELETE /products/:model - It should return 200<br>removeProductFromCart - It should return true<br>removeProductFromCart - It should return true           |
+| 10.10 - Try to remove a product that does not exist from the current cart | removeProductFromCart - It should throw ProductNotFoundError                                                                                               |
+| 10.11 - Try to remove a product from a cart that does not exist           | removeProductFromCart - It should throw CartNotFoundError                                                                                                  |
+| 10.12 - Try to remove a product that is not in the current cart           | removeProductFromCart - It should throw ProductNotInCartError                                                                                              |
+| 11.1 - Delete the current cart                                            | DELETE /current - It should return 200<br>clearCart - It should return true<br>deleteAllCartProducts - It should return true                               |
+| 11.2 - Try to delete the current cart when there is none                  | DELETE /current - It should return 200<br>clearCart - It should return true<br>deleteAllCartProducts - It should return true                               |
+| 15.1 - View all carts                                                     | GET /all - It should return 200<br>getAllCarts - It should return all carts<br>getAllCarts - It should return a list of carts                              |
+| 16.1 - Delete all carts                                                   | DELETE / - It should return 200<br>deleteAllCarts - It should return true                                                                                  |
 
 ## Coverage white box
 
