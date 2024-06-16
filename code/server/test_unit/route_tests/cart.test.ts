@@ -172,7 +172,7 @@ describe("CartRouter unit tests", () => {
             expect(Authenticator.prototype.isCustomer).toHaveBeenCalled();
         });
 
-        test("It should return 401 if not a admin or manager", async () => {
+        test("It should return 401 if not an admin or manager", async () => {
             jest.spyOn(Authenticator.prototype, "isAdminOrManager").mockImplementationOnce((_req, res, _next) => {
                 return res.status(401).json({ error: "Unauthorized" });
             });
@@ -196,7 +196,7 @@ describe("CartRouter unit tests", () => {
             expect(Authenticator.prototype.isCustomer).toHaveBeenCalled();
         });
 
-        test("It should return 401 if not a admin or manager", async () => {
+        test("It should return 401 if not an admin or manager", async () => {
             jest.spyOn(Authenticator.prototype, "isAdminOrManager").mockImplementationOnce((_req, res, _next) => {
                 return res.status(401).json({ error: "Unauthorized" });
             });
