@@ -43,7 +43,7 @@ describe("ProductDAO", () => {
     })
 
 
-    test("Create product test method", async () => {
+    test("Create product, it should be return undefined", async () => {
         const mockDBRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
             callback(null)
             return {} as Database
@@ -52,7 +52,7 @@ describe("ProductDAO", () => {
         expect(resultInsert).toBe(undefined);
     })
 
-    test("Change quantity", async () => {
+    test("Change quantity, it should return the new quantity", async () => {
         const mockDBRun = jest.spyOn(db, "run").mockImplementation((sql, callback) => {
             callback(null)
             return {} as Database
@@ -65,7 +65,7 @@ describe("ProductDAO", () => {
         expect(resultChange).toBe(11)
     })
 
-    test("Get Product", async () => {
+    test("Get Products, it should return the all products", async () => {
         const mockDBAll = jest.spyOn(db, "all").mockImplementation((sql, callback) => {
             callback(null, [product1Mock])
             return {} as Database
@@ -74,7 +74,7 @@ describe("ProductDAO", () => {
         expect(getProducts).toContainEqual(product1);
     })
 
-    test("Sell product", async () => {
+    test("Sell product, it should return the decrese quantity", async () => {
         const mockDBRun = jest.spyOn(db, "run").mockImplementation((sql, callback) => {
             callback(null)
             return {} as Database
@@ -89,7 +89,7 @@ describe("ProductDAO", () => {
 
     })
 
-    test("Available products", async () => {
+    test("Available products, return the product with quantity greather than 0", async () => {
         const mockDBAll = jest.spyOn(db, "all").mockImplementation((sql, callback) => {
             callback(null, [product1Mock, product2Mock].slice(0, 1))
             return {} as Database

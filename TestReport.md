@@ -210,6 +210,61 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 | DELETE / - It should return 200 and remove all carts                                                   | CartRouter, CartController, CartDAO | Integration | BB/ eq partitioning |
 | DELETE / - It should return 401 because is not manager or admin                                        | CartRouter, CartController, CartDAO | Integration |    BB/ boundary     |
 
+### Product DAO Unit Tests
+
+| Test case name                                                                                   | Object(s) tested | Test level |     Technique used     |
+| ------------------------------------------------------------------------------------------------ | :--------------: | :--------: | :--------------------: |
+| Create product - It should return undefined                                                               |     ProductDAO      |    Unit    | WB/ statement coverage |
+| Change quantity - It should return the new quatity                                                                    |    ProductDAO      |    Unit    | WB/ statement coverage |
+| Get Products - It should return the all products                                                                    |    ProductDAO      |    Unit    | WB/ statement coverage |
+| Sell Product - It should return the decrease quantity                                                                    |    ProductDAO      |    Unit    | WB/ statement coverage |
+| Available Products - Return the product with quantity greather than 0                                                                    |    ProductDAO      |    Unit    | WB/ statement coverage |
+| Delete all products - It should return true                                                                     |    ProductDAO      |    Unit    | WB/ statement coverage |
+| Delete one product - It should return true                                                                     |    ProductDAO      |    Unit    | WB/ statement coverage |
+| Insert product already exists - It should return error ProductAlreadyExists                                                                     |    ProductDAO      |    Unit    | WB/ statement coverage |
+| Sell not existing product - It should return error ProductNotFoundError                                                                     |    ProductDAO      |    Unit    | WB/ statement coverage |
+| Sell product with no quantity - It should return error EmptyProductStockError                                                                     |    ProductDAO      |    Unit    | WB/ statement coverage |
+| Sell product with not enough quantity - It should return error LowProductStockError                                                                   |    ProductDAO      |    Unit    | WB/ statement coverage |
+
+### Product Controller Unit Test
+
+| Test case name                                                                  | Object(s) tested | Test level |     Technique used     |
+| ------------------------------------------------------------------------------- | :--------------: | :--------: | :--------------------: |
+| Register Product - It should create a new product and return undefined |  ProductController  |    Unit    | WB/ statement coverage |
+| Change product quantity - It should change the quantity of a product and return the new quantity      |  ProductController  |    Unit    | WB/ statement coverage |
+| Sell product - It should decrese the quantity of the sold product and return the new quantity     |  ProductController  |    Unit    | WB/ statement coverage |
+| Get products - It should return all the products in the stock     |  ProductController  |    Unit    | WB/ statement coverage |
+| Get available product - It should return all the products with quantity grather than 0     |  ProductController  |    Unit    | WB/ statement coverage |
+| Delete all products - It should delete all products from the DB and return true     |  ProductController  |    Unit    | WB/ statement coverage |
+| Delete single product - It should delete the product that match with the given model and return true     |  ProductController  |    Unit    | WB/ statement coverage |
+
+### Product Routes Unit Tests
+
+| Test Case Name                                                   | Object(s) tested | Test Level |     Technique Used     |
+| ---------------------------------------------------------------- | :--------------: | :--------: | :--------------------: |
+| POST /products - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+| POST /products - It should return 401 if user not logged in                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+| POST /products - It should return 422 for low quantity to sold                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+| PATCH /products/:model - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+| PATCH /products/:mode/sell - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+| GET /products - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+| GET /products?grouping=category&category=Smartphone - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+| GET /products/available - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+| DELETE /products - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+| DELETE /products/:model - It should return 200                                     |    ProductRouter    |    Unit    | WB/ statement coverage |
+
+### Product Integration Tests
+
+| Test Case Name                                                                                         |          Object(s) tested           | Test Level  |   Technique Used    |
+| ------------------------------------------------------------------------------------------------------ | :---------------------------------: | :---------: | :-----------------: |
+| GET /products - It should return 200 and undefined                                                        | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| PATCH /products/:model - It should return 200 and new quantity of the product                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| PATCH /products/:model/sell - It should return 200 and new sold quantity of the product                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| GET /products - It should return 200 and all the products                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| GET /products/available - It should return 200 and all the products with quantity greather than 0                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| DELETE /products - It should return 200 and true if all the products are delete                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+| DELETE /products/:model - It should return 200 and true if the product are delete                                                         | ProductRouter, ProductController, ProductDAO | Integration | BB/ eq partitioning |
+
 # Coverage
 
 ## Coverage of FR

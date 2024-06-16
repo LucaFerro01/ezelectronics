@@ -54,7 +54,7 @@ describe("Product Controller", () => {
         expect(allProducts).toEqual([product, product2]);
     })
 
-    test("Get available product", async () => {
+    test("Get available products", async () => {
         const mockDAOavailableProducts = jest.spyOn(ProductDAO.prototype, "availableProducts").mockResolvedValueOnce([product, product2].filter(p => p.quantity > 0));
         const availableProducts = await controller.getAvailableProducts(null, null, null);
 
