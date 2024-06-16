@@ -384,7 +384,6 @@ sequence you adopted, in general terms (top down, bottom up, mixed) and as seque
 | Functional Requirement or scenario | Test(s) |
 | :--------------------------------: | :-----: |
 |                **Manage users**                |         
-
 | FR2.1  -  Show the list of all users                             | getUsers should return all users from the database<br>getUsers should reject with an error if there is a database operation failure         |
 | FR2.2 - Show the list of all users with a specific role        | getUsersByRole should return users filtered by a specific role from the database<br>getUsersByRole should reject with an error on failure   |
 | FR2.3 - Show the information of a single user                  | getUserByUsername should return a specific user by username from the database<br>getUserByUsername should reject with UserNotFoundError when user does not exist <br>  getUserByUsername should reject with an error if there is a database operation failure |
