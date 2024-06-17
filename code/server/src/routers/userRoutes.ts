@@ -56,6 +56,12 @@ class UserRoutes {
          */
         this.router.post(
             "/",
+            body("username").isString().isLength({ min: 1 }).withMessage("Username cannot be empty"), //the request body must contain an attribute named "username", the attribute must be a non-empty string
+            body("name").isString().isLength({ min: 1 }).withMessage("Name cannot be empty"), //the request body must contain an attribute named "name", the attribute must be a non-empty string
+            body("surname").isString().isLength({ min: 1 }).withMessage("Surname cannot be empty"), //the request body must contain an attribute named "surname", the attribute must be a non-empty string
+            body("password").isString().isLength({ min: 1 }).withMessage("Password cannot be empty"), //the request body must contain an attribute named "password", the attribute must be a non-empty string
+            body("role").isString().isIn(["Manager", "Customer", "Admin"]), //the request body must contain an attribute named "role", the attribute must be a string 
+            this.errorHandler.validateRequest, //middleware defined in `helper.ts`, checks the result of all the evaluations performed above and returns a 422 error if at least one fails or continues if there are no issues
             (req: any, res: any, next: any) => this.controller.createUser(req.body.username, req.body.name, req.body.surname, req.body.password, req.body.role)
                 .then(() => res.status(200).end())
                 .catch((err) => {
@@ -70,6 +76,8 @@ class UserRoutes {
          */
         this.router.get(
             "/",
+            this.authService.isLoggedIn,
+            this.authService.isAdmin,
             (req: any, res: any, next: any) => this.controller.getUsers()
                 .then((users: any /**User[] */) => res.status(200).json(users))
                 .catch((err) => next(err))
@@ -83,6 +91,8 @@ class UserRoutes {
          */
         this.router.get(
             "/roles/:role",
+            this.authService.isLoggedIn,
+            this.authService.isAdmin,
             (req: any, res: any, next: any) => this.controller.getUsersByRole(req.params.role)
                 .then((users: any /**User[] */) => res.status(200).json(users))
                 .catch((err) => next(err))
@@ -96,6 +106,7 @@ class UserRoutes {
          */
         this.router.get(
             "/:username",
+            this.authService.isLoggedIn,
             (req: any, res: any, next: any) => this.controller.getUserByUsername(req.user, req.params.username)
                 .then((user: any /**User */) => res.status(200).json(user))
                 .catch((err) => next(err))
@@ -109,7 +120,8 @@ class UserRoutes {
          */
         this.router.delete(
             "/:username",
-            (req: any, res: any, next: any) => this.controller.deleteUser(req.user, req.params.username)
+            this.authService.isLoggedIn,
+            (req: any, res: any, next: any) =>  this.controller.deleteUser(req.user, req.params.username)
                 .then(() => res.status(200).end())
                 .catch((err: any) => next(err))
         )
@@ -121,6 +133,8 @@ class UserRoutes {
          */
         this.router.delete(
             "/",
+            this.authService.isLoggedIn,
+            this.authService.isAdmin,
             (req: any, res: any, next: any) => this.controller.deleteAll()
                 .then(() => res.status(200).end())
                 .catch((err: any) => next(err))
@@ -139,6 +153,12 @@ class UserRoutes {
          */
         this.router.patch(
             "/:username",
+            this.authService.isLoggedIn,
+            body("name").isString().isLength({ min: 1 }).withMessage("Name cannot be empty"), //the request body must contain an attribute named "name", the attribute must be a non-empty string
+            body("surname").isString().isLength({ min: 1 }).withMessage("Surname cannot be empty"), //the request body must contain an attribute named "surname", the attribute must be a non-empty string
+            body("address").isString().isLength({ min: 1 }).withMessage("Address cannot be empty"), //the request body must contain an attribute named "password", the attribute must be a non-empty string
+            body("birthdate").isDate({ format: "YYYY-MM-DD", strictMode: true }).withMessage("Birthdate must be a valid date in the format YYYY-MM-DD"),
+            this.errorHandler.validateRequest, //middleware defined in `helper.ts`, checks the result of all the evaluations performed above and returns a 422 error if at least one fails or continues if there are no issues
             (req: any, res: any, next: any) => this.controller.updateUserInfo(req.user, req.body.name, req.body.surname, req.body.address, req.body.birthdate, req.params.username)
                 .then((user: any /**User */) => res.status(200).json(user))
                 .catch((err: any) => next(err))

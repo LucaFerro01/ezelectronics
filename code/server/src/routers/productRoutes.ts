@@ -1,9 +1,12 @@
 import express, { Router } from "express"
 import ErrorHandler from "../helper"
-import { body, param, query } from "express-validator"
+import { body, CustomValidator, param, query } from "express-validator"
 import ProductController from "../controllers/productController"
 import Authenticator from "./auth"
 import { Product } from "../components/product"
+import { request } from "http"
+import ProductDAO from "../dao/productDAO"
+import { group } from "console"
 
 /**
  * Represents a class that defines the routes for handling proposals.
@@ -44,6 +47,14 @@ class ProductRoutes {
      */
     initRoutes() {
 
+        const productDAO = new ProductDAO();
+
+        const productExists : CustomValidator = async (value) => {
+            const productExists = await productDAO.getAllProducts("model", null, value);
+            if(productExists.length === 0)
+                throw new Error("Model doesn't exists"); 
+        }
+
         /**
          * Route for registering the arrival of a set of products.
          * It requires the user to be logged in and to be either an admin or a manager.
@@ -58,6 +69,15 @@ class ProductRoutes {
          */
         this.router.post(
             "/",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isManager,
+            body("model").isString().isLength({min: 1}).withMessage("Model cannot be empty"),
+            body("category").isString().isIn(["Smartphone", "Laptop", "Appliance"]).withMessage("Category need to be in: Smartphone, Laptop, Appliance"),
+            body("quantity").isInt({min: 1}).isInt().withMessage("Quantity need to be numeric greather than 0"),
+            body("details").isString().isLength({min: 1}).withMessage("Details need to be a string"),
+            body("sellingPrice").isInt({min: 1}).withMessage("Selling price need to be a number greather than 0"),
+            body("arrivalDate").optional().if((value: string) => (value !== null) && (value !== "")).isDate({ format: "YYYY-MM-DD", strictMode: true }),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.registerProducts(req.body.model, req.body.category, req.body.quantity, req.body.details, req.body.sellingPrice, req.body.arrivalDate)
                 .then(() => res.status(200).end())
                 .catch((err) => next(err))
@@ -74,6 +94,12 @@ class ProductRoutes {
          */
         this.router.patch(
             "/:model",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isManager,
+            param("model").isString().isLength({min: 1}),
+            body("quantity").isInt({min: 1}),
+            body("changeDate").optional().if((value: string) => (value !== null && (value !== ""))).isDate({ format: "YYYY-MM-DD", strictMode: true }),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.changeProductQuantity(req.params.model, req.body.quantity, req.body.changeDate)
                 .then((quantity: any /**number */) => res.status(200).json({ quantity: quantity }))
                 .catch((err) => next(err))
@@ -90,6 +116,12 @@ class ProductRoutes {
          */
         this.router.patch(
             "/:model/sell",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isManager,
+            param("model").isString().isLength({min: 1}),
+            body("quantity").isInt({min:1}),
+            body("sellingDate").optional().if((value: string) => value !== null).isDate({ format: "YYYY-MM-DD", strictMode: true }),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.sellProduct(req.params.model, req.body.quantity, req.body.sellingDate)
                 .then((quantity: any /**number */) => res.status(200).json({ quantity: quantity }))
                 .catch((err) => {
@@ -109,6 +141,12 @@ class ProductRoutes {
          */
         this.router.get(
             "/",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isAdminOrManager,
+            query("grouping").if(query("grouping").exists({checkNull: true})).isString().isIn(["category", "model", ""]),
+            query("category").if(query("grouping").equals("category")).isString().notEmpty(),
+            query("model").if(query("grouping").equals("model")).isString().notEmpty(),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getProducts(req.query.grouping, req.query.category, req.query.model)
                 .then((products: any /*Product[]*/) => res.status(200).json(products))
                 .catch((err) => {
@@ -128,6 +166,12 @@ class ProductRoutes {
          */
         this.router.get(
             "/available",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isCustomer,
+            query("grouping").if(query("grouping").exists({checkNull: true})).isString().isIn(["category", "model", ""]),
+            query("category").if(query("grouping").equals("category")).isString().notEmpty(),
+            query("model").if(query("grouping").equals("model")).isString().notEmpty(),
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getAvailableProducts(req.query.grouping, req.query.category, req.query.model)
                 .then((products: any/*Product[]*/) => res.status(200).json(products))
                 .catch((err) => next(err))
@@ -140,6 +184,9 @@ class ProductRoutes {
          */
         this.router.delete(
             "/",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isAdminOrManager,
+            this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.deleteAllProducts()
                 .then(() => res.status(200).end())
                 .catch((err: any) => next(err))
@@ -153,6 +200,9 @@ class ProductRoutes {
          */
         this.router.delete(
             "/:model",
+            this.authenticator.isLoggedIn,
+            this.authenticator.isAdminOrManager,
+            param("model").isString().isLength({min: 1}).custom(productExists),
             (req: any, res: any, next: any) => this.controller.deleteProduct(req.params.model)
                 .then(() => res.status(200).end())
                 .catch((err: any) => next(err))
