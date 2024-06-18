@@ -7,7 +7,7 @@ const USER_IS_ADMIN = "Admins cannot be deleted"
 const UNAUTHORIZED_USER = "You cannot access the information of other users"
 const INVALID_BIRTHDATE = "Birthdate cannot be in the future";
 const UNAUTHORIZED_EDIT = "You cannot edit the information of other admins"
-
+const INVALID_ROLE_ERROR = "You cannot insert a invalid role"
 
 /**
  * Represents an error that occurs when a user is not found.
@@ -122,4 +122,15 @@ class UnauthorizedEditError extends Error {
     }
 }
 
-export { UserNotFoundError, UserNotManagerError, UserNotCustomerError, UserAlreadyExistsError, UserNotAdminError, UserIsAdminError, UnauthorizedUserError, InvalidBirthdateError, UnauthorizedEditError }
+class InvalidRoleError extends Error {
+    customMessage: String;
+    customCode: Number;
+
+    constructor() {
+        super()
+        this.customMessage = INVALID_ROLE_ERROR;
+        this.customCode = 422
+    }
+}
+
+export { UserNotFoundError, UserNotManagerError, UserNotCustomerError, UserAlreadyExistsError, UserNotAdminError, UserIsAdminError, UnauthorizedUserError, InvalidBirthdateError, UnauthorizedEditError, InvalidRoleError }
