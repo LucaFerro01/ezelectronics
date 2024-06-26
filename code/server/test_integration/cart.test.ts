@@ -31,7 +31,7 @@ const product1 = {
     sellingPrice: 900,
     category: "Smartphone",
     details: "description",
-    quantity: 1,
+    quantity: 3,
     arrivalDate: "2024-06-07",
 };
 
@@ -137,6 +137,13 @@ describe("Cart routes integration tests", () => {
         test("It should return 409 because the quantity in stock of the product is lower then the required", async () => {
             await request(app).post(cartPath).set("Cookie", customerCookie).send({ model: model1 }).expect(200);
             await request(app).post(cartPath).set("Cookie", customerCookie).send({ model: model1 }).expect(200);
+
+            await request(app)
+                .patch(`${basePath}/products/${model1}/sell`)
+                .set("Cookie", managerCookie)
+                .send({ quantity: 1, sellingDate: "2022-01-01" })
+                .expect(200);
+
             await request(app).patch(cartPath).set("Cookie", customerCookie).expect(409);
         });
     });

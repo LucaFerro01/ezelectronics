@@ -32,9 +32,9 @@ class ProductDAO {
         return new Promise<Number>(async (resolve, reject) => {
             try{
                 const product = await this.getAllProducts("model", null, model);
-                let SQL = `UPDATE Products SET quantity = quantity + \"${newQuantity}\" WHERE model = \"${model}\"`;
-                if(changeDate !== null)
-                    SQL = SQL + `AND arrivalDate = \"${changeDate}\"`;
+                let SQL = `UPDATE Products SET quantity = quantity + ${newQuantity} WHERE model = \'${model}\'`;
+                if(changeDate !== null && changeDate !== undefined)
+                    SQL = SQL + `AND arrivalDate = \'${changeDate}\'`;
                 db.run(SQL, (err : Error) => {
                     if(err){
                         reject(err);
@@ -53,9 +53,9 @@ class ProductDAO {
             try{
                 let SQL = "SELECT * FROM Products";
                 if(grouping == 'model'){
-                    SQL = SQL + ` WHERE model = \"${model}\"`;
+                    SQL = SQL + ` WHERE model = \'${model}\'`;
                 } else if (grouping == 'category'){
-                    SQL = SQL + ` WHERE category = \"${category}\"`;
+                    SQL = SQL + ` WHERE category = \'${category}\'`;
                 }
                 db.all(SQL, (err : Error | null, rows: any[] | null) => {
                     if(err){
@@ -87,7 +87,7 @@ class ProductDAO {
                     reject(new LowProductStockError);
                     return;
                 }
-                const SQL = `UPDATE Products SET quantity = quantity - \"${quantity}\" WHERE model = \"${model}\"`;
+                const SQL = `UPDATE Products SET quantity = quantity - ${quantity} WHERE model = \'${model}\'`;
                 db.run(SQL, (err : Error | null) => {
                     if(err !== null){
                         reject(err)
@@ -106,9 +106,9 @@ class ProductDAO {
             try{
                 let SQL = "SELECT * FROM Products WHERE quantity > 0";
                 if(grouping === 'model'){
-                    SQL = SQL + ` AND model = \"${model}\"`;
+                    SQL = SQL + ` AND model = \'${model}\'`;
                 } else if(grouping === 'category'){
-                    SQL = SQL + ` AND category = \"${category}\"`
+                    SQL = SQL + ` AND category = \'${category}\'`
                 }
                 db.all(SQL, (err : Error | null, rows : any[]) => {
                     if(err !== null){
@@ -145,7 +145,7 @@ class ProductDAO {
     deleteProduct(model: string): Promise<Boolean>{
         return new Promise<boolean>((resolve, reject) => {
             try{
-                const SQL = `DELETE FROM Products WHERE model = \"${model}\"`;
+                const SQL = `DELETE FROM Products WHERE model = \'${model}\'`;
                 db.run(SQL, (err: Error | null) => {
                     if(err !== null){
                         reject(err);
