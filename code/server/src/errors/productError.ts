@@ -1,3 +1,5 @@
+import e from "express"
+
 const PRODUCT_NOT_FOUND = "Product not found"
 const PRODUCT_ALREADY_EXISTS = "The product already exists"
 const PRODUCT_SOLD = "Product already sold"
@@ -15,6 +17,20 @@ class ProductNotFoundError extends Error {
         super()
         this.customMessage = PRODUCT_NOT_FOUND
         this.customCode = 404
+    }
+}
+
+/**
+ * Represents an error that occurs when a date is before another.
+ */
+class DatePrecedesArrivalError extends Error {
+    customMessage: string
+    customCode: number
+
+    constructor() {
+        super()
+        this.customMessage = "The change date is before the arrival date of the product"
+        this.customCode = 400
     }
 }
 
@@ -68,4 +84,4 @@ class LowProductStockError extends Error {
     }
 }
 
-export { ProductNotFoundError, ProductAlreadyExistsError, ProductSoldError, EmptyProductStockError, LowProductStockError }
+export { ProductNotFoundError, ProductAlreadyExistsError, ProductSoldError, EmptyProductStockError, LowProductStockError, DatePrecedesArrivalError }

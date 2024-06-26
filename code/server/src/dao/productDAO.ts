@@ -2,7 +2,8 @@ import { resolve } from "path";
 import { Category, Product} from "./../components/product";
 import db from "./../db/db";
 import { rejects } from "assert";
-import { EmptyProductStockError, LowProductStockError, ProductAlreadyExistsError, ProductNotFoundError } from "../errors/productError";
+import dayjs from "dayjs";
+import { EmptyProductStockError, LowProductStockError, ProductAlreadyExistsError, ProductNotFoundError, DatePrecedesArrivalError } from "../errors/productError";
 /**
  * A class that implements the interaction with the database for all product-related operations.
  * You are free to implement any method you need here, as long as the requirements are satisfied.
@@ -32,14 +33,25 @@ class ProductDAO {
         return new Promise<Number>(async (resolve, reject) => {
             try{
                 const product = await this.getAllProducts("model", null, model);
+
+                if(product.length === 0){
+                    reject(new ProductNotFoundError());
+                    return;
+                }
+                if(changeDate !== null && dayjs(changeDate).isBefore(dayjs(product[0].arrivalDate))){
+                    reject(new DatePrecedesArrivalError());
+                    return;
+                }
                 let SQL = `UPDATE Products SET quantity = quantity + ${newQuantity} WHERE model = \'${model}\'`;
-                if(changeDate !== null && changeDate !== undefined)
-                    SQL = SQL + `AND arrivalDate = \'${changeDate}\'`;
-                db.run(SQL, (err : Error) => {
+                //if(changeDate !== null && changeDate !== undefined)
+                //    SQL = `UPDATE Products SET quantity = quantity + ${newQuantity}, arrivalDate = \'${changeDate}\'  WHERE model = \'${model}\'`
+                db.run(SQL, async (err : Error) => {
                     if(err){
                         reject(err);
                     } else {
-                        resolve(product[0].quantity + newQuantity);
+                        const newQty = product[0].quantity + newQuantity;
+                        const final = await this.getAllProducts("model", null, model);
+                        resolve(final[0].quantity);
                     }
                 })
             } catch (error){
@@ -52,15 +64,20 @@ class ProductDAO {
         return new Promise<Product[]>((resolve, reject) => {
             try{
                 let SQL = "SELECT * FROM Products";
-                if(grouping == 'model'){
+                if(grouping === 'model'){
                     SQL = SQL + ` WHERE model = \'${model}\'`;
-                } else if (grouping == 'category'){
+                }
+                if(grouping === 'category'){
                     SQL = SQL + ` WHERE category = \'${category}\'`;
                 }
                 db.all(SQL, (err : Error | null, rows: any[] | null) => {
                     if(err){
                         reject(err);
                     } else {
+                        if((rows === null || rows.length == 0) && model !== null && grouping === "model"){
+                            reject(new ProductNotFoundError());
+                            return;
+                        }
                         const products = rows.map(pr => new Product(pr.price, pr.model, pr.category, pr.arrivalDate, pr.details, pr.quantity));
                         resolve(products);
                     }
@@ -76,8 +93,12 @@ class ProductDAO {
             try{
                 const p = await this.getAllProducts("model", null, model)
                 if(p.length === 0){
-                     reject(new ProductNotFoundError);
-                     return;
+                    reject(new ProductNotFoundError);
+                    return;
+               }
+                if(sellingDate !== null && dayjs(sellingDate).isBefore(dayjs(p[0].arrivalDate))){
+                    reject(new DatePrecedesArrivalError());
+                    return;
                 }
                 else if(p[0].quantity === 0){
                     reject(new EmptyProductStockError);
@@ -87,12 +108,15 @@ class ProductDAO {
                     reject(new LowProductStockError);
                     return;
                 }
-                const SQL = `UPDATE Products SET quantity = quantity - ${quantity} WHERE model = \'${model}\'`;
-                db.run(SQL, (err : Error | null) => {
+                let SQL = `UPDATE Products SET quantity = quantity - ${quantity} WHERE model = \'${model}\'`;
+                //if(sellingDate !== null && sellingDate !== undefined)
+                //    SQL = `UPDATE Products SET quantity = quantity - ${quantity}, arrivalDate = \'${sellingDate}\' WHERE model = \'${model}\'`
+                db.run(SQL, async (err : Error | null) => {
                     if(err !== null){
                         reject(err)
                     } else {
-                        resolve(p[0].quantity - quantity);
+                        const prod = await this.getAllProducts("model", null, model);
+                        resolve(prod[0].quantity);
                     }
                 })
             } catch(error){
@@ -102,8 +126,9 @@ class ProductDAO {
     }
 
     availableProducts(grouping: string | null, category: string | null, model: string | null): Promise<Product[]>{
-        return new Promise<Product[]>((resolve, reject) => {
+        return new Promise<Product[]>(async (resolve, reject) => {
             try{
+                const allProducts = await this.getAllProducts(grouping, category, model);
                 let SQL = "SELECT * FROM Products WHERE quantity > 0";
                 if(grouping === 'model'){
                     SQL = SQL + ` AND model = \'${model}\'`;
@@ -143,8 +168,13 @@ class ProductDAO {
     }
 
     deleteProduct(model: string): Promise<Boolean>{
-        return new Promise<boolean>((resolve, reject) => {
+        return new Promise<boolean>(async (resolve, reject) => {
             try{
+                const product = await this.getAllProducts("model", null, model);
+                if(product.length === 0){
+                    reject(new ProductNotFoundError());
+                    return;
+                }
                 const SQL = `DELETE FROM Products WHERE model = \'${model}\'`;
                 db.run(SQL, (err: Error | null) => {
                     if(err !== null){
@@ -159,5 +189,6 @@ class ProductDAO {
         })
     }
 }
+
 
 export default ProductDAO
