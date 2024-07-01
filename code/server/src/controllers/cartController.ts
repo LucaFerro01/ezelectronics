@@ -3,7 +3,7 @@ import { User } from "../components/user";
 import CartDAO from "../dao/cartDAO";
 import { Cart } from "../components/cart";
 import ProductDAO from "../dao/productDAO";
-import { EmptyProductStockError, LowProductStockError, ProductNotFoundError } from "../errors/productError";
+import { EmptyProductStockError, ProductNotFoundError } from "../errors/productError";
 
 /**
  * Represents a controller for managing shopping carts.
@@ -99,21 +99,16 @@ class CartController {
                 throw new EmptyCartError();
             }
 
-            for (let i = 0; i < cart.products.length; i++) {
-                const p = cart.products[i];
-                const tmpProds = await this.productDAO.getAllProducts("model", null, p.model);
-                if (tmpProds.length == 0) {
-                    // should never happen
-                    continue;
-                }
-                const tmpP = tmpProds[0];
-                if (tmpP.quantity == 0) {
-                    throw new EmptyProductStockError();
-                }
+            const date = new Date();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const dateStr = `${date.getFullYear()}-${month.toLocaleString("en-US", {
+                minimumIntegerDigits: 2,
+                useGrouping: false,
+            })}-${day.toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false })}`;
 
-                if (tmpP.quantity < p.quantity) {
-                    throw new LowProductStockError();
-                }
+            for (const p of cart.products) {
+                await this.productDAO.sellProduct(p.model, p.quantity, dateStr);
             }
 
             await this.cartDAO.updateCartToPaid(user.username);
@@ -190,6 +185,10 @@ class CartController {
      */
     async clearCart(user: User) /*:Promise<Boolean> */ {
         try {
+            const dbCart = await this.cartDAO.getCurrentCart(user.username);
+            if (!dbCart) {
+                throw new CartNotFoundError();
+            }
             await this.cartDAO.deleteAllCartProducts(user.username);
             return true;
         } catch (error) {

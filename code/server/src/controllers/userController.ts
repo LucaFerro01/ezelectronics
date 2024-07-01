@@ -1,6 +1,6 @@
 import { User } from "../components/user";
 import UserDAO from "../dao/userDAO";
-import { UserAlreadyExistsError, UserNotFoundError, UserNotAdminError, UnauthorizedUserError, UserIsAdminError, InvalidBirthdateError, UnauthorizedEditError } from "../errors/userError";
+import { UserAlreadyExistsError, UserNotFoundError, UserNotAdminError, UnauthorizedUserError, UserIsAdminError, InvalidBirthdateError, UnauthorizedEditError, InvalidRoleError } from "../errors/userError";
 
 /**
  * Represents a controller for managing users.
@@ -40,6 +40,9 @@ class UserController {
      * @returns A Promise that resolves to an array of users with the specified role.
      */
     async getUsersByRole(role: string) /**:Promise<User[]> */ {
+        if (role !== "Manager" && role !== "Customer" && role !== "Admin") {
+            throw new InvalidRoleError();
+        }
         return this.dao.getUsersByRole(role)
      }
 

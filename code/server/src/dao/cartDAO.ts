@@ -274,28 +274,24 @@ class CartDAO {
         });
     }
 
-    deleteAllCarts(): Promise<boolean[]> {
-        const cartPromise = new Promise<boolean>((resolve, reject) => {
-            db.run(sqlStatements.clearCarts, (err: Error | null) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-            });
-            resolve(true);
-        });
-
-        const cartProductsPromise = new Promise<boolean>((resolve, reject) => {
+    deleteAllCarts(): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
             db.run(sqlStatements.clearCartProducts, (err: Error | null) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-            });
-            resolve(true);
-        });
 
-        return Promise.all([cartPromise, cartProductsPromise]);
+                db.run(sqlStatements.clearCarts, (err: Error | null) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                });
+
+                resolve(true);
+            });
+        });
     }
 }
 

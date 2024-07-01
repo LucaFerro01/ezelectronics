@@ -158,7 +158,7 @@ describe("CartController unit tests", () => {
 
         test("It should throw EmptyProductStockError", async () => {
             jest.spyOn(CartDAO.prototype, "getCurrentCart").mockResolvedValueOnce({ cartId: 1, cart: mockCart });
-            jest.spyOn(ProductDAO.prototype, "getAllProducts").mockResolvedValueOnce([mockNotInStock0]);
+            jest.spyOn(ProductDAO.prototype, "sellProduct").mockRejectedValueOnce(new EmptyProductStockError());
 
             await expect(controller.checkoutCart(mockUserCustomer)).rejects.toThrow(EmptyProductStockError);
 
@@ -169,9 +169,7 @@ describe("CartController unit tests", () => {
 
         test("It should throw LowProductStockError", async () => {
             jest.spyOn(CartDAO.prototype, "getCurrentCart").mockResolvedValueOnce({ cartId: 1, cart: mockCart });
-            jest.spyOn(ProductDAO.prototype, "getAllProducts").mockResolvedValueOnce([
-                new Product(800, mockModel0, Category.SMARTPHONE, null, null, 1),
-            ]);
+            jest.spyOn(ProductDAO.prototype, "sellProduct").mockRejectedValueOnce(new LowProductStockError());
 
             await expect(controller.checkoutCart(mockUserCustomer)).rejects.toThrow(LowProductStockError);
 
@@ -228,8 +226,8 @@ describe("CartController unit tests", () => {
             jest.spyOn(CartDAO.prototype, "getCurrentCart").mockResolvedValueOnce({ cartId: 1, cart: mockCart });
             jest.spyOn(ProductDAO.prototype, "getAllProducts").mockResolvedValueOnce([]);
 
-            await expect(controller.removeProductFromCart(mockUserCustomer, mockModel1)).rejects.toThrow(
-                ProductNotFoundError
+            await expect(controller.removeProductFromCart(mockUserCustomer, "dummyproduct")).rejects.toThrow(
+                ProductNotInCartError
             );
 
             expect(CartDAO.prototype.getCurrentCart).toHaveBeenCalled();
@@ -248,6 +246,7 @@ describe("CartController unit tests", () => {
 
     describe("clearCart", () => {
         test("It should return true", async () => {
+            jest.spyOn(CartDAO.prototype, "getCurrentCart").mockResolvedValueOnce({ cartId: 1, cart: mockCart });
             jest.spyOn(CartDAO.prototype, "deleteAllCartProducts").mockResolvedValueOnce(true);
             const res = await controller.clearCart(mockUserCustomer);
             expect(res).toBe(true);

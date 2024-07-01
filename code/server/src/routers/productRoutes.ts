@@ -7,6 +7,8 @@ import { Product } from "../components/product"
 import { request } from "http"
 import ProductDAO from "../dao/productDAO"
 import { group } from "console"
+import dayjs from "dayjs"
+import { ProductNotFoundError } from "../errors/productError"
 
 /**
  * Represents a class that defines the routes for handling proposals.
@@ -70,7 +72,7 @@ class ProductRoutes {
         this.router.post(
             "/",
             this.authenticator.isLoggedIn,
-            this.authenticator.isManager,
+            this.authenticator.isAdminOrManager,
             body("model").isString().isLength({min: 1}).withMessage("Model cannot be empty"),
             body("category").isString().isIn(["Smartphone", "Laptop", "Appliance"]).withMessage("Category need to be in: Smartphone, Laptop, Appliance"),
             body("quantity").isInt({min: 1}).isInt().withMessage("Quantity need to be numeric greather than 0"),
@@ -78,6 +80,13 @@ class ProductRoutes {
             body("sellingPrice").isInt({min: 1}).withMessage("Selling price need to be a number greather than 0"),
             body("arrivalDate").optional().if((value: string) => (value !== null) && (value !== "")).isDate({ format: "YYYY-MM-DD", strictMode: true }),
             this.errorHandler.validateRequest,
+            (req, res, next) => {
+                const date = req.body.arrivalDate;
+                if(dayjs().isBefore(dayjs(date, "YYYY-MM-DD"))){
+                    return res.status(400).json("Arrival date cannot be after the current date");
+                }
+                next()
+            },
             (req: any, res: any, next: any) => this.controller.registerProducts(req.body.model, req.body.category, req.body.quantity, req.body.details, req.body.sellingPrice, req.body.arrivalDate)
                 .then(() => res.status(200).end())
                 .catch((err) => next(err))
@@ -95,11 +104,18 @@ class ProductRoutes {
         this.router.patch(
             "/:model",
             this.authenticator.isLoggedIn,
-            this.authenticator.isManager,
+            this.authenticator.isAdminOrManager,
             param("model").isString().isLength({min: 1}),
             body("quantity").isInt({min: 1}),
             body("changeDate").optional().if((value: string) => (value !== null && (value !== ""))).isDate({ format: "YYYY-MM-DD", strictMode: true }),
             this.errorHandler.validateRequest,
+            (req, res, next) => {
+                const date = req.body.changeDate;
+                if(dayjs().isBefore(dayjs(date, "YYYY-MM-DD"))){
+                    return res.status(400).json("Arrival date cannot be after the current date");
+                }
+                next()
+            },
             (req: any, res: any, next: any) => this.controller.changeProductQuantity(req.params.model, req.body.quantity, req.body.changeDate)
                 .then((quantity: any /**number */) => res.status(200).json({ quantity: quantity }))
                 .catch((err) => next(err))
@@ -117,11 +133,18 @@ class ProductRoutes {
         this.router.patch(
             "/:model/sell",
             this.authenticator.isLoggedIn,
-            this.authenticator.isManager,
+            this.authenticator.isAdminOrManager,
             param("model").isString().isLength({min: 1}),
             body("quantity").isInt({min:1}),
             body("sellingDate").optional().if((value: string) => value !== null).isDate({ format: "YYYY-MM-DD", strictMode: true }),
             this.errorHandler.validateRequest,
+            (req, res, next) => {
+                const date = req.body.sellingDate;
+                if(dayjs().isBefore(dayjs(date, "YYYY-MM-DD"))){
+                    return res.status(400).json("Arrival date cannot be after the current date");
+                }
+                next()
+            },
             (req: any, res: any, next: any) => this.controller.sellProduct(req.params.model, req.body.quantity, req.body.sellingDate)
                 .then((quantity: any /**number */) => res.status(200).json({ quantity: quantity }))
                 .catch((err) => {
@@ -143,9 +166,11 @@ class ProductRoutes {
             "/",
             this.authenticator.isLoggedIn,
             this.authenticator.isAdminOrManager,
-            query("grouping").if(query("grouping").exists({checkNull: true})).isString().isIn(["category", "model", ""]),
-            query("category").if(query("grouping").equals("category")).isString().notEmpty(),
+            query("grouping").if(query("grouping").exists({checkNull: true})).isString().isIn(["category", "model"]),
+            query("category").if(query("grouping").equals("category")).isString().notEmpty().isIn(["Smartphone", "Laptop", "Appliance"]),
             query("model").if(query("grouping").equals("model")).isString().notEmpty(),
+            query("model").if(query("grouping").equals("category")).not().exists(),
+            query("category").if(query("grouping").equals("model")).not().exists(),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getProducts(req.query.grouping, req.query.category, req.query.model)
                 .then((products: any /*Product[]*/) => res.status(200).json(products))
@@ -167,13 +192,19 @@ class ProductRoutes {
         this.router.get(
             "/available",
             this.authenticator.isLoggedIn,
-            this.authenticator.isCustomer,
             query("grouping").if(query("grouping").exists({checkNull: true})).isString().isIn(["category", "model", ""]),
-            query("category").if(query("grouping").equals("category")).isString().notEmpty(),
+            query("category").if(query("grouping").equals("category")).isString().notEmpty().isIn(["Smartphone", "Laptop", "Appliance"]),
             query("model").if(query("grouping").equals("model")).isString().notEmpty(),
+            query("model").if(query("grouping").equals("category")).not().exists(),
+            query("category").if(query("grouping").equals("model")).not().exists(),
             this.errorHandler.validateRequest,
             (req: any, res: any, next: any) => this.controller.getAvailableProducts(req.query.grouping, req.query.category, req.query.model)
-                .then((products: any/*Product[]*/) => res.status(200).json(products))
+                .then((products: any[]/*Product[]*/) => {
+                    this.controller.getProducts(req.query.grouping, req.query.category, req.query.model).then((allProducts: any[]) => {
+                        if(req.query.grouping === "model" && allProducts.length === 0) next(new ProductNotFoundError());
+                        else res.status(200).json(products)
+                    })
+                })
                 .catch((err) => next(err))
         )
 

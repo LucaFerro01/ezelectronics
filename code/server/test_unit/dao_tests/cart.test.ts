@@ -296,7 +296,7 @@ describe("CartDAO unit tests", () => {
             });
 
             const res = await dao.deleteAllCarts();
-            expect(res).toStrictEqual([true, true]);
+            expect(res).toStrictEqual(true);
 
             mockRun.mockRestore();
         });

@@ -1,5 +1,6 @@
 import { Product } from "./../components/product";
 import ProductDAO from "../dao/productDAO";
+import dayjs from "dayjs";
 
 /**
  * Represents a controller for managing products.
@@ -30,7 +31,7 @@ class ProductController {
         sellingPrice: number,
         arrivalDate: string | null
     ): Promise<void> /**:Promise<void> */ {
-        const isOk = await this.dao.insertProduct(model, category, quantity, details, sellingPrice, arrivalDate);
+        const isOk = await this.dao.insertProduct(model, category, quantity, details, sellingPrice, arrivalDate ? arrivalDate : dayjs().format("YYYY-MM-DD"));
         return isOk;
     }
 
