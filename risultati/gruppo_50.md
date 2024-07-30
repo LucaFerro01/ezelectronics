@@ -59,9 +59,9 @@ Le percentuali di v2 sono state riscalate in quanto la media pesata delle percen
 
 ## Studenti
 
-| Nome | Matricola | Email | Bonus | Voto Primo Appello | Voto Progetto | Voto Finale |
-| --- | --- | --- | --- | --- | --- | --- |
-| LUCA FERRARIS | 331615 | s331615@studenti.polito.it | 0 | 15.6 | 10.06 | 26 |
-| ALESSANDRA PENZA | 331062 | s331062@studenti.polito.it | 1 |  | 10.49 |  |
-| OMAR FERRO | 333155 | s333155@studenti.polito.it | 0 |  | 9.63 |  |
-| CHIARA GALTIERI | 331345 | s331345@studenti.polito.it | 1 |  | 9.29 |  |
+| Nome | Matricola | Email | Bonus | Voto Primo Appello | Voto Secondo Appello | Voto Progetto | Voto Finale |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| LUCA FERRARIS | 331615 | s331615@studenti.polito.it | 0 | 15.6 | | 10.06 | 26 |
+| ALESSANDRA PENZA | 331062 | s331062@studenti.polito.it | 1 | | 12.6  | 10.49 | 24 |
+| OMAR FERRO | 333155 | s333155@studenti.polito.it | 0 |  | | 9.63  |  |
+| CHIARA GALTIERI | 331345 | s331345@studenti.polito.it | 1 | | 14.7 | 9.29 | 25  |
